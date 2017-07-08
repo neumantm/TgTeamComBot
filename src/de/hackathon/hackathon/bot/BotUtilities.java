@@ -71,7 +71,7 @@ public class BotUtilities {
 			break;
 			case WAITING_FOR_TOKEN:
 				if (Main.pendingUsers.get(message) != null) {
-					Main.dm.getBodys().put(new Long(chatId), Main.pendingUsers.get(message));
+					Main.dm.setBody(Main.pendingUsers.get(message));
 					Main.pendingUsers.remove(message);
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 					BotUtilities.message(update, "successfull");
