@@ -34,7 +34,7 @@ import de.pinkTigers.tgTeamComBot.data.User;
  */
 public class BotUtilities {
 
-	private static Group currentlyEditing = null;
+	private static Long currentlyEditing = null;
 
 	/**
 	 * @param update
@@ -138,11 +138,11 @@ public class BotUtilities {
 			break;
 			case MANAGE_GROUP:
 				if (message.toLowerCase().equals("new")) {
-					BotUtilities.message(update, "Please enter the name:");
+					BotUtilities.message(update, "Please enter the name for the new Group:");
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_GROUPNAME);
 				}
 				if (message.toLowerCase().equals("edit")) {
-					BotUtilities.message(update, "Please enter the name:");
+					BotUtilities.message(update, "Please enter the groupname you want to edit:");
 					handlerMap.put(new Long(chatId), PossibleSteps.GET_GROUP_NAME);
 				}
 			break;
@@ -160,13 +160,13 @@ public class BotUtilities {
 				temp.add((User) Main.dm.getBodys().get(new Long(chatId)));
 				Logic.addGroup(message, temp);
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
-				BotUtilities.message(update, "Your Group " + message + "has been added.");
+				BotUtilities.message(update, "Your Group " + message + " has been added.");
 			break;
 			case GET_GROUP_NAME:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 					if (body.getValue() instanceof Group) {
 						if (((Group) body.getValue()).getName().equals(message)) {
-							BotUtilities.currentlyEditing = (Group) body.getValue();
+							BotUtilities.currentlyEditing = body.getKey();
 							BotUtilities.message(update, "Now editing the Group " + message
 									+ "! Type in: \"rename\" , \"addUser\" , \"delete\" ");
 							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
@@ -178,20 +178,19 @@ public class BotUtilities {
 			break;
 			case EDIT_GROUP:
 				if (message.toLowerCase().equals("rename")) {
-					BotUtilities.currentlyEditing.setName(message);
-					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
-					BotUtilities.currentlyEditing = null;
-					BotUtilities.message(update, "rename successfull");
+					BotUtilities.message(update, "Please enter the new groupname:");
+					handlerMap.put(new Long(chatId), PossibleSteps.NEW_GROUP_NAME);
 					break;
 				}
-				if (message.toLowerCase().equals("addUser")) {
+				if (message.toLowerCase().equals("adduser")) {
 					BotUtilities.message(update, "Please enter the user to add:");
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_USER_TO_GROUP);
 					break;
 				}
 				if (message.toLowerCase().equals("delete")) {
 					BotUtilities.message(update,
-							"Do You really want to remove the Group " + BotUtilities.currentlyEditing.getName() + " ? Type \"Yes\" to proceed");
+							"Do You really want to remove the Group " + ((Group) Main.dm.getBodys().get(BotUtilities.currentlyEditing)).getName()
+									+ " ? Type \"Yes\" to proceed");
 					handlerMap.put(new Long(chatId), PossibleSteps.CONFIRM_REMOVE_GROUP);
 					break;
 				}
@@ -202,7 +201,7 @@ public class BotUtilities {
 					if (body.getValue() instanceof User) {
 						if (((User) body.getValue()).getName().equals(message)) {
 							Logic.addUserToGroup((User) body.getValue(),
-									BotUtilities.currentlyEditing.getKey());
+									BotUtilities.currentlyEditing.longValue());
 							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 							BotUtilities.message(update, "Now editing the Group " + message
 									+ "! Type in: \"rename\" , \"addUser\" , \"delete\" ");
@@ -213,11 +212,19 @@ public class BotUtilities {
 			break;
 			case CONFIRM_REMOVE_GROUP:
 				if (message.toLowerCase().equals("yes")) {
-					Main.dm.getBodys().remove(new Long(BotUtilities.currentlyEditing.getKey()));
+					Main.dm.getBodys().remove(new Long(BotUtilities.currentlyEditing.longValue()));
 					BotUtilities.message(update, "The Group been successfully removed.");
 					BotUtilities.currentlyEditing = null;
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 				}
+			break;
+			case NEW_GROUP_NAME:
+				Group groupToEdit = (Group) Main.dm.getBodys().get(BotUtilities.currentlyEditing);
+				groupToEdit.setName(message);
+				Main.dm.setBody(groupToEdit);
+				BotUtilities.currentlyEditing = null;
+				BotUtilities.message(update, "rename successfull");
+				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 			break;
 			default:
 			break;
