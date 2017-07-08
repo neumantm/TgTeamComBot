@@ -111,11 +111,12 @@ public class Main {
 	 *            The id of the user
 	 * @return Whether he is allowed by config
 	 */
-	public static boolean isUserInConf(Long id) {
+	public static boolean isValidUser(Long id) {
 		String[] arr = Main.config.getConfigValue("AllowdUsers").split(",");
 		for (String s : arr) {
 			if (s.equals(id + "")) return true;
 		}
+		if (Main.dm.getBodys().containsKey(id)) return true;
 		return false;
 	}
 

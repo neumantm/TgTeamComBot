@@ -41,7 +41,7 @@ public class BotUtilities {
 
 		switch (nextStep) {
 			case DEFAULT:
-				if (!Main.isUserInConf(new Long(chatId))) {
+				if (!Main.isValidUser(new Long(chatId))) {
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.UNKNOWN_USER);
 					BotUtilities.doNext(update, nextStep, chatId, message);
 					break;
@@ -52,7 +52,7 @@ public class BotUtilities {
 				}
 			break;
 			case UNKNOWN_USER:
-				if (Main.isUserInConf(new Long(chatId))) {
+				if (Main.isValidUser(new Long(chatId))) {
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 					BotUtilities.doNext(update, nextStep, chatId, message);
 					break;

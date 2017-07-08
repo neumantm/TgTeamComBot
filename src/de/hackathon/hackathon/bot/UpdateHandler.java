@@ -40,7 +40,7 @@ public class UpdateHandler {
 
 		if (this.handlerMap.get(chatId) == null) {
 
-			if (Main.dm.getBodys().containsKey(chatId) || Main.isUserInConf(chatId)) {
+			if (Main.dm.getBodys().containsKey(chatId) || Main.isValidUser(chatId)) {
 				this.handlerMap.put(chatId, PossibleSteps.DEFAULT);
 			}
 			else {
