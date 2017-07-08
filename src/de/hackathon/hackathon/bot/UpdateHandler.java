@@ -26,7 +26,10 @@ import de.hackathon.hackathon.Main;
  */
 public class UpdateHandler {
 
-	protected HashMap<Long, PossibleSteps> handlerMap;
+	/**
+	 * handlermap
+	 */
+	protected HashMap<Long, PossibleSteps> handlerMap = new HashMap<>();
 
 	/**
 	 * @param update
