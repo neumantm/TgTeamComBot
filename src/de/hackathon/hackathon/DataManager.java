@@ -1,9 +1,13 @@
 /*
  * hackathon
  *
- * TODO: Project Beschreibung
+ * A telegram Bot that supports Groups, ToDos and events.
  *
- * @author Tim Neumann
+ * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
+ * 
+ * @copyright Copyright (c) Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
+ * @license Licensed under CC BY SA 4.0
+ * 
  * @version 1.0.0
  *
  */
@@ -13,8 +17,10 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 import de.hackathon.hackathon.data.Body;
@@ -23,9 +29,10 @@ import de.hackathon.hackathon.data.ToDo;
 import de.tim.lib.Log;
 
 /**
- * TODO: Description
+ * Data Manager. It has all the permanent data and is responsible for filesystem
+ * io.
  * 
- * @author Henne
+ * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
 public class DataManager {
 
@@ -35,6 +42,13 @@ public class DataManager {
 
 	private File dataFolder;
 
+	/**
+	 * Creates a new data Manager which uses the specified folder to store it's
+	 * data.
+	 * 
+	 * @param p_dataFolder
+	 *            The folder for the data.
+	 */
 	public DataManager(File p_dataFolder) {
 		if (!p_dataFolder.exists()) {
 			Main.mainLog.log("DataManager is requested to open non existent folder:" + p_dataFolder.getAbsolutePath(), Log.WARN);
@@ -53,6 +67,7 @@ public class DataManager {
 		loadToDos();
 	}
 
+	@SuppressWarnings("resource") //Eclipse warning bug. There should not be a warning.
 	private boolean loadBodys() {
 		try (ObjectInputStream oIS = new ObjectInputStream(new FileInputStream(new File(this.dataFolder, "bodys.dat")))) {
 			while (true) {
@@ -68,20 +83,21 @@ public class DataManager {
 			//Ignore
 			return true;
 		} catch (FileNotFoundException e) {
-			Main.mainLog.logException(e, Log.ERROR, false);
+			Main.mainLog.logException(e, Log.ERROR, true);
 			return false;
 		} catch (IOException e) {
-			Main.mainLog.logException(e, Log.ERROR, false);
+			Main.mainLog.logException(e, Log.ERROR, true);
 			return false;
 		} catch (ClassNotFoundException e) {
-			Main.mainLog.logException(e, Log.ERROR, false);
+			Main.mainLog.logException(e, Log.ERROR, true);
 			return false;
 		} catch (ClassCastException e) {
-			Main.mainLog.logException(e, Log.ERROR, false);
+			Main.mainLog.logException(e, Log.ERROR, true);
 			return false;
 		}
 	}
 
+	@SuppressWarnings("resource") //Eclipse warning bug. There should not be a warning.
 	private boolean loadEvents() {
 		try (ObjectInputStream oIS = new ObjectInputStream(new FileInputStream(new File(this.dataFolder, "events.dat")))) {
 			while (true) {
@@ -111,6 +127,7 @@ public class DataManager {
 		}
 	}
 
+	@SuppressWarnings("resource") //Eclipse warning bug. There should not be a warning.
 	private boolean loadToDos() {
 		try (ObjectInputStream oIS = new ObjectInputStream(new FileInputStream(new File(this.dataFolder, "todos.dat")))) {
 			while (true) {
@@ -126,30 +143,63 @@ public class DataManager {
 			//Ignore
 			return true;
 		} catch (FileNotFoundException e) {
-			Main.mainLog.logException(e, Log.ERROR, false);
+			Main.mainLog.logException(e, Log.ERROR, true);
 			return false;
 		} catch (IOException e) {
-			Main.mainLog.logException(e, Log.ERROR, false);
+			Main.mainLog.logException(e, Log.ERROR, true);
 			return false;
 		} catch (ClassNotFoundException e) {
-			Main.mainLog.logException(e, Log.ERROR, false);
+			Main.mainLog.logException(e, Log.ERROR, true);
 			return false;
 		} catch (ClassCastException e) {
-			Main.mainLog.logException(e, Log.ERROR, false);
+			Main.mainLog.logException(e, Log.ERROR, true);
 			return false;
 		}
 	}
 
-	public void saveBodys() {
-
+	private boolean saveBodys() {
+		try (ObjectOutputStream oUS = new ObjectOutputStream(new FileOutputStream(new File(this.dataFolder, "bodys.dat")))) {
+			for (Body obj : this.bodys.values()) {
+				oUS.writeObject(obj);
+			}
+			return true;
+		} catch (FileNotFoundException e) {
+			Main.mainLog.logException(e, Log.WARN, false);
+			return false;
+		} catch (IOException e) {
+			Main.mainLog.logException(e, Log.WARN, false);
+			return false;
+		}
 	}
 
-	public void saveEvents() {
-
+	private boolean saveEvents() {
+		try (ObjectOutputStream oUS = new ObjectOutputStream(new FileOutputStream(new File(this.dataFolder, "events.dat")))) {
+			for (Event obj : this.events.values()) {
+				oUS.writeObject(obj);
+			}
+			return true;
+		} catch (FileNotFoundException e) {
+			Main.mainLog.logException(e, Log.WARN, false);
+			return false;
+		} catch (IOException e) {
+			Main.mainLog.logException(e, Log.WARN, false);
+			return false;
+		}
 	}
 
-	public void saveToDos() {
-
+	private boolean saveToDos() {
+		try (ObjectOutputStream oUS = new ObjectOutputStream(new FileOutputStream(new File(this.dataFolder, "todos.dat")))) {
+			for (ToDo obj : this.toDos.values()) {
+				oUS.writeObject(obj);
+			}
+			return true;
+		} catch (FileNotFoundException e) {
+			Main.mainLog.logException(e, Log.WARN, false);
+			return false;
+		} catch (IOException e) {
+			Main.mainLog.logException(e, Log.WARN, false);
+			return false;
+		}
 	}
 
 	/**
@@ -166,10 +216,11 @@ public class DataManager {
 	 * 
 	 * @param body
 	 *            body
+	 * @return Whether it worked
 	 */
-	public void setBody(Body body) {
+	public boolean setBody(Body body) {
 		this.bodys.put(new Long(body.getKey()), body);
-		saveBodys();
+		return saveBodys();
 	}
 
 	/**
@@ -186,10 +237,11 @@ public class DataManager {
 	 * 
 	 * @param event
 	 *            event
+	 * @return Whether it worked
 	 */
-	public void setEvent(Event event) {
+	public boolean setEvent(Event event) {
 		this.events.put(new Long(event.getKey()), event);
-		saveEvents();
+		return saveEvents();
 	}
 
 	/**
@@ -206,8 +258,10 @@ public class DataManager {
 	 * 
 	 * @param toDo
 	 *            toDo
+	 * @return Whether it worked
 	 */
-	public void setToDo(ToDo toDo) {
+	public boolean setToDo(ToDo toDo) {
 		this.toDos.put(new Long(toDo.getKey()), toDo);
+		return saveToDos();
 	}
 }
