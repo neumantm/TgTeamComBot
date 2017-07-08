@@ -46,7 +46,10 @@ public class BotUtilities {
 					BotUtilities.doNext(update, nextStep, chatId, message);
 					break;
 				}
-
+				if (message.equals("AddUser")) {
+					BotUtilities.message(update, "Enter Token:");
+					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TOKEN);
+				}
 			break;
 			case UNKNOWN_USER:
 				if (message.equals("Join")) {
@@ -66,7 +69,12 @@ public class BotUtilities {
 				Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.UNKNOWN_USER);
 				BotUtilities.message(update, tokenS);
 			break;
-
+			case WAITING_FOR_TOKEN:
+				if (Main.pendingUsers.get(message) != null) {
+					Main.dm.getBodys().put(new Long(chatId), Main.pendingUsers.get(message));
+					Main.pendingUsers.remove(message);
+				}
+			break;
 			default:
 			break;
 		}
