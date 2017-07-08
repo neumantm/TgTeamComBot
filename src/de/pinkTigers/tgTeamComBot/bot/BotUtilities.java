@@ -52,6 +52,7 @@ public class BotUtilities {
 
 		s: switch (nextStep) {
 			case DEFAULT:
+				BotUtilities.currentlyEditing = null;
 				if (!Main.isValidUser(new Long(chatId))) {
 					handlerMap.put(new Long(chatId), PossibleSteps.UNKNOWN_USER);
 					//BotUtilities.doNext(update, nextStep, chatId, message);
@@ -72,6 +73,18 @@ public class BotUtilities {
 				if (message.toLowerCase().equals("editgroup")) {
 					BotUtilities.message(update, "Type in: \"new\" , \"edit\"");
 					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_GROUP);
+					break;
+				}
+				if (message.toLowerCase().equals("showgroups")) {
+					String allGroups = "";
+					for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
+						if (body.getValue() instanceof Group) {
+							allGroups += "/n" + ((Group) body.getValue()).getName();
+							break;
+						}
+					}
+					BotUtilities.message(update, allGroups);
+					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 					break;
 				}
 				BotUtilities.message(update, "Invalid Command");
@@ -169,7 +182,7 @@ public class BotUtilities {
 						if (((Group) body.getValue()).getName().equals(message)) {
 							BotUtilities.currentlyEditing = body.getKey();
 							BotUtilities.message(update, "Now editing the Group " + message
-									+ "! Type in: \"rename\" , \"addUser\" , \"delete\" ");
+									+ "! Type in: \"rename\" , \"addUser\" , \"removeUser\" , \"delete\" ");
 							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 							break s;
 						}
@@ -195,21 +208,28 @@ public class BotUtilities {
 					handlerMap.put(new Long(chatId), PossibleSteps.CONFIRM_REMOVE_GROUP);
 					break;
 				}
+				if (message.toLowerCase().equals("removeuser")) {
+					BotUtilities.message(update, "Please enter the name of the user you want to remove:");
+					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_USER_FROM_GROUP);
+				}
 				BotUtilities.message(update, "Please Type in: \"rename\" , \"addUser\" , \"delete\"");
 			break;
 			case ADD_USER_TO_GROUP:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 					if (body.getValue() instanceof User) {
 						if (((User) body.getValue()).getName().equals(message)) {
-							Logic.addUserToGroup((User) body.getValue(),
-									BotUtilities.currentlyEditing.longValue());
-							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
-							BotUtilities.message(update, "User " + message
-									+ "has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" , \"delete\" ");
-							break s;
+							if (!((Group) Main.dm.getBodys().get(BotUtilities.currentlyEditing)).getUsers().contains(body.getValue())) {
+								Logic.addUserToGroup((User) body.getValue(),
+										BotUtilities.currentlyEditing.longValue());
+								handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+								BotUtilities.message(update, "User " + message
+										+ "has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" ,  \"removeUser\" , \"delete\" ");
+								break s;
+							}
 						}
 					}
 				}
+				BotUtilities.message(update, "Couldn't add user!");
 			break;
 			case CONFIRM_REMOVE_GROUP:
 				if (message.toLowerCase().equals("yes")) {
@@ -231,6 +251,21 @@ public class BotUtilities {
 				BotUtilities.currentlyEditing = null;
 				BotUtilities.message(update, "rename successfull");
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+			break;
+			case REMOVE_USER_FROM_GROUP:
+				//TODO
+				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
+					if (body.getValue() instanceof User) {
+						if (((User) body.getValue()).getName().equals(message)) {
+							Logic.addUserToGroup((User) body.getValue(),
+									BotUtilities.currentlyEditing.longValue());
+							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+							BotUtilities.message(update, "User " + message
+									+ "has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" ,  \"removeUser\" , \"delete\" ");
+							break s;
+						}
+					}
+				}
 			break;
 			default:
 			break;
