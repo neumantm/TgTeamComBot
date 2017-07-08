@@ -46,13 +46,18 @@ public class BotUtilities {
 					BotUtilities.doNext(update, nextStep, chatId, message);
 					break;
 				}
-				if (message.equals("AddUser")) {
+				if (message.toLowerCase().equals("adduser")) {
 					BotUtilities.message(update, "Enter Token:");
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TOKEN);
 					break;
 				}
-				if (message.equals("removeUser")) {
+				if (message.toLowerCase().equals("removeuser")) {
 					BotUtilities.message(update, "Do You really want to remove yourself? Type \"Yes\" to proceed");
+					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.CONFIRM_REMOVE);
+					break;
+				}
+				if (message.toLowerCase().equals("editgroup")) {
+					BotUtilities.message(update, "Type in: \"new\" , \"delete\" , \"rename\" ");
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.CONFIRM_REMOVE);
 					break;
 				}
@@ -72,6 +77,7 @@ public class BotUtilities {
 				BotUtilities.message(update, "No Permission");
 			break;
 			case UU_JOIN_ASKED_NAME:
+
 				String tokenS;
 				int tokenI;
 				do {
@@ -102,6 +108,11 @@ public class BotUtilities {
 
 				}
 				Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+			break;
+			case EDIT_GROUP:
+				if (message.toLowerCase().equals("adduser")) {
+					BotUtilities.message(update, "failed");
+				}
 			break;
 			default:
 			break;
