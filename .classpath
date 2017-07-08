@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="telegrambots-3.1.0-jar-with-dependencies.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/TimLib"/>
+	<classpathentry kind="lib" path="timLib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
