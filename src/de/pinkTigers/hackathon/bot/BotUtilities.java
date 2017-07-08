@@ -13,11 +13,14 @@
  */
 package de.pinkTigers.hackathon.bot;
 
+import java.util.Map;
+
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import de.pinkTigers.hackathon.Main;
+import de.pinkTigers.hackathon.data.Body;
 import de.pinkTigers.hackathon.data.User;
 
 /**
@@ -78,6 +81,12 @@ public class BotUtilities {
 			break;
 			case UU_JOIN_ASKED_NAME:
 
+				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
+					if (body.getValue() instanceof User && ((User) body).getName().equals(message)) {
+						BotUtilities.message(update, "This name is already in use. Please chose another one");
+						break;
+					}
+				}
 				String tokenS;
 				int tokenI;
 				do {
