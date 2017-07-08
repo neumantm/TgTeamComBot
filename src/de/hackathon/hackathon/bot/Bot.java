@@ -24,7 +24,7 @@ public class Bot extends TelegramLongPollingBot {
 	/** The Token of the Telegram Bot API */
 	public static final String TOKEN = "448728416:AAF4AkOiDUc-zx13pxhAUTH_2kEGsdhrQto";
 	/** The Update Handler */
-	public UpdateHandler handler;
+	public UpdateHandler handler = new UpdateHandler();
 
 	/**
 	 * @see org.telegram.telegrambots.generics.LongPollingBot#onUpdateReceived(org.telegram.telegrambots.api.objects.Update)
