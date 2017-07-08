@@ -114,7 +114,8 @@ public class BotUtilities {
 			break;
 			case CONFIRM_REMOVE:
 				if (message.toLowerCase().equals("yes")) {
-
+					Main.dm.removeBody(new Long(chatId));
+					Main.mainBot.handler.handlerMap.remove(new Long(chatId));
 				}
 				Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 			break;
