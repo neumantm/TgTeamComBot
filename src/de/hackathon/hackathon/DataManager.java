@@ -51,13 +51,14 @@ public class DataManager {
 	 */
 	public DataManager(File p_dataFolder) {
 		if (!p_dataFolder.exists()) {
-			Main.mainLog.log("DataManager is requested to open non existent folder:" + p_dataFolder.getAbsolutePath(), Log.WARN);
-			Main.closeData();
+			Main.mainLog.log("DataManager is requested to open non existent folder:" + p_dataFolder.getAbsolutePath() + "Creating it.", Log.WARN);
+			p_dataFolder.mkdirs();
 		}
 
 		if (!p_dataFolder.isDirectory()) {
 			Main.mainLog.log("DataManager is requested to open a file but should be a folder:" + p_dataFolder.getAbsolutePath(), Log.WARN);
 			Main.closeData();
+			return;
 		}
 
 		this.dataFolder = p_dataFolder;
