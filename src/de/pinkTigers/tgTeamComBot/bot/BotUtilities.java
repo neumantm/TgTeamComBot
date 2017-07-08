@@ -85,7 +85,7 @@ public class BotUtilities {
 
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 					if (body.getValue() instanceof User) {
-						if (((User) body).getName().equals(message)) {
+						if (((User) body.getValue()).getName().equals(message)) {
 							BotUtilities.message(update, "This name is already in use. Please chose another one");
 							break;
 						}
