@@ -100,15 +100,45 @@ public class Main {
 		} catch (TelegramApiException e) {
 			e.printStackTrace();
 		}
+		Main.mainLog.log("All loaded and ready.", Log.INFO);
 
 	}
 
+	/**
+	 * Checks whether the User is in the Allowed users list.
+	 * 
+	 * @param id
+	 *            The id of the user
+	 * @return Whether he is allowed by config
+	 */
 	public static boolean isUserInConf(Long id) {
 		String[] arr = Main.config.getConfigValue("AllowdUsers").split(",");
 		for (String s : arr) {
 			if (s.equals(id + "")) return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Generates a random Int between to bounds
+	 * 
+	 * @param from
+	 *            Lower bound
+	 * @param to
+	 *            Upper bound
+	 * @return A random int.
+	 */
+	public static int randomInt(int from, int to) {
+		double dist = to - from;
+		int res = (int) (Math.random() * dist) + from;
+		if (res < from) {
+			res = from;
+		}
+		if (res > to) {
+			res = to;
+		}
+
+		return res;
 	}
 
 }
