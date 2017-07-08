@@ -42,7 +42,7 @@ public class BotUtilities {
 	 */
 	public static void doNext(Update update, PossibleSteps nextStep, long chatId, String message) {
 
-		switch (nextStep) {
+		s: switch (nextStep) {
 			case DEFAULT:
 				if (!Main.isValidUser(new Long(chatId))) {
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.UNKNOWN_USER);
@@ -87,7 +87,7 @@ public class BotUtilities {
 					if (body.getValue() instanceof User) {
 						if (((User) body.getValue()).getName().equals(message)) {
 							BotUtilities.message(update, "This name is already in use. Please chose another one");
-							break;
+							break s;
 						}
 					}
 				}
