@@ -39,6 +39,8 @@ public class Main {
 	public static Log mainLog;
 	/** The main data Manager */
 	public static DataManager dm;
+	/** The main Bot */
+	public static Bot mainBot;
 
 	/**
 	 * Loads the config from disk.
@@ -89,7 +91,8 @@ public class Main {
 		TelegramBotsApi botsApi = new TelegramBotsApi();
 
 		try {
-			botsApi.registerBot(new Bot());
+			mainBot = new Bot();
+			botsApi.registerBot(mainBot);
 		} catch (TelegramApiException e) {
 			e.printStackTrace();
 		}
