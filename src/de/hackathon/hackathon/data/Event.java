@@ -96,4 +96,23 @@ public class Event extends Body{
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
+	
+	/**
+	 *  constructor
+	 * @param key key
+	 * @param date date 
+	 * @param location location
+	 * @param name name 
+	 * @param description description
+	 * @param priority priority
+	 */
+	public Event(long key , Date date , String location , String name , String description ,int priority) {
+		this.setKey(key);
+		this.date = date;
+		this.location = location;
+		this.name = name;
+		this.description = description;
+		this.priority = priority;
+	}
+	
 }

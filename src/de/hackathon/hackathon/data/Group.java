@@ -20,6 +20,7 @@ public class Group extends Body{
 	private static final long serialVersionUID = -4234018617918494805L;
 	
 	private String name;
+	private ArrayList<User> Users;
 	/**
 	 * Get's {@link #name name}
 	 * @return  name
@@ -34,7 +35,6 @@ public class Group extends Body{
 	public void setName(String name) {
 		this.name = name;
 	}
-	private ArrayList<User> Users;
 	
 	
 	/**
@@ -51,5 +51,13 @@ public class Group extends Body{
 		return this.Users;
 	}
 	
-	
+	/**
+	 * @param key key
+	 * @param users users
+	 */
+	public Group(long key , ArrayList<User> users , String name) {
+		this.setKey(key);
+		this.Users = users;
+		this.name = name;
+	}
 }

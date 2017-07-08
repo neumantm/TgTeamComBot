@@ -9,8 +9,8 @@
  */
 package de.hackathon.hackathon.data;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +18,26 @@ import java.util.List;
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
 public class ToDo extends Body{
+	
+	private int priority;
+	private String name;
+	private String description;
+	private Date deadline;
+	/**
+	 * Get's {@link #name name}
+	 * @return  name
+	 */
+	public String getName() {
+		return this.name;
+	}
+	/**
+	 * Set's {@link #name name}
+	 * @param name  name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	/**
 	 * Get's {@link #priority priority}
 	 * @return  priority
@@ -60,8 +80,22 @@ public class ToDo extends Body{
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
-	private int priority;
-	private String description;
-	private Date deadline;
+
+	
+	/** 
+	 * Construktor
+	 * @param key key
+	 * @param date deadline
+	 * @param name name
+	 * @param description description
+	 * @param priority priority
+	 */
+	public ToDo(long key , Date date , String name , String description ,int priority) {
+		this.setKey(key);
+		this.deadline = date;
+		this.name = name;
+		this.description = description;
+		this.priority = priority;
+	}
 
 }
