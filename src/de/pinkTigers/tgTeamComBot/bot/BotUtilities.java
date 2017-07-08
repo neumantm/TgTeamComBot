@@ -181,7 +181,7 @@ public class BotUtilities {
 						if (((Group) body.getValue()).getName().equals(message)) {
 							BotUtilities.currentlyEditing = body.getKey();
 							BotUtilities.message(update, "Now editing the Group " + message
-									+ "! Type in: \"rename\" , \"addUser\" , \"removeUser\" , \"delete\" ");
+									+ "! Type in: \"rename\" , \"addUser\", \"getUsers\", \"removeUser\" , \"delete\" ");
 							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 							break s;
 						}
@@ -211,7 +211,14 @@ public class BotUtilities {
 					BotUtilities.message(update, "Please enter the name of the user you want to remove:");
 					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_USER_FROM_GROUP);
 				}
-				BotUtilities.message(update, "Please Type in: \"rename\" , \"addUser\" , \"delete\"");
+				if (message.toLowerCase().equals("getusers")) {
+					String usersToReturn = "";
+					for (User user : ((Group) (Main.dm.getBodys().get(BotUtilities.currentlyEditing))).getUsers()) {
+						usersToReturn += "\n" + user.getName();
+					}
+					BotUtilities.message(update, usersToReturn);
+				}
+				BotUtilities.message(update, "Please Type in: \"rename\" , \"addUser\", \"getUsers\", \"removeUser\" , \"delete\"");
 			break;
 			case ADD_USER_TO_GROUP:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
