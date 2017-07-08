@@ -51,7 +51,7 @@ public class DataManager {
 	 */
 	public DataManager(File p_dataFolder) {
 		if (!p_dataFolder.exists()) {
-			Main.mainLog.log("DataManager is requested to open non existent folder:" + p_dataFolder.getAbsolutePath() + "Creating it.", Log.WARN);
+			Main.mainLog.log("DataManager is requested to open non existent folder:" + p_dataFolder.getAbsolutePath() + " Creating it.", Log.WARN);
 			p_dataFolder.mkdirs();
 		}
 
