@@ -57,7 +57,7 @@ public class Main {
 		configFields.put("AllowdUsers", "");
 
 		try {
-			Main.config = new Config(Main.configLocation, "Main Configuartion file for Hackathon.", configFields);
+			Main.config = new Config(Main.configLocation, "Main Configuartion file for tgTeamComBot.", configFields);
 		} catch (IOException e) {
 			Main.mainLog.logException(e, Log.ERROR, true);
 		}

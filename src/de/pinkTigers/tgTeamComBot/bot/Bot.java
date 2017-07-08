@@ -20,7 +20,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 public class Bot extends TelegramLongPollingBot {
 
 	/** The name of the Bot */
-	public static final String NAME = "hackathon";
+	public static final String NAME = "tgTeamComBot";
 	/** The Token of the Telegram Bot API */
 	public static final String TOKEN = "448728416:AAF4AkOiDUc-zx13pxhAUTH_2kEGsdhrQto";
 	/** The Update Handler */
