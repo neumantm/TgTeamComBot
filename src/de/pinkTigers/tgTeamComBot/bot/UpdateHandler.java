@@ -36,6 +36,8 @@ public class UpdateHandler {
 	 *            update
 	 */
 	public void newUpdate(Update update) {
+		if (!update.hasMessage() || !update.getMessage().hasText() || update.getMessage().getText().length() < 1) return;
+
 		Long chatId = update.getMessage().getChatId();
 
 		if (this.handlerMap.get(chatId) == null) {
