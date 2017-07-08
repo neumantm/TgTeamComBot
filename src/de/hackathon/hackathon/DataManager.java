@@ -56,9 +56,12 @@ public class DataManager {
 		}
 
 		if (!p_dataFolder.isDirectory()) {
-			Main.mainLog.log("DataManager is requested to open a file but should be a folder:" + p_dataFolder.getAbsolutePath(), Log.WARN);
-			Main.closeData();
-			return;
+
+			try {
+				throw new IOException("DataManager is requested to open a file but should be a folder:" + p_dataFolder.getAbsolutePath());
+			} catch (IOException e) {
+				Main.mainLog.logException(e, Log.ERROR, true);
+			}
 		}
 
 		this.dataFolder = p_dataFolder;
