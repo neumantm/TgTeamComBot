@@ -47,13 +47,13 @@ public class Logic {
 	 * @return success
 	 */
 	public static boolean addGroup(String name, ArrayList<User> users) {
-		short random = (short) Math.random();
+		short random = (short) Main.randomInt(0, Short.MAX_VALUE);
 		while (Main.dm.getBodys().get(new Long(random)) != null) {
 			random = (short) Math.random();
 		}
 		for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 			if (body.getValue() instanceof Group) {
-				if (((Group) body).getName() == name) return false;
+				if (((Group) body.getValue()).getName() == name) return false;
 			}
 		}
 		Main.dm.setBody(new Group(random, users, name));
@@ -72,7 +72,7 @@ public class Logic {
 	 * @return success
 	 */
 	public static boolean addEvent(Date date, String location, String name, String description) {
-		short random = (short) Math.random();
+		short random = (short) Main.randomInt(0, Short.MAX_VALUE);
 		while (Main.dm.getEvents().get(new Long(random)) == null) {
 			random = (short) Math.random();
 		}
@@ -95,7 +95,7 @@ public class Logic {
 	 * @return success
 	 */
 	public static boolean addToDo(Date date, String name, String description, int priority) {
-		short random = (short) Math.random();
+		short random = (short) Main.randomInt(0, Short.MAX_VALUE);
 		while (Main.dm.getToDos().get(new Long(random)) == null) {
 			random = (short) Math.random();
 		}
