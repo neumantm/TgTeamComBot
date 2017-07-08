@@ -1,4 +1,0 @@
-[ERROR]<Sat, 08.07.17 16:11:43> Exception in thread "main" java.lang.NullPointerException
-[ERROR]<Sat, 08.07.17 16:11:43> 	at de.tim.lib.Config.<init>(Config.java:64)
-[ERROR]<Sat, 08.07.17 16:11:43> 	at de.hackathon.hackathon.Main.loadConfig(Main.java:52)
-[ERROR]<Sat, 08.07.17 16:11:43> 	at de.hackathon.hackathon.Main.main(Main.java:81)
