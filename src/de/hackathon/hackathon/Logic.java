@@ -11,6 +11,7 @@ package de.hackathon.hackathon;
 
 import java.util.ArrayList;
 
+import de.hackathon.hackathon.data.Group;
 import de.hackathon.hackathon.data.User;
 
 /**
@@ -19,12 +20,12 @@ import de.hackathon.hackathon.data.User;
  */
 public class Logic {
 		
-	public boolean addUser(String name , long id) {
-		if(Main.dm.bodys.get(id) != null) {
+	public boolean addUser(String name , long key) {
+		if(Main.dm.bodys.get(key) != null) {
 			return false;
 		}
-		User u = new User(name , id);
-		Main.dm.bodys.put(u.getId(), u);
+		User u = new User(name , key);
+		Main.dm.bodys.put(u.getKey(), u);
 		return true;
 	}
 	
@@ -33,6 +34,7 @@ public class Logic {
 		while(Main.dm.bodys.get(random) == null) {
 		random = (short) Math.random();
 		}
+		Main.dm.bodys.put((long) random, new Group())
 	}
 	
 	public boolean addEvent() {

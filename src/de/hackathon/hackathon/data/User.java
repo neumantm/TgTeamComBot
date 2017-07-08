@@ -12,7 +12,6 @@ public class User extends Body{
 	
 	private String name;
 	private List<Group> groups;
-	private long id;
 	private ArrayList<User> user = new ArrayList<>();
 	
 	/**
@@ -50,24 +49,6 @@ public class User extends Body{
 		this.groups = groups;
 	}
 
-
-	/**
-	 * Get's the id
-	 * @return  id
-	 */
-	public long getId() {
-		return this.id;
-	}
-
-
-	/**
-	 * Set's the id
-	 * @param id  id
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	
 	public List<User> getUser() {
 		return this.user;
@@ -82,12 +63,11 @@ public class User extends Body{
 	/**
 	 * Normal Constructor
 	 * @param name name
-	 * @param groups groups
 	 * @param id id
 	 */
-	public User(String name , long id){
+	public User(String name , long key){
 		this.name = name;
-		this.id = id;
+		this.setKey(key);
 	}
 
 }
