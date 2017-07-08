@@ -213,11 +213,15 @@ public class BotUtilities {
 			break;
 			case CONFIRM_REMOVE_GROUP:
 				if (message.toLowerCase().equals("yes")) {
-					Main.dm.getBodys().remove(new Long(BotUtilities.currentlyEditing.longValue()));
-					Main.mainLog.log((new Long(BotUtilities.currentlyEditing.longValue()).toString()), Log.DEBUG);
-					BotUtilities.message(update, "The Group been successfully removed.");
+					Main.dm.removeBody(BotUtilities.currentlyEditing);
+					Main.mainLog.log((BotUtilities.currentlyEditing.toString()), Log.DEBUG);
+					BotUtilities.message(update, "The Group has been successfully removed.");
 					BotUtilities.currentlyEditing = null;
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+				}
+				else {
+					BotUtilities.message(update, "Remove cancelled.");
+					handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 				}
 			break;
 			case NEW_GROUP_NAME:
