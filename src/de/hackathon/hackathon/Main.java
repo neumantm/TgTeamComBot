@@ -59,7 +59,10 @@ public class Main {
 	}
 
 	/**
+	 * The main entry point
+	 * 
 	 * @param args
+	 *            The command line arguments (Not used.)
 	 */
 	public static void main(String[] args) {
 		///Log loading
