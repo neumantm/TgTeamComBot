@@ -46,7 +46,8 @@ public class BotUtilities {
 			case DEFAULT:
 				if (!Main.isValidUser(new Long(chatId))) {
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.UNKNOWN_USER);
-					BotUtilities.doNext(update, nextStep, chatId, message);
+					//BotUtilities.doNext(update, nextStep, chatId, message);
+					Main.mainBot.handler.newUpdate(update);
 					break;
 				}
 				if (message.toLowerCase().equals("adduser")) {
@@ -69,7 +70,8 @@ public class BotUtilities {
 			case UNKNOWN_USER:
 				if (Main.isValidUser(new Long(chatId))) {
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
-					BotUtilities.doNext(update, nextStep, chatId, message);
+					//BotUtilities.doNext(update, nextStep, chatId, message);
+					Main.mainBot.handler.newUpdate(update);
 					break;
 				}
 				if (message.equals("Join")) {
