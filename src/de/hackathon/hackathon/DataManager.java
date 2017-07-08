@@ -231,6 +231,18 @@ public class DataManager {
 	}
 
 	/**
+	 * Remove's an object of{@link #bodys bodys}
+	 * 
+	 * @param id
+	 *            the id of the body to remove
+	 * @return Whether it worked
+	 */
+	public boolean removeBody(Long id) {
+		this.bodys.remove(id);
+		return saveBodys();
+	}
+
+	/**
 	 * Get's a copy of {@link #events events}
 	 * 
 	 * @return events
@@ -252,6 +264,18 @@ public class DataManager {
 	}
 
 	/**
+	 * Remove's an object of{@link #events events}
+	 * 
+	 * @param id
+	 *            the id of the event to remove
+	 * @return Whether it worked
+	 */
+	public boolean removeEvent(Long id) {
+		this.events.remove(id);
+		return saveEvents();
+	}
+
+	/**
 	 * Get's a copy of {@link #toDos toDos}
 	 * 
 	 * @return toDos
@@ -269,6 +293,18 @@ public class DataManager {
 	 */
 	public boolean setToDo(ToDo toDo) {
 		this.toDos.put(new Long(toDo.getKey()), toDo);
+		return saveToDos();
+	}
+
+	/**
+	 * Remove's an object of{@link #toDos toDos}
+	 * 
+	 * @param id
+	 *            the id of the toDo to remove
+	 * @return Whether it worked
+	 */
+	public boolean removeToDo(Long id) {
+		this.toDos.remove(id);
 		return saveToDos();
 	}
 }
