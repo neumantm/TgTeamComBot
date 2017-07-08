@@ -7,7 +7,7 @@
  * @version 1.0.0
  *
  */
-package de.hackathon.hackathon.bot;
+package de.pinkTiger.hackathon.bot;
 
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;

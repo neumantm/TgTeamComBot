@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.hackathon.hackathon.data;
+package de.pinkTiger.hackathon.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;

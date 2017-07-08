@@ -11,13 +11,12 @@
  * @version 1.0.0
  *
  */
-package de.hackathon.hackathon.bot;
+package de.pinkTiger.hackathon.scheduler;
 
 /**
  * TODO: Description
- * 
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
-public enum PossbileActions {
-	REMIND_TODOS
+public class Scheduler {
+
 }

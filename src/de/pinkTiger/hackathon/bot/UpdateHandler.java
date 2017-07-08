@@ -11,13 +11,13 @@
  * @version 1.0.0
  *
  */
-package de.hackathon.hackathon.bot;
+package de.pinkTiger.hackathon.bot;
 
 import java.util.HashMap;
 
 import org.telegram.telegrambots.api.objects.Update;
 
-import de.hackathon.hackathon.Main;
+import de.pinkTiger.hackathon.Main;
 
 /**
  * TODO: Description

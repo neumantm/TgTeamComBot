@@ -11,12 +11,14 @@
  * @version 1.0.0
  *
  */
-package de.hackathon.hackathon.scheduler;
+package de.pinkTiger.hackathon.bot;
 
 /**
  * TODO: Description
+ * 
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
-public class Scheduler {
+public enum PossibleSteps {
+	DEFAULT, UNKNOWN_USER, UU_JOIN_ASKED_NAME, WAITING_FOR_TOKEN, CONFIRM_REMOVE, EDIT_GROUP
 
 }

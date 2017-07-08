@@ -7,7 +7,7 @@
  * @version 1.0.0
  *
  */
-package de.hackathon.hackathon.data;
+package de.pinkTiger.hackathon.data;
 
 
 import java.util.Date;
