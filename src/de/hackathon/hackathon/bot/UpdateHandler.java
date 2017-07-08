@@ -28,6 +28,10 @@ public class UpdateHandler {
 
 	protected HashMap<Long, PossibleSteps> handlerMap;
 
+	/**
+	 * @param update
+	 *            update
+	 */
 	public void newUpdate(Update update) {
 		Long chatId = update.getMessage().getChatId();
 

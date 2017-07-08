@@ -24,13 +24,15 @@ public class Bot extends TelegramLongPollingBot {
 	/** The Token of the Telegram Bot API */
 	public static final String TOKEN = "448728416:AAF4AkOiDUc-zx13pxhAUTH_2kEGsdhrQto";
 	/** The Update Handler */
-	public static UpdateHandler handler;
+	public UpdateHandler handler;
 
 	/**
 	 * @see org.telegram.telegrambots.generics.LongPollingBot#onUpdateReceived(org.telegram.telegrambots.api.objects.Update)
 	 */
 	@Override
 	public void onUpdateReceived(Update update) {
+
+		this.handler.newUpdate(update);
 
 		/*
 		// We check if the update has a message and the message has text
