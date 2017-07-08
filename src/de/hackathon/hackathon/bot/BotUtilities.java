@@ -52,6 +52,11 @@ public class BotUtilities {
 				}
 			break;
 			case UNKNOWN_USER:
+				if (Main.isUserInConf(new Long(chatId))) {
+					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					BotUtilities.doNext(update, nextStep, chatId, message);
+					break;
+				}
 				if (message.equals("Join")) {
 					BotUtilities.message(update, "What's your name?");
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.UU_JOIN_ASKED_NAME);
@@ -72,8 +77,9 @@ public class BotUtilities {
 			case WAITING_FOR_TOKEN:
 				if (Main.pendingUsers.get(message) != null) {
 					Main.dm.setBody(Main.pendingUsers.get(message));
-					Main.pendingUsers.remove(message);
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					Main.mainBot.handler.handlerMap.put(new Long(Main.pendingUsers.get(message).getKey()), PossibleSteps.DEFAULT);
+					Main.pendingUsers.remove(message);
 					BotUtilities.message(update, "successfull");
 				}
 				else {

@@ -46,6 +46,7 @@ public class UpdateHandler {
 			else {
 				this.handlerMap.put(chatId, PossibleSteps.UNKNOWN_USER);
 			}
+
 		}
 
 		BotUtilities.doNext(update, this.handlerMap.get(chatId), chatId.longValue(), update.getMessage().getText());
