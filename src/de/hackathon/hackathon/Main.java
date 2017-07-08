@@ -43,9 +43,10 @@ public class Main {
 
 		configFields.put("LogLevel", "INFO");
 		configFields.put("DataFolder", "data");
+		configFields.put("AllowdUsers", "");
 
 		try {
-			Main.config = new Config(Main.configLocation, "Main Configuartion file for SteWoDB.", configFields);
+			Main.config = new Config(Main.configLocation, "Main Configuartion file for Hackathon.", configFields);
 		} catch (IOException e) {
 			Main.mainLog.logException(e, Log.ERROR, true);
 		}
