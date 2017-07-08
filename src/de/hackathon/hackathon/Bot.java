@@ -27,7 +27,6 @@ public class Bot extends TelegramLongPollingBot {
 	 */
 	@Override
 	public void onUpdateReceived(Update arg0) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -10,6 +10,8 @@
 package de.hackathon.hackathon;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import de.hackathon.hackathon.data.*;
 
 /**
@@ -19,8 +21,8 @@ import de.hackathon.hackathon.data.*;
  */
 public class DataManager {
 
-	ArrayList<Body> bodys = new ArrayList<>();
-	ArrayList<Event> event = new ArrayList<>();
+	HashMap<Integer, Body> bodys = new HashMap<>();
+	HashMap<Integer, Event> event = new HashMap<>();
 
 	public void load() {
 
