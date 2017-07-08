@@ -73,7 +73,14 @@ public class BotUtilities {
 				if (Main.pendingUsers.get(message) != null) {
 					Main.dm.getBodys().put(new Long(chatId), Main.pendingUsers.get(message));
 					Main.pendingUsers.remove(message);
+					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					BotUtilities.message(update, "successfull");
 				}
+				else {
+					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					BotUtilities.message(update, "failed");
+				}
+
 			break;
 			default:
 			break;
