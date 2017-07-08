@@ -58,7 +58,7 @@ public class BotUtilities {
 				String tokenS;
 				int tokenI;
 				do {
-					tokenI = (int) Math.random();
+					tokenI = (int) Math.random() * 1000;
 					tokenS = String.format("%04d", new Integer(tokenI));
 				} while (Main.pendingUsers.containsKey(tokenS));
 
