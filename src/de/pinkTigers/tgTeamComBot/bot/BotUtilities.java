@@ -84,9 +84,11 @@ public class BotUtilities {
 			case UU_JOIN_ASKED_NAME:
 
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
-					if (body.getValue() instanceof User && ((User) body).getName().equals(message)) {
-						BotUtilities.message(update, "This name is already in use. Please chose another one");
-						break;
+					if (body.getValue() instanceof User) {
+						if (((User) body).getName().equals(message)) {
+							BotUtilities.message(update, "This name is already in use. Please chose another one");
+							break;
+						}
 					}
 				}
 				String tokenS;
@@ -106,7 +108,7 @@ public class BotUtilities {
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 					Main.mainBot.handler.handlerMap.put(new Long(Main.pendingUsers.get(message).getKey()), PossibleSteps.DEFAULT);
 					BotUtilities.message(update, "successfull");
-					BotUtilities.message(update, "Welcome to tgTeamComBot", Main.pendingUsers.get(message).getKey());
+					BotUtilities.message(update, "Welcome to tgTeamComBot!", Main.pendingUsers.get(message).getKey());
 					Main.pendingUsers.remove(message);
 				}
 				else {
@@ -119,7 +121,7 @@ public class BotUtilities {
 				if (message.toLowerCase().equals("yes")) {
 					Main.dm.removeBody(new Long(chatId));
 					Main.mainBot.handler.handlerMap.remove(new Long(chatId));
-					BotUtilities.message(update, "You've been successfully removed");
+					BotUtilities.message(update, "You've been successfully removed.");
 				}
 				Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 			break;
