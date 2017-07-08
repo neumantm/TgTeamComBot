@@ -26,6 +26,7 @@ import de.pinkTigers.tgTeamComBot.Main;
 import de.pinkTigers.tgTeamComBot.data.Body;
 import de.pinkTigers.tgTeamComBot.data.Group;
 import de.pinkTigers.tgTeamComBot.data.User;
+import de.tim.lib.Log;
 
 /**
  * TODO: Description
@@ -203,8 +204,8 @@ public class BotUtilities {
 							Logic.addUserToGroup((User) body.getValue(),
 									BotUtilities.currentlyEditing.longValue());
 							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
-							BotUtilities.message(update, "Now editing the Group " + message
-									+ "! Type in: \"rename\" , \"addUser\" , \"delete\" ");
+							BotUtilities.message(update, "User " + message
+									+ "has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" , \"delete\" ");
 							break s;
 						}
 					}
@@ -213,6 +214,7 @@ public class BotUtilities {
 			case CONFIRM_REMOVE_GROUP:
 				if (message.toLowerCase().equals("yes")) {
 					Main.dm.getBodys().remove(new Long(BotUtilities.currentlyEditing.longValue()));
+					Main.mainLog.log((new Long(BotUtilities.currentlyEditing.longValue()).toString()), Log.DEBUG);
 					BotUtilities.message(update, "The Group been successfully removed.");
 					BotUtilities.currentlyEditing = null;
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
