@@ -33,14 +33,22 @@ public class Bot extends TelegramLongPollingBot {
 	public void onUpdateReceived(Update update) {
 		// We check if the update has a message and the message has text
 	    if (update.hasMessage() && update.getMessage().hasText()) {
+	    	if(Main.dm.getBodys().get(update.getMessage().getChatId()) != null) {
+	    		
 	        SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
 	                .setChatId(update.getMessage().getChatId())
-	                .setText(update.getMessage().getText());
+	                .setText("HI");
 	        try {
 	            sendMessage(message); // Call method to send the message
 	        } catch (TelegramApiException e) {
 	            e.printStackTrace();
 	        }
+	        
+	    	} else {
+	    		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
+		                .setChatId(update.getMessage().getChatId())
+		                .setText("No Permission");
+	    	}
 	    }
 	}
 
