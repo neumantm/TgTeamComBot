@@ -36,6 +36,7 @@ public class Main {
 		HashMap<String, String> configFields = new HashMap<>();
 
 		configFields.put("LogLevel", "INFO");
+		configFields.put("DataFolder", "/data");
 
 		try {
 			Main.config = new Config(Main.configLocation, "Main Configuartion file for SteWoDB.", configFields);
