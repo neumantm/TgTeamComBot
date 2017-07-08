@@ -51,6 +51,11 @@ public class BotUtilities {
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TOKEN);
 					break;
 				}
+				if (message.equals("removeUser")) {
+					BotUtilities.message(update, "Do You really want to remove yourself? Type \"Yes\" to proceed");
+					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.CONFIRM_REMOVE);
+					break;
+				}
 				BotUtilities.message(update, "Invalid Command");
 			break;
 			case UNKNOWN_USER:
@@ -92,9 +97,16 @@ public class BotUtilities {
 				}
 
 			break;
+			case CONFIRM_REMOVE:
+				if (message.toLowerCase().equals("yes")) {
+
+				}
+				Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+			break;
 			default:
 			break;
 		}
+
 	}
 
 	/**

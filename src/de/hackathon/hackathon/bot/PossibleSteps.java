@@ -19,6 +19,6 @@ package de.hackathon.hackathon.bot;
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
 public enum PossibleSteps {
-	DEFAULT, UNKNOWN_USER, UU_JOIN_ASKED_NAME, WAITING_FOR_TOKEN
+	DEFAULT, UNKNOWN_USER, UU_JOIN_ASKED_NAME, WAITING_FOR_TOKEN, CONFIRM_REMOVE
 
 }
