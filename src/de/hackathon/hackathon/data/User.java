@@ -12,7 +12,7 @@ public class User extends Body{
 	
 	private String name;
 	private List<Group> groups;
-	private String id;
+	private long id;
 	private ArrayList<User> user = new ArrayList<>();
 	
 	/**
@@ -55,7 +55,7 @@ public class User extends Body{
 	 * Get's the id
 	 * @return  id
 	 */
-	public String getId() {
+	public long getId() {
 		return this.id;
 	}
 
@@ -64,14 +64,12 @@ public class User extends Body{
 	 * Set's the id
 	 * @param id  id
 	 */
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
 	
-
-	@Override
-	public List<User> getMembers() {
+	public List<User> getUser() {
 		return this.user;
 	}
 	
