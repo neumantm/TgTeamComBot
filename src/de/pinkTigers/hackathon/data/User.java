@@ -1,4 +1,4 @@
-package de.pinkTiger.hackathon.data;
+package de.pinkTigers.hackathon.data;
 
 import java.util.ArrayList;
 import java.util.List;

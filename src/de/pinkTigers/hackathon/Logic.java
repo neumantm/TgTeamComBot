@@ -7,17 +7,17 @@
  * @version 1.0.0
  *
  */
-package de.pinkTiger.hackathon;
+package de.pinkTigers.hackathon;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
-import de.pinkTiger.hackathon.data.Body;
-import de.pinkTiger.hackathon.data.Event;
-import de.pinkTiger.hackathon.data.Group;
-import de.pinkTiger.hackathon.data.ToDo;
-import de.pinkTiger.hackathon.data.User;
+import de.pinkTigers.hackathon.data.Body;
+import de.pinkTigers.hackathon.data.Event;
+import de.pinkTigers.hackathon.data.Group;
+import de.pinkTigers.hackathon.data.ToDo;
+import de.pinkTigers.hackathon.data.User;
 
 /**
  * TODO: Description

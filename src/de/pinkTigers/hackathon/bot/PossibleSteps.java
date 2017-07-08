@@ -11,13 +11,14 @@
  * @version 1.0.0
  *
  */
-package de.pinkTiger.hackathon.bot;
+package de.pinkTigers.hackathon.bot;
 
 /**
  * TODO: Description
  * 
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
-public enum PossbileActions {
-	REMIND_TODOS
+public enum PossibleSteps {
+	DEFAULT, UNKNOWN_USER, UU_JOIN_ASKED_NAME, WAITING_FOR_TOKEN, CONFIRM_REMOVE, EDIT_GROUP
+
 }

@@ -11,14 +11,14 @@
  * @version 1.0.0
  *
  */
-package de.pinkTiger.hackathon.bot;
+package de.pinkTigers.hackathon.bot;
 
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import de.pinkTiger.hackathon.Main;
-import de.pinkTiger.hackathon.data.User;
+import de.pinkTigers.hackathon.Main;
+import de.pinkTigers.hackathon.data.User;
 
 /**
  * TODO: Description

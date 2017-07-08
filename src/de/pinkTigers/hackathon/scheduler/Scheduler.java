@@ -11,7 +11,7 @@
  * @version 1.0.0
  *
  */
-package de.pinkTiger.hackathon.scheduler;
+package de.pinkTigers.hackathon.scheduler;
 
 /**
  * TODO: Description
