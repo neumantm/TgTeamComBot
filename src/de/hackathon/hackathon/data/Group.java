@@ -19,8 +19,22 @@ import java.util.List;
 public class Group extends Body{
 	private static final long serialVersionUID = -4234018617918494805L;
 	
+	private String name;
+	/**
+	 * Get's {@link #name name}
+	 * @return  name
+	 */
+	public String getName() {
+		return this.name;
+	}
+	/**
+	 * Set's {@link #name name}
+	 * @param name  name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 	private ArrayList<User> Users;
-	private ArrayList<Event> events;
 	
 	
 	/**
@@ -31,20 +45,8 @@ public class Group extends Body{
 		this.Users = users;
 	}
 	/**
-	 * Get's {@link #events events}
-	 * @return  events
+	 * @return the user
 	 */
-	public ArrayList<Event> getEvents() {
-		return this.events;
-	}
-	/**
-	 * Set's {@link #events events}
-	 * @param events  events
-	 */
-	public void setEvents(ArrayList<Event> events) {
-		this.events = events;
-	}
-	
 	public List<User> getUsers() {
 		return this.Users;
 	}
