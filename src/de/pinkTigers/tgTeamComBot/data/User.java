@@ -1,4 +1,4 @@
-package de.pinkTigers.hackathon.data;
+package de.pinkTigers.tgTeamComBot.data;
 
 import java.util.ArrayList;
 import java.util.List;

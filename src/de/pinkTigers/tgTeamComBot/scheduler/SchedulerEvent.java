@@ -11,11 +11,11 @@
  * @version 1.0.0
  *
  */
-package de.pinkTigers.hackathon.scheduler;
+package de.pinkTigers.tgTeamComBot.scheduler;
 
 import java.util.Date;
 
-import de.pinkTigers.hackathon.bot.PossbileActions;
+import de.pinkTigers.tgTeamComBot.bot.PossbileActions;
 
 /**
  * TODO: Description

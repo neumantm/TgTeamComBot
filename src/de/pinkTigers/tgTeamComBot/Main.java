@@ -11,7 +11,7 @@
  * @version 1.0.0
  *
  */
-package de.pinkTigers.hackathon;
+package de.pinkTigers.tgTeamComBot;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +21,8 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import de.pinkTigers.hackathon.bot.Bot;
-import de.pinkTigers.hackathon.data.User;
+import de.pinkTigers.tgTeamComBot.bot.Bot;
+import de.pinkTigers.tgTeamComBot.data.User;
 import de.tim.lib.Config;
 import de.tim.lib.Log;
 

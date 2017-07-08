@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.pinkTigers.hackathon.data;
+package de.pinkTigers.tgTeamComBot.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;

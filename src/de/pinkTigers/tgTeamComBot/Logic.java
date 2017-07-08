@@ -7,17 +7,17 @@
  * @version 1.0.0
  *
  */
-package de.pinkTigers.hackathon;
+package de.pinkTigers.tgTeamComBot;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
-import de.pinkTigers.hackathon.data.Body;
-import de.pinkTigers.hackathon.data.Event;
-import de.pinkTigers.hackathon.data.Group;
-import de.pinkTigers.hackathon.data.ToDo;
-import de.pinkTigers.hackathon.data.User;
+import de.pinkTigers.tgTeamComBot.data.Body;
+import de.pinkTigers.tgTeamComBot.data.Event;
+import de.pinkTigers.tgTeamComBot.data.Group;
+import de.pinkTigers.tgTeamComBot.data.ToDo;
+import de.pinkTigers.tgTeamComBot.data.User;
 
 /**
  * TODO: Description

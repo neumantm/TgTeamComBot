@@ -11,13 +11,13 @@
  * @version 1.0.0
  *
  */
-package de.pinkTigers.hackathon.bot;
+package de.pinkTigers.tgTeamComBot.bot;
 
 import java.util.HashMap;
 
 import org.telegram.telegrambots.api.objects.Update;
 
-import de.pinkTigers.hackathon.Main;
+import de.pinkTigers.tgTeamComBot.Main;
 
 /**
  * TODO: Description

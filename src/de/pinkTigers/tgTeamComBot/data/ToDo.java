@@ -7,26 +7,22 @@
  * @version 1.0.0
  *
  */
-package de.pinkTigers.hackathon.data;
+package de.pinkTigers.tgTeamComBot.data;
 
 
-import java.io.Serializable;
 import java.util.Date;
-
 
 /**
  * TODO: Description
- * @author Henne
+ * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
-public class Event implements Serializable{
-	private static final long serialVersionUID = 4845151409020395848L;
+public class ToDo {
 	
-	private Date date;
-	private String location;
+	private int priority;
 	private String name;
 	private String description;
+	private Date deadline;
 	private long key;
-	
 	/**
 	 * Get's {@link #key key}
 	 * @return  key
@@ -42,34 +38,6 @@ public class Event implements Serializable{
 		this.key = key;
 	}
 	/**
-	 * Get's {@link #date date}
-	 * @return  date
-	 */
-	public Date getDate() {
-		return this.date;
-	}
-	/**
-	 * Set's {@link #date date}
-	 * @param date  date
-	 */
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	/**
-	 * Get's {@link #location location}
-	 * @return  location
-	 */
-	public String getLocation() {
-		return this.location;
-	}
-	/**
-	 * Set's {@link #location location}
-	 * @param location  location
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
-	/**
 	 * Get's {@link #name name}
 	 * @return  name
 	 */
@@ -82,6 +50,21 @@ public class Event implements Serializable{
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	/**
+	 * Get's {@link #priority priority}
+	 * @return  priority
+	 */
+	public int getPriority() {
+		return this.priority;
+	}
+	/**
+	 * Set's {@link #priority priority}
+	 * @param priority  priority
+	 */
+	public void setPriority(int priority) {
+		this.priority = priority;
 	}
 	/**
 	 * Get's {@link #description description}
@@ -97,21 +80,36 @@ public class Event implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
 	/**
-	 *  constructor
-	 * @param key key
-	 * @param date date 
-	 * @param location location
-	 * @param name name 
-	 * @param description description
+	 * Get's {@link #deadline deadline}
+	 * @return  deadline
 	 */
-	public Event(long key , Date date , String location , String name , String description) {
+	public Date getDeadline() {
+		return this.deadline;
+	}
+	/**
+	 * Set's {@link #deadline deadline}
+	 * @param deadline  deadline
+	 */
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
+
+	
+	/** 
+	 * Construktor
+	 * @param key key
+	 * @param date deadline
+	 * @param name name
+	 * @param description description
+	 * @param priority priority
+	 */
+	public ToDo(long key , Date date , String name , String description ,int priority) {
 		this.key = key;
-		this.date = date;
-		this.location = location;
+		this.deadline = date;
 		this.name = name;
 		this.description = description;
+		this.priority = priority;
 	}
-	
+
 }

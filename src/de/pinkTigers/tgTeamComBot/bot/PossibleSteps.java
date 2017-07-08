@@ -11,7 +11,7 @@
  * @version 1.0.0
  *
  */
-package de.pinkTigers.hackathon.bot;
+package de.pinkTigers.tgTeamComBot.bot;
 
 /**
  * TODO: Description

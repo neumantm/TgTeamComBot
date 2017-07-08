@@ -11,7 +11,7 @@
  * @version 1.0.0
  *
  */
-package de.pinkTigers.hackathon.bot;
+package de.pinkTigers.tgTeamComBot.bot;
 
 import java.util.Map;
 
@@ -19,9 +19,9 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import de.pinkTigers.hackathon.Main;
-import de.pinkTigers.hackathon.data.Body;
-import de.pinkTigers.hackathon.data.User;
+import de.pinkTigers.tgTeamComBot.Main;
+import de.pinkTigers.tgTeamComBot.data.Body;
+import de.pinkTigers.tgTeamComBot.data.User;
 
 /**
  * TODO: Description
