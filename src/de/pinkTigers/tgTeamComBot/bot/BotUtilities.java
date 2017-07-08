@@ -74,7 +74,7 @@ public class BotUtilities {
 					Main.mainBot.handler.newUpdate(update);
 					break;
 				}
-				if (message.equals("Join")) {
+				if (message.toLowerCase().equals("Join")) {
 					BotUtilities.message(update, "What's your name?");
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.UU_JOIN_ASKED_NAME);
 					break;
@@ -105,8 +105,9 @@ public class BotUtilities {
 					Main.dm.setBody(Main.pendingUsers.get(message));
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 					Main.mainBot.handler.handlerMap.put(new Long(Main.pendingUsers.get(message).getKey()), PossibleSteps.DEFAULT);
-					Main.pendingUsers.remove(message);
 					BotUtilities.message(update, "successfull");
+					BotUtilities.message(update, "Welcome to tgTeamComBot", Main.pendingUsers.get(message).getKey());
+					Main.pendingUsers.remove(message);
 				}
 				else {
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
@@ -118,6 +119,7 @@ public class BotUtilities {
 				if (message.toLowerCase().equals("yes")) {
 					Main.dm.removeBody(new Long(chatId));
 					Main.mainBot.handler.handlerMap.remove(new Long(chatId));
+					BotUtilities.message(update, "You've been successfully removed");
 				}
 				Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 			break;
@@ -167,7 +169,7 @@ public class BotUtilities {
 	 * @param update
 	 *            update
 	 * @param bot_message
-	 *            question from the bot
+	 *            messsage from the bot
 	 */
 	public static void message(Update update, String bot_message) {
 		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
@@ -181,4 +183,22 @@ public class BotUtilities {
 
 	}
 
+	/**
+	 * @param update
+	 *            update
+	 * @param bot_message
+	 *            message from bot
+	 * @param userId
+	 *            recipient id
+	 */
+	public static void message(Update update, String bot_message, long userId) {
+		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
+				.setChatId(new Long(userId))
+				.setText(bot_message);
+		try {
+			Main.mainBot.sendMessage(message); // Call method to send the message
+		} catch (TelegramApiException e) {
+			e.printStackTrace();
+		}
+	}
 }
