@@ -229,7 +229,7 @@ public class BotUtilities {
 										BotUtilities.currentlyEditing.longValue());
 								handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 								BotUtilities.message(update, "User " + message
-										+ "has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" ,  \"removeUser\" , \"delete\" ");
+										+ "has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" , \"getUsers\", \"removeUser\" , \"delete\" ");
 								break s;
 							}
 						}
@@ -267,7 +267,7 @@ public class BotUtilities {
 									BotUtilities.currentlyEditing.longValue());
 							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 							BotUtilities.message(update, "User " + message
-									+ "has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" ,  \"removeUser\" , \"delete\" ");
+									+ "has been added to the group! \n \"Please Type in: \"rename\" , \"getUsers\", \"addUser\" ,  \"removeUser\" , \"delete\" ");
 							break s;
 						}
 					}
