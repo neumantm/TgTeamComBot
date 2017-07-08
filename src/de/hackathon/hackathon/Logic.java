@@ -65,10 +65,9 @@ public class Logic {
 	 * @param location location of the Event
 	 * @param name name of the Event
 	 * @param description description of the Event
-	 * @param priority priority of the Event
 	 * @return success
 	 */
-	public boolean addEvent(Date date, String location, String name, String description, int priority) {
+	public boolean addEvent(Date date, String location, String name, String description) {
 		short random = (short) Math.random();
 		while (Main.dm.getEvents().get(new Long(random)) == null) {
 			random = (short) Math.random();
@@ -78,7 +77,7 @@ public class Logic {
 				return false;
 			}
 		}
-		Main.dm.setEvent(new Event(random, date, location, name, description, priority));
+		Main.dm.setEvent(new Event(random, date, location, name, description));
 		return true;
 	}
 

@@ -25,7 +25,6 @@ public class Event implements Serializable{
 	private String location;
 	private String name;
 	private String description;
-	private int priority;
 	private long key;
 	
 	/**
@@ -98,20 +97,6 @@ public class Event implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	/**
-	 * Get's {@link #priority priority}
-	 * @return  priority
-	 */
-	public int getPriority() {
-		return this.priority;
-	}
-	/**
-	 * Set's {@link #priority priority}
-	 * @param priority  priority
-	 */
-	public void setPriority(int priority) {
-		this.priority = priority;
-	}
 	
 	/**
 	 *  constructor
@@ -120,15 +105,13 @@ public class Event implements Serializable{
 	 * @param location location
 	 * @param name name 
 	 * @param description description
-	 * @param priority priority
 	 */
-	public Event(long key , Date date , String location , String name , String description ,int priority) {
+	public Event(long key , Date date , String location , String name , String description) {
 		this.key = key;
 		this.date = date;
 		this.location = location;
 		this.name = name;
 		this.description = description;
-		this.priority = priority;
 	}
 	
 }
