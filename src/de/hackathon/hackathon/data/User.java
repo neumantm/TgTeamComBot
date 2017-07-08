@@ -85,9 +85,8 @@ public class User extends Body{
 	 * @param groups groups
 	 * @param id id
 	 */
-	public User(String name , List<Group> groups , String id){
+	public User(String name , long id){
 		this.name = name;
-		this.groups = groups;
 		this.id = id;
 	}
 
