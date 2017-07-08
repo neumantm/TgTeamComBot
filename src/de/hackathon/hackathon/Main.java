@@ -13,6 +13,7 @@
  */
 package de.hackathon.hackathon;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -46,10 +47,11 @@ public class Main {
 		HashMap<String, String> configFields = new HashMap<>();
 
 		configFields.put("LogLevel", "INFO");
-		configFields.put("DataFolder", "data");
+		configFields.put("DataFolder", "/home/pi/hackathon/data");
+		configFields.put("AllowdUsers", "");
 
 		try {
-			Main.config = new Config(Main.configLocation, "Main Configuartion file for SteWoDB.", configFields);
+			Main.config = new Config(Main.configLocation, "Main Configuartion file for Hackathon.", configFields);
 		} catch (IOException e) {
 			Main.mainLog.logException(e, Log.ERROR, true);
 		}
@@ -85,21 +87,20 @@ public class Main {
 		Main.mainLog.log("Done loading configs.", Log.INFO);
 		Main.mainLog.log("LogLevel DEBUG enabeled.", Log.DEBUG);
 
-		
-		
-		
-		
-		 ApiContextInitializer.init();
+		//DM
+		Main.dm = new DataManager(new File(Main.config.getConfigValue("DataFolder")));
 
-	        TelegramBotsApi botsApi = new TelegramBotsApi();
+		//Telegram Bot
+		ApiContextInitializer.init();
 
-	        try {
-	            botsApi.registerBot(new Bot());
-	        } catch (TelegramApiException e) {
-	            e.printStackTrace();
-	        }
-		
-		
+		TelegramBotsApi botsApi = new TelegramBotsApi();
+
+		try {
+			botsApi.registerBot(new Bot());
+		} catch (TelegramApiException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
