@@ -26,58 +26,54 @@ import de.hackathon.hackathon.data.User;
 public class Logic {
 		
 	public boolean addUser(String name , long key) {
-		if(Main.dm.bodys.get(key) != null) {
+		if(Main.dm.getBodys().get(key) != null) {
 			return false;
 		} 
-		Main.dm.bodys.put(key, new User(name , key));
+		Main.dm.setBody(new User(name , key));
 		return true;
 	}
 	
 	public boolean addGroup(String name , ArrayList<User> users) {
 		short random = (short) Math.random();
-		while(Main.dm.bodys.get(random) != null) {
+		while(Main.dm.getBodys().get(new Long(random)) != null) {
 		random = (short) Math.random();
 		}
-		for(Map.Entry<Long, Body> body : Main.dm.bodys.entrySet()) {
+		for(Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 			if(body.getValue() instanceof Group) {
 				if(((Group) body).getName() == name) {
 					return false;
 				}
 			}
 		}
-		Main.dm.bodys.put((long) random, new Group(random , users , name));
+		Main.dm.setBody(new Group(random , users , name));
 		return true;
 	}
 	
 	public boolean addEvent(Date date , String location , String name , String description ,int priority) {
 		short random = (short) Math.random();
-		while(Main.dm.bodys.get(random) == null) {
+		while(Main.dm.getEvents().get(new Long(random)) == null) {
 			random = (short) Math.random();
 			}
-		for(Map.Entry<Long, Body> body : Main.dm.bodys.entrySet()) {
-			if(body.getValue() instanceof Event) {
-				if(((Event) body).getName() == name) {
+		for(Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+				if(event.getValue().getName() == name) {
 					return false;
-				}
 			}
 		}
-		Main.dm.bodys.put((long) random , new Event(random , date , location , name , description , priority));
+		Main.dm.setEvent( new Event(random , date , location , name , description , priority));
 		return true;
 	}
 	
 	public boolean addToDo(Date date , String name , String description ,int priority) {
 		short random = (short) Math.random();
-		while(Main.dm.bodys.get(random) == null) {
+		while(Main.dm.getToDos().get(new Long(random)) == null) {
 			random = (short) Math.random();
 			}
-		for(Map.Entry<Long, Body> body : Main.dm.bodys.entrySet()) {
-			if(body.getValue() instanceof ToDo) {
-				if(((ToDo) body).getName() == name) {
+		for(Map.Entry<Long, ToDo> toDo : Main.dm.getToDos().entrySet()) {
+				if(toDo.getValue().getName() == name) {
 					return false;
-				}
 			}
 		}
-		Main.dm.bodys.put((long) random , new ToDo(random , date , name , description , priority));
+		Main.dm.setToDo(new ToDo(random , date , name , description , priority));
 		return true;
 	}
 	

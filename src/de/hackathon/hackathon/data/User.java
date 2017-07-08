@@ -12,7 +12,6 @@ public class User extends Body{
 	
 	private String name;
 	private List<Group> groups;
-	private ArrayList<User> user = new ArrayList<>();
 	
 	/**
 	 * Get's the name
@@ -51,7 +50,9 @@ public class User extends Body{
 
 	
 	public List<User> getUser() {
-		return this.user;
+		ArrayList toReturn = new ArrayList();
+		toReturn.add(this);
+		return toReturn;
 	}
 	
 	

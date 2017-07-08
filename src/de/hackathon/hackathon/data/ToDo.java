@@ -17,12 +17,27 @@ import java.util.List;
  * TODO: Description
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
-public class ToDo extends Body{
+public class ToDo {
 	
 	private int priority;
 	private String name;
 	private String description;
 	private Date deadline;
+	private long key;
+	/**
+	 * Get's {@link #key key}
+	 * @return  key
+	 */
+	public long getKey() {
+		return this.key;
+	}
+	/**
+	 * Set's {@link #key key}
+	 * @param key  key
+	 */
+	public void setKey(long key) {
+		this.key = key;
+	}
 	/**
 	 * Get's {@link #name name}
 	 * @return  name
@@ -91,7 +106,7 @@ public class ToDo extends Body{
 	 * @param priority priority
 	 */
 	public ToDo(long key , Date date , String name , String description ,int priority) {
-		this.setKey(key);
+		this.key = key;
 		this.deadline = date;
 		this.name = name;
 		this.description = description;

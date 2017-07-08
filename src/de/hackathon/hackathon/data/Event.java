@@ -17,7 +17,7 @@ import java.util.List;
  * TODO: Description
  * @author Henne
  */
-public class Event extends Body{
+public class Event{
 	private static final long serialVersionUID = 4845151409020395848L;
 	
 	private Date date;
@@ -25,7 +25,22 @@ public class Event extends Body{
 	private String name;
 	private String description;
 	private int priority;
+	private long key;
 	
+	/**
+	 * Get's {@link #key key}
+	 * @return  key
+	 */
+	public long getKey() {
+		return this.key;
+	}
+	/**
+	 * Set's {@link #key key}
+	 * @param key  key
+	 */
+	public void setKey(long key) {
+		this.key = key;
+	}
 	/**
 	 * Get's {@link #date date}
 	 * @return  date
@@ -107,7 +122,7 @@ public class Event extends Body{
 	 * @param priority priority
 	 */
 	public Event(long key , Date date , String location , String name , String description ,int priority) {
-		this.setKey(key);
+		this.key = key;
 		this.date = date;
 		this.location = location;
 		this.name = name;
