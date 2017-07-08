@@ -16,6 +16,9 @@ import java.util.List;
 public abstract class Body implements Serializable{
 	
 	private long key;
+	private static final long serialVersionUID = -8966320631762198755L;
+	private ArrayList<Event> events;
+	
 	/**
 	 * Get's {@link #key key}
 	 * @return  key
@@ -23,6 +26,7 @@ public abstract class Body implements Serializable{
 	public long getKey() {
 		return this.key;
 	}
+	
 	/**
 	 * Set's {@link #key key}
 	 * @param key  key
@@ -30,21 +34,21 @@ public abstract class Body implements Serializable{
 	public void setKey(long key) {
 		this.key = key;
 	}
-	private static final long serialVersionUID = -8966320631762198755L;
-	private ArrayList<Event> events;
+	
 	/**
 	 * Get's {@link #events events}
 	 * @return  events
 	 */
-	public ArrayList<Event> getEvents() {
+	public List<Event> getEvents() {
 		return this.events;
 	}
+	
 	/**
 	 * Set's {@link #events events}
-	 * @param events  events
+	 * @param p_events  events
 	 */
-	public void setEvents(ArrayList<Event> events) {
-		this.events = events;
+	public void setEvents(List<Event> p_events) {
+		this.events = new ArrayList<>(p_events);
 	}
 	
 	
