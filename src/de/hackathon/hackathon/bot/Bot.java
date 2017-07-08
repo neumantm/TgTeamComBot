@@ -9,13 +9,8 @@
  */
 package de.hackathon.hackathon.bot;
 
-import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-
-import de.hackathon.hackathon.Main;
-import de.tim.lib.Log;
 
 /**
  * The bot. It handles the communication with the telegram servers.
@@ -36,6 +31,8 @@ public class Bot extends TelegramLongPollingBot {
 	 */
 	@Override
 	public void onUpdateReceived(Update update) {
+
+		/*
 		// We check if the update has a message and the message has text
 		Long chatId = update.getMessage().getChatId();
 		boolean found = false;
@@ -46,42 +43,43 @@ public class Bot extends TelegramLongPollingBot {
 				found = true;
 		}
 		
-	    if (update.hasMessage() && update.getMessage().hasText()) {
-	    	
-	    	if(update.getMessage().getText().equals("Join") && Main.dm.getBodys().get(chatId) == null) {
-	    		int tokenI = (int) Math.random();
-	    		String tokenS = String.format("%04d", tokenI);
-	    		//Main.pendingUsers.put(tokenI, new User(chatId)); TODO
-	    	}
-	    	
-	    	else if(Main.dm.getBodys().get(chatId) != null || found) {
-	    		
-	            
-	        
-	        switch(update.getMessage().getText()) {
-	        	case "Help":
-	        		break;
-	        	case "AddUser":
-	        		BotUtilities.addUser(update);
-	        		break;
+		if (update.hasMessage() && update.getMessage().hasText()) {
+			
+			if(update.getMessage().getText().equals("Join") && Main.dm.getBodys().get(chatId) == null) {
+				int tokenI = (int) Math.random();
+				String tokenS = String.format("%04d", tokenI);
+				Main.pendingUsers.put(tokenI, new User( ,chatId)); 
+			}
+			
+			else if(Main.dm.getBodys().get(chatId) != null || found) {
+				
+		        
+		    
+		    switch(update.getMessage().getText()) {
+		    	case "Help":
+		    		break;
+		    	case "AddUser":
+		    		BotUtilities.addUser(update);
+		    		break;
 				default:
 					BotUtilities.noMessage(update);
 					break;
-	        }
-	        
-	        
-	    	} else {
-	    		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
+		    }
+		    
+		    
+			} else {
+				SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
 		                .setChatId(update.getMessage().getChatId())
 		                .setText("No Permission");
-	    		Main.mainLog.log(update.getMessage().getChatId().toString(), Log.DEBUG);
-	    		try {
+				Main.mainLog.log(update.getMessage().getChatId().toString(), Log.DEBUG);
+				try {
 		            sendMessage(message); // Call method to send the message
 		        } catch (TelegramApiException e) {
 		            e.printStackTrace();
 		        }
-	    	}
-	    }
+			}
+		}
+		*/
 	}
 
 	/**

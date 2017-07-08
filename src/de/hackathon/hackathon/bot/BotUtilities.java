@@ -21,43 +21,56 @@ import de.hackathon.hackathon.Main;
 
 /**
  * TODO: Description
+ * 
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
 public class BotUtilities {
-	public static void addUser(Update update) {
-		
-		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
-                .setChatId(update.getMessage().getChatId())
-                .setText("Please enter the Token");
-		 try {
-	            Main.mainBot.sendMessage(message); // Call method to send the message
-	        } catch (TelegramApiException e) {
-	            e.printStackTrace();
-	        }
+
+	public static void doNext(Update update, PossibleSteps nextStep, long chatId, String message) {
+
+		switch (nextStep) {
+			case DEFAULT:
+				if (!Main.isUserInConf(chatId)) {
+					Bot.handler.handlerMap.put(chatId, PossibleSteps.UNKNOWN_USER);
+				}
+			break;
+		}
 	}
-	
+
+	public static void addUser(Update update) {
+
+		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
+				.setChatId(update.getMessage().getChatId())
+				.setText("Please enter the Token");
+		try {
+			Main.mainBot.sendMessage(message); // Call method to send the message
+		} catch (TelegramApiException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void noMessage(Update update) {
 		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
-                .setChatId(update.getMessage().getChatId())
-                .setText("No Command");
-		 try {
-	            Main.mainBot.sendMessage(message); // Call method to send the message
-	        } catch (TelegramApiException e) {
-	            e.printStackTrace();
-	        }
+				.setChatId(update.getMessage().getChatId())
+				.setText("No Command");
+		try {
+			Main.mainBot.sendMessage(message); // Call method to send the message
+		} catch (TelegramApiException e) {
+			e.printStackTrace();
+		}
 	}
-	
-	public static String ask(Update update , String question) {
+
+	public static String ask(Update update, String question) {
 		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
-                .setChatId(update.getMessage().getChatId())
-                .setText(question);
-		 try {
-	            Main.mainBot.sendMessage(message); // Call method to send the message
-	        } catch (TelegramApiException e) {
-	            e.printStackTrace();
-	        }
-		 
-		 return null;
-		 
+				.setChatId(update.getMessage().getChatId())
+				.setText(question);
+		try {
+			Main.mainBot.sendMessage(message); // Call method to send the message
+		} catch (TelegramApiException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
 	}
 }

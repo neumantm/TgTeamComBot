@@ -44,8 +44,8 @@ public class Main {
 	/** The main Bot */
 	public static Bot mainBot;
 
-	public static HashMap<String , User> pendingUsers = new HashMap<>();
-	
+	public static HashMap<String, User> pendingUsers = new HashMap<>();
+
 	/**
 	 * Loads the config from disk.
 	 */
@@ -95,12 +95,20 @@ public class Main {
 		TelegramBotsApi botsApi = new TelegramBotsApi();
 
 		try {
-			mainBot = new Bot();
-			botsApi.registerBot(mainBot);
+			Main.mainBot = new Bot();
+			botsApi.registerBot(Main.mainBot);
 		} catch (TelegramApiException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static boolean isUserInConf(Long id) {
+		String[] arr = Main.config.getConfigValue("AllowdUsers").split(",");
+		for (String s : arr) {
+			if (s.equals(id + "")) return true;
+		}
+		return false;
 	}
 
 }

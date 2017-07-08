@@ -18,7 +18,7 @@ package de.hackathon.hackathon.bot;
  * 
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
-public enum possibleSteps {
-	DEFAULT, JOIN_ASKED_NAME
+public enum PossibleSteps {
+	DEFAULT, UNKNOWN_USER, UU_JOIN_ASKED_NAME
 
 }

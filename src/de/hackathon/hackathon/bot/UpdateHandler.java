@@ -13,10 +13,34 @@
  */
 package de.hackathon.hackathon.bot;
 
+import java.util.HashMap;
+
+import org.telegram.telegrambots.api.objects.Update;
+
+import de.hackathon.hackathon.Main;
+
 /**
  * TODO: Description
+ * 
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
 public class UpdateHandler {
 
+	protected HashMap<Long, PossibleSteps> handlerMap;
+
+	public void newUpdate(Update update) {
+		Long chatId = update.getMessage().getChatId();
+
+		if (this.handlerMap.get(chatId) == null) {
+
+			if (Main.dm.getBodys().containsKey(chatId) || Main.isUserInConf(chatId)) {
+				this.handlerMap.put(chatId, PossibleSteps.DEFAULT);
+			}
+			else {
+				this.handlerMap.put(chatId, PossibleSteps.UNKNOWN_USER);
+			}
+		}
+
+		BotUtilities.doNext(update, this.handlerMap.get(chatId), chatId.longValue(), update.getMessage().getText());
+	}
 }
