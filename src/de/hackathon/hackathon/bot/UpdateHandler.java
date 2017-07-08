@@ -11,7 +11,7 @@
  * @version 1.0.0
  *
  */
-package de.hackathon.hackathon;
+package de.hackathon.hackathon.bot;
 
 /**
  * TODO: Description

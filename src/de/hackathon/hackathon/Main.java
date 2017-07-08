@@ -21,6 +21,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import de.hackathon.hackathon.bot.Bot;
 import de.hackathon.hackathon.data.User;
 import de.tim.lib.Config;
 import de.tim.lib.Log;

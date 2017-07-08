@@ -7,13 +7,14 @@
  * @version 1.0.0
  *
  */
-package de.hackathon.hackathon;
+package de.hackathon.hackathon.bot;
 
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import de.hackathon.hackathon.Main;
 import de.tim.lib.Log;
 
 /**
