@@ -49,7 +49,9 @@ public class BotUtilities {
 				if (message.equals("AddUser")) {
 					BotUtilities.message(update, "Enter Token:");
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TOKEN);
+					break;
 				}
+				BotUtilities.message(update, "Invalid Command");
 			break;
 			case UNKNOWN_USER:
 				if (Main.isValidUser(new Long(chatId))) {
@@ -60,7 +62,9 @@ public class BotUtilities {
 				if (message.equals("Join")) {
 					BotUtilities.message(update, "What's your name?");
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.UU_JOIN_ASKED_NAME);
+					break;
 				}
+				BotUtilities.message(update, "No Permission");
 			break;
 			case UU_JOIN_ASKED_NAME:
 				String tokenS;
