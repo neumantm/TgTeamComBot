@@ -50,4 +50,6 @@ public class Group extends Body{
 	public List<User> getUsers() {
 		return this.Users;
 	}
+	
+	
 }

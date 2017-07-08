@@ -23,6 +23,13 @@ public abstract class Body implements Serializable{
 	public long getKey() {
 		return this.key;
 	}
+	/**
+	 * Set's {@link #key key}
+	 * @param key  key
+	 */
+	public void setKey(long key) {
+		this.key = key;
+	}
 	private static final long serialVersionUID = -8966320631762198755L;
 	private ArrayList<Event> events;
 	/**
