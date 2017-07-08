@@ -74,7 +74,7 @@ public class BotUtilities {
 					Main.mainBot.handler.newUpdate(update);
 					break;
 				}
-				if (message.toLowerCase().equals("Join")) {
+				if (message.toLowerCase().equals("join")) {
 					BotUtilities.message(update, "What's your name?");
 					Main.mainBot.handler.handlerMap.put(new Long(chatId), PossibleSteps.UU_JOIN_ASKED_NAME);
 					break;
