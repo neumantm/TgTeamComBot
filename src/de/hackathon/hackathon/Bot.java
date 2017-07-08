@@ -48,6 +48,11 @@ public class Bot extends TelegramLongPollingBot {
 	    		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
 		                .setChatId(update.getMessage().getChatId())
 		                .setText("No Permission");
+	    		try {
+		            sendMessage(message); // Call method to send the message
+		        } catch (TelegramApiException e) {
+		            e.printStackTrace();
+		        }
 	    	}
 	    }
 	}
