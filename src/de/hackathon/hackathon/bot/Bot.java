@@ -35,20 +35,14 @@ public class Bot extends TelegramLongPollingBot {
 		/*
 		// We check if the update has a message and the message has text
 		Long chatId = update.getMessage().getChatId();
-		boolean found = false;
-		String[] arr = Main.config.getConfigValue("AllowdUsers").split(",");
-		for(String s : arr)
-		{
-			if(s.equals(chatId + ""))
-				found = true;
-		}
+		
 		
 		if (update.hasMessage() && update.getMessage().hasText()) {
 			
 			if(update.getMessage().getText().equals("Join") && Main.dm.getBodys().get(chatId) == null) {
 				int tokenI = (int) Math.random();
 				String tokenS = String.format("%04d", tokenI);
-				Main.pendingUsers.put(tokenI, new User( ,chatId)); 
+				Main.pendingUsers.put(tokenI, new User( ,chatId));
 			}
 			
 			else if(Main.dm.getBodys().get(chatId) != null || found) {
