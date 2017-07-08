@@ -4,6 +4,10 @@
  * A telegram Bot that supports Groups, ToDos and events.
  *
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
+ * 
+ * @copyright Copyright (c) Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
+ * @license Licensed under CC BY SA 4.0
+ * 
  * @version 1.0.0
  *
  */
@@ -45,6 +49,13 @@ public class Main {
 		} catch (IOException e) {
 			Main.mainLog.logException(e, Log.ERROR, true);
 		}
+	}
+
+	/**
+	 * Closes {@link #dm dm}
+	 */
+	public static void closeData() {
+		Main.dm = null;
 	}
 
 	/**
