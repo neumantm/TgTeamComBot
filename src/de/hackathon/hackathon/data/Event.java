@@ -9,15 +9,16 @@
  */
 package de.hackathon.hackathon.data;
 
-import java.util.ArrayList;
+
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
 
 /**
  * TODO: Description
  * @author Henne
  */
-public class Event{
+public class Event implements Serializable{
 	private static final long serialVersionUID = 4845151409020395848L;
 	
 	private Date date;

@@ -9,9 +9,8 @@
  */
 package de.hackathon.hackathon.data;
 
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
 
 /**
  * TODO: Description

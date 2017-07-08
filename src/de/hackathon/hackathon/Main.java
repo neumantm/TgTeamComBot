@@ -16,6 +16,10 @@ package de.hackathon.hackathon;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
+
 import de.tim.lib.Config;
 import de.tim.lib.Log;
 
@@ -26,7 +30,7 @@ import de.tim.lib.Log;
  */
 public class Main {
 
-	private static final String configLocation = "config.conf";
+	private static final String configLocation = "/home/pi/hackathon/config.conf";
 
 	/** The main config */
 	public static Config config;
@@ -82,6 +86,21 @@ public class Main {
 		Main.mainLog.log("Done loading configs.", Log.INFO);
 		Main.mainLog.log("LogLevel DEBUG enabeled.", Log.DEBUG);
 
+		
+		
+		
+		
+		 ApiContextInitializer.init();
+
+	        TelegramBotsApi botsApi = new TelegramBotsApi();
+
+	        try {
+	            botsApi.registerBot(new Bot());
+	        } catch (TelegramApiException e) {
+	            e.printStackTrace();
+	        }
+		
+		
 	}
 
 }

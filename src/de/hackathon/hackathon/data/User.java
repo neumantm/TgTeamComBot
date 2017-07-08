@@ -49,8 +49,11 @@ public class User extends Body{
 	}
 
 	
+	/**
+	 * @return user arraylist
+	 */
 	public List<User> getUser() {
-		ArrayList toReturn = new ArrayList();
+		ArrayList<User> toReturn = new ArrayList<>();
 		toReturn.add(this);
 		return toReturn;
 	}
@@ -64,7 +67,7 @@ public class User extends Body{
 	/**
 	 * Normal Constructor
 	 * @param name name
-	 * @param id id
+	 * @param key id
 	 */
 	public User(String name , long key){
 		this.name = name;

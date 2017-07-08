@@ -44,6 +44,13 @@ public class Group extends Body{
 	public void setUsers(ArrayList<User> users) {
 		this.Users = users;
 	}
+	
+	/**
+	 * @param user user
+	 */
+	public void setUsers(User user) {
+		this.Users.add(user);
+	}
 	/**
 	 * @return the user
 	 */
@@ -54,6 +61,7 @@ public class Group extends Body{
 	/**
 	 * @param key key
 	 * @param users users
+	 * @param name name
 	 */
 	public Group(long key , ArrayList<User> users , String name) {
 		this.setKey(key);
