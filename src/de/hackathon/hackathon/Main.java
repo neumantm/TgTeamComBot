@@ -31,7 +31,7 @@ import de.tim.lib.Log;
  */
 public class Main {
 
-	private static final String configLocation = "/home/pi/hackathon/config.conf";
+	private static final String configLocation = "./config.conf";
 
 	/** The main config */
 	public static Config config;
@@ -49,7 +49,7 @@ public class Main {
 		HashMap<String, String> configFields = new HashMap<>();
 
 		configFields.put("LogLevel", "INFO");
-		configFields.put("DataFolder", "/home/pi/hackathon/data");
+		configFields.put("DataFolder", "data");
 		configFields.put("AllowdUsers", "");
 
 		try {
