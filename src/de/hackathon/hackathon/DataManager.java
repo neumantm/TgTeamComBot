@@ -56,9 +56,12 @@ public class DataManager {
 		}
 
 		if (!p_dataFolder.isDirectory()) {
-			Main.mainLog.log("DataManager is requested to open a file but should be a folder:" + p_dataFolder.getAbsolutePath(), Log.WARN);
-			Main.closeData();
-			return;
+
+			try {
+				throw new IOException("DataManager is requested to open a file but should be a folder:" + p_dataFolder.getAbsolutePath());
+			} catch (IOException e) {
+				Main.mainLog.logException(e, Log.ERROR, true);
+			}
 		}
 
 		this.dataFolder = p_dataFolder;
@@ -70,6 +73,7 @@ public class DataManager {
 
 	@SuppressWarnings("resource") //Eclipse warning bug. There should not be a warning.
 	private boolean loadBodys() {
+		this.bodys = new HashMap<>();
 		try (ObjectInputStream oIS = new ObjectInputStream(new FileInputStream(new File(this.dataFolder, "bodys.dat")))) {
 			while (true) {
 				Object tmpO = oIS.readObject();
@@ -84,8 +88,8 @@ public class DataManager {
 			//Ignore
 			return true;
 		} catch (FileNotFoundException e) {
-			Main.mainLog.logException(e, Log.ERROR, true);
-			return false;
+			Main.mainLog.log("Data file missing. Assuming empty list", Log.WARN);
+			return true;
 		} catch (IOException e) {
 			Main.mainLog.logException(e, Log.ERROR, true);
 			return false;
@@ -100,6 +104,7 @@ public class DataManager {
 
 	@SuppressWarnings("resource") //Eclipse warning bug. There should not be a warning.
 	private boolean loadEvents() {
+		this.events = new HashMap<>();
 		try (ObjectInputStream oIS = new ObjectInputStream(new FileInputStream(new File(this.dataFolder, "events.dat")))) {
 			while (true) {
 				Object tmpO = oIS.readObject();
@@ -114,8 +119,8 @@ public class DataManager {
 			//Ignore
 			return true;
 		} catch (FileNotFoundException e) {
-			Main.mainLog.logException(e, Log.ERROR, false);
-			return false;
+			Main.mainLog.log("Data file missing. Assuming empty list", Log.WARN);
+			return true;
 		} catch (IOException e) {
 			Main.mainLog.logException(e, Log.ERROR, false);
 			return false;
@@ -130,6 +135,7 @@ public class DataManager {
 
 	@SuppressWarnings("resource") //Eclipse warning bug. There should not be a warning.
 	private boolean loadToDos() {
+		this.toDos = new HashMap<>();
 		try (ObjectInputStream oIS = new ObjectInputStream(new FileInputStream(new File(this.dataFolder, "todos.dat")))) {
 			while (true) {
 				Object tmpO = oIS.readObject();
@@ -144,8 +150,8 @@ public class DataManager {
 			//Ignore
 			return true;
 		} catch (FileNotFoundException e) {
-			Main.mainLog.logException(e, Log.ERROR, true);
-			return false;
+			Main.mainLog.log("Data file missing. Assuming empty list", Log.WARN);
+			return true;
 		} catch (IOException e) {
 			Main.mainLog.logException(e, Log.ERROR, true);
 			return false;

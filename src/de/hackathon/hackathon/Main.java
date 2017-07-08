@@ -58,13 +58,6 @@ public class Main {
 	}
 
 	/**
-	 * Closes {@link #dm dm}
-	 */
-	public static void closeData() {
-		Main.dm = null;
-	}
-
-	/**
 	 * The main entry point
 	 * 
 	 * @param args
