@@ -21,11 +21,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.pinkTigers.tgTeamComBot.data.Body;
 import de.pinkTigers.tgTeamComBot.data.Event;
 import de.pinkTigers.tgTeamComBot.data.ToDo;
+import de.pinkTigers.tgTeamComBot.scheduler.SchedulerEvent;
 import de.tim.lib.Log;
 
 /**
@@ -39,6 +41,7 @@ public class DataManager {
 	private HashMap<Long, Body> bodys = new HashMap<>();
 	private HashMap<Long, Event> events = new HashMap<>();
 	private HashMap<Long, ToDo> toDos = new HashMap<>();
+	private ArrayList<SchedulerEvent> schedulerEvents = new ArrayList<>();
 
 	private File dataFolder;
 
@@ -69,6 +72,7 @@ public class DataManager {
 		loadBodys();
 		loadEvents();
 		loadToDos();
+		loadSchedulerEvents();
 	}
 
 	@SuppressWarnings("resource") //Eclipse warning bug. There should not be a warning.
@@ -112,8 +116,8 @@ public class DataManager {
 					oIS.close();
 					throw new ClassCastException("WTF! There is a incompatible Object in here.");
 				}
-				Body tmpE = (Body) tmpO;
-				this.bodys.put(new Long(tmpE.getKey()), tmpE);
+				Event tmpE = (Event) tmpO;
+				this.events.put(new Long(tmpE.getKey()), tmpE);
 			}
 		} catch (EOFException e) {
 			//Ignore
@@ -143,8 +147,39 @@ public class DataManager {
 					oIS.close();
 					throw new ClassCastException("WTF! There is a incompatible Object in here.");
 				}
-				Body tmpT = (Body) tmpO;
-				this.bodys.put(new Long(tmpT.getKey()), tmpT);
+				ToDo tmpT = (ToDo) tmpO;
+				this.toDos.put(new Long(tmpT.getKey()), tmpT);
+			}
+		} catch (EOFException e) {
+			//Ignore
+			return true;
+		} catch (FileNotFoundException e) {
+			Main.mainLog.log("Data file missing. Assuming empty list", Log.WARN);
+			return true;
+		} catch (IOException e) {
+			Main.mainLog.logException(e, Log.ERROR, true);
+			return false;
+		} catch (ClassNotFoundException e) {
+			Main.mainLog.logException(e, Log.ERROR, true);
+			return false;
+		} catch (ClassCastException e) {
+			Main.mainLog.logException(e, Log.ERROR, true);
+			return false;
+		}
+	}
+
+	@SuppressWarnings("resource") //Eclipse warning bug. There should not be a warning.
+	private boolean loadSchedulerEvents() {
+		this.schedulerEvents = new ArrayList<>();
+		try (ObjectInputStream oIS = new ObjectInputStream(new FileInputStream(new File(this.dataFolder, "schedulerEvents.dat")))) {
+			while (true) {
+				Object tmpO = oIS.readObject();
+				if (!(tmpO instanceof SchedulerEvent)) {
+					oIS.close();
+					throw new ClassCastException("WTF! There is a incompatible Object in here.");
+				}
+				SchedulerEvent tmpT = (SchedulerEvent) tmpO;
+				this.schedulerEvents.add(tmpT);
 			}
 		} catch (EOFException e) {
 			//Ignore
@@ -197,6 +232,21 @@ public class DataManager {
 	private boolean saveToDos() {
 		try (ObjectOutputStream oUS = new ObjectOutputStream(new FileOutputStream(new File(this.dataFolder, "todos.dat")))) {
 			for (ToDo obj : this.toDos.values()) {
+				oUS.writeObject(obj);
+			}
+			return true;
+		} catch (FileNotFoundException e) {
+			Main.mainLog.logException(e, Log.WARN, false);
+			return false;
+		} catch (IOException e) {
+			Main.mainLog.logException(e, Log.WARN, false);
+			return false;
+		}
+	}
+
+	private boolean saveSchedulerEvents() {
+		try (ObjectOutputStream oUS = new ObjectOutputStream(new FileOutputStream(new File(this.dataFolder, "schedulerEvents.dat")))) {
+			for (SchedulerEvent obj : this.schedulerEvents) {
 				oUS.writeObject(obj);
 			}
 			return true;
@@ -305,6 +355,62 @@ public class DataManager {
 	 */
 	public boolean removeToDo(Long id) {
 		this.toDos.remove(id);
+		return saveToDos();
+	}
+
+	/**
+	 * Get's a copy of {@link #schedulerEvents schedulerEvents}
+	 * 
+	 * @return schedulerEvents
+	 */
+	public ArrayList<SchedulerEvent> getSchedulerEvents() {
+		return new ArrayList<>(this.schedulerEvents);
+	}
+
+	/**
+	 * Add's an object to {@link #schedulerEvents schedulerEvents}
+	 * 
+	 * @param schedulerEvent
+	 *            schedulerEvents
+	 * @return Whether it worked
+	 */
+	public boolean addSchedulerEvent(SchedulerEvent schedulerEvent) {
+		this.schedulerEvents.add(schedulerEvent);
+		return saveSchedulerEvents();
+	}
+
+	/**
+	 * Remove's an object of {@link #schedulerEvents schedulerEvents}
+	 * 
+	 * @param event
+	 *            the event to remove
+	 * @return Whether it worked
+	 */
+	public boolean removeSchedulerEvent(SchedulerEvent event) {
+		this.schedulerEvents.remove(event);
+		return saveToDos();
+	}
+
+	/**
+	 * Remove's all object of {@link #schedulerEvents schedulerEvents} where the
+	 * chat_id is p_chat_id
+	 * 
+	 * @param p_chat_id
+	 *            the chat /user id for which to remove all scheduler events
+	 * @return Whether it worked
+	 */
+	public boolean removeSchedulerEvent(Long p_chat_id) {
+		ArrayList<SchedulerEvent> toRemove = new ArrayList<>();
+		for (SchedulerEvent ev : this.schedulerEvents) {
+			if (ev.getChatId() == p_chat_id) {
+				toRemove.add(ev);
+			}
+		}
+
+		for (SchedulerEvent ev : toRemove) {
+			this.schedulerEvents.remove(ev);
+		}
+
 		return saveToDos();
 	}
 }
