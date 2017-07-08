@@ -53,7 +53,7 @@ public class Logic {
 		}
 		for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 			if (body.getValue() instanceof Group) {
-				if (((Group) body).getName() == name) return false;
+				if (((Group) body.getValue()).getName() == name) return false;
 			}
 		}
 		Main.dm.setBody(new Group(random, users, name));
