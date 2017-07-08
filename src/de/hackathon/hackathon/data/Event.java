@@ -96,11 +96,4 @@ public class Event extends Body{
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
-	/**
-	 * @see de.hackathon.hackathon.data.Body#getMembers()
-	 */
-	@Override
-	public List<User> getMembers() {
-		return null;
-	}
 }

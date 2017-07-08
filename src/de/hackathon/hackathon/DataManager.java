@@ -14,13 +14,4 @@ package de.hackathon.hackathon;
  * @author Henne
  */
 public class DataManager {
-
-	public void load() {
-		
-	}
-	public void save(String fileName) {
-		try {
-			
-		}
-	}
 }

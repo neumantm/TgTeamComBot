@@ -44,11 +44,8 @@ public class Group extends Body{
 	public void setEvents(ArrayList<Event> events) {
 		this.events = events;
 	}
-	/**
-	 * @see de.hackathon.hackathon.data.Body#getMembers()
-	 */
-	@Override
-	public List<User> getMembers() {
+	
+	public List<User> getUsers() {
 		return this.Users;
 	}
 }

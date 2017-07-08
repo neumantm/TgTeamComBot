@@ -16,10 +16,5 @@ public abstract class Body implements Serializable{
 	
 	
 	private static final long serialVersionUID = -8966320631762198755L;
-
-	/**
-	 * @return the User/s
-	 */
-	abstract public List<User> getMembers();
 	
 }
