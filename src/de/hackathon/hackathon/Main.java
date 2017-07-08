@@ -21,6 +21,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import de.hackathon.hackathon.data.User;
 import de.tim.lib.Config;
 import de.tim.lib.Log;
 
@@ -42,6 +43,8 @@ public class Main {
 	/** The main Bot */
 	public static Bot mainBot;
 
+	public static HashMap<String , User> pendingUsers = new HashMap<>();
+	
 	/**
 	 * Loads the config from disk.
 	 */

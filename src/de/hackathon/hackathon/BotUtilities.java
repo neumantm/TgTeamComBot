@@ -44,4 +44,18 @@ public class BotUtilities {
 	            e.printStackTrace();
 	        }
 	}
+	
+	public static String ask(Update update , String question) {
+		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
+                .setChatId(update.getMessage().getChatId())
+                .setText(question);
+		 try {
+	            Main.mainBot.sendMessage(message); // Call method to send the message
+	        } catch (TelegramApiException e) {
+	            e.printStackTrace();
+	        }
+		 
+		 return null;
+		 
+	}
 }

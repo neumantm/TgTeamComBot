@@ -27,6 +27,8 @@ public class Bot extends TelegramLongPollingBot {
 	public static final String NAME = "hackathon";
 	/** The Token of the Telegram Bot API */
 	public static final String TOKEN = "448728416:AAF4AkOiDUc-zx13pxhAUTH_2kEGsdhrQto";
+	/** The Update Handler */
+	public static UpdateHandler handler;
 
 	/**
 	 * @see org.telegram.telegrambots.generics.LongPollingBot#onUpdateReceived(org.telegram.telegrambots.api.objects.Update)
@@ -44,35 +46,28 @@ public class Bot extends TelegramLongPollingBot {
 		}
 		
 	    if (update.hasMessage() && update.getMessage().hasText()) {
-	    	if(Main.dm.getBodys().get(chatId) != null || found) {
+	    	
+	    	if(update.getMessage().getText().equals("Join") && Main.dm.getBodys().get(chatId) == null) {
+	    		int tokenI = (int) Math.random();
+	    		String tokenS = String.format("%04d", tokenI);
+	    		//Main.pendingUsers.put(tokenI, new User(chatId)); TODO
+	    	}
+	    	
+	    	else if(Main.dm.getBodys().get(chatId) != null || found) {
 	    		
-	        SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
-	                .setChatId(update.getMessage().getChatId())
-	                .setText("HI");
-	        
-	        
+	            
 	        
 	        switch(update.getMessage().getText()) {
-	        	case "help":
+	        	case "Help":
 	        		break;
-	        	case "addUser":
+	        	case "AddUser":
 	        		BotUtilities.addUser(update);
-	        		break;
-	        	case "join":
 	        		break;
 				default:
 					BotUtilities.noMessage(update);
 					break;
 	        }
 	        
-	        
-	        
-
-	        try {
-	            sendMessage(message); // Call method to send the message
-	        } catch (TelegramApiException e) {
-	            e.printStackTrace();
-	        }
 	        
 	    	} else {
 	    		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
