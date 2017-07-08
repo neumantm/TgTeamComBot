@@ -14,6 +14,8 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import de.tim.lib.Log;
+
 /**
  * The bot. It handles the communication with the telegram servers.
  * 
@@ -48,6 +50,12 @@ public class Bot extends TelegramLongPollingBot {
 	    		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
 		                .setChatId(update.getMessage().getChatId())
 		                .setText("No Permission");
+	    		Main.mainLog.log(update.getMessage().getChatId().toString(), Log.DEBUG);
+	    		try {
+		            sendMessage(message); // Call method to send the message
+		        } catch (TelegramApiException e) {
+		            e.printStackTrace();
+		        }
 	    	}
 	    }
 	}
