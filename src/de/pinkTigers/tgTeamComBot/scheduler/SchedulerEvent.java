@@ -13,18 +13,56 @@
  */
 package de.pinkTigers.tgTeamComBot.scheduler;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import de.pinkTigers.tgTeamComBot.bot.PossbileActions;
 
 /**
- * TODO: Description
+ * A generic scheduler event.
  * 
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
-public abstract class SchedulerEvent {
+public abstract class SchedulerEvent implements Serializable {
+	/**
+	 * generated serial version ID
+	 */
+	private static final long serialVersionUID = -7487141532684022855L;
+
 	private Long chatId;
 	private PossbileActions action;
+
+	/**
+	 * Empty constructor for deserializing only.
+	 */
+	public SchedulerEvent() {
+
+	}
+
+	/**
+	 * Constructor that copy's a original SchedulerEvent
+	 * 
+	 * @param orig
+	 *            The SchedularEvent that all values should be copied from.
+	 */
+	public SchedulerEvent(SchedulerEvent orig) {
+		this.chatId = orig.chatId;
+		this.action = orig.action;
+	}
+
+	/**
+	 * Creates a new SchedulerEvent
+	 * 
+	 * @param p_chatId
+	 *            The chat Id (User ID) for whom this event is.
+	 * @param p_action
+	 *            The action to be triggered.
+	 */
+	public SchedulerEvent(Long p_chatId, PossbileActions p_action) {
+		this.chatId = p_chatId;
+		this.action = p_action;
+
+	}
 
 	/**
 	 * Get's {@link #chatId chatId}
@@ -44,6 +82,10 @@ public abstract class SchedulerEvent {
 		return this.action;
 	}
 
+	/**
+	 * Returns the next time this event should be triggered.
+	 * 
+	 * @return The Date, the event should be triggerd at.
+	 */
 	public abstract Date getNextOccurence();
-
 }
