@@ -21,8 +21,9 @@ import de.hackathon.hackathon.data.*;
  */
 public class DataManager {
 
-	HashMap<Integer, Body> bodys = new HashMap<>();
-	HashMap<Integer, Event> event = new HashMap<>();
+	HashMap<Long, Body> bodys = new HashMap<>();
+	HashMap<Long, Event> event = new HashMap<>();
+	HashMap<Long, ToDo> toDos = new HashMap<>();
 
 	public void load() {
 
