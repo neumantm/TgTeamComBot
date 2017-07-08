@@ -28,6 +28,8 @@ public class Main {
 	public static Config config;
 	/** The main log */
 	public static Log mainLog;
+	/** The main data Manager */
+	public static DataManager dm;
 
 	/**
 	 * Loads the config from disk.
