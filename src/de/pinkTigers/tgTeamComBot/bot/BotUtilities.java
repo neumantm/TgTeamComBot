@@ -79,8 +79,7 @@ public class BotUtilities {
 					String allGroups = "";
 					for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 						if (body.getValue() instanceof Group) {
-							allGroups += "/n" + ((Group) body.getValue()).getName();
-							break;
+							allGroups += "\n" + ((Group) body.getValue()).getName();
 						}
 					}
 					BotUtilities.message(update, allGroups);
