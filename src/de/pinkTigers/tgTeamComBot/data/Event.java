@@ -164,4 +164,13 @@ public class Event implements Serializable {
 		this.description = description;
 	}
 
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Event)) return false;
+		return this.key == ((Event) obj).key;
+	}
+
 }

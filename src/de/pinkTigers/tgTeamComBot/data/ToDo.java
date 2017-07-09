@@ -161,4 +161,13 @@ public class ToDo {
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ToDo)) return false;
+		return this.key == ((ToDo) obj).key;
+	}
 }

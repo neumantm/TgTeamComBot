@@ -5,9 +5,7 @@ package de.pinkTigers.tgTeamComBot.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -20,8 +18,8 @@ public abstract class Body implements Serializable {
 
 	private static final long serialVersionUID = -8966320631762198755L;
 	private long key;
-	private HashMap<Long, Event> events = new HashMap<>();
-	private HashMap<Long, ToDo> toDos = new HashMap<>();
+	private ArrayList<Event> events = new ArrayList<>();
+	private ArrayList<ToDo> toDos = new ArrayList<>();
 	private String name;
 
 	/**
@@ -54,12 +52,12 @@ public abstract class Body implements Serializable {
 		this.key = orig.key;
 		this.name = orig.name;
 
-		for (Entry<Long, Event> e : orig.events.entrySet()) {
-			this.events.put(e.getKey(), new Event(e.getValue()));
+		for (Event e : orig.events) {
+			this.events.add(new Event(e));
 		}
 
-		for (Entry<Long, ToDo> e : orig.toDos.entrySet()) {
-			this.toDos.put(e.getKey(), new ToDo(e.getValue()));
+		for (ToDo t : orig.toDos) {
+			this.toDos.add(new ToDo(t));
 		}
 	}
 
@@ -112,7 +110,7 @@ public abstract class Body implements Serializable {
 	 * @return events
 	 */
 	public List<Event> getEvents() {
-		return new ArrayList<>(this.events.values());
+		return this.events;
 	}
 
 	/**
@@ -122,7 +120,7 @@ public abstract class Body implements Serializable {
 	 *            event
 	 */
 	public void addEvent(Event p_event) {
-		this.events.put(new Long(p_event.getKey()), p_event);
+		this.events.add(p_event);
 	}
 
 	/**
@@ -141,7 +139,7 @@ public abstract class Body implements Serializable {
 	 * @return toDos
 	 */
 	public ArrayList<ToDo> getToDos() {
-		return new ArrayList<>(this.toDos.values());
+		return this.toDos;
 	}
 
 	/**
@@ -151,7 +149,7 @@ public abstract class Body implements Serializable {
 	 *            toDos
 	 */
 	public void addToDo(ToDo p_toDo) {
-		this.toDos.put(new Long(p_toDo.getKey()), p_toDo);
+		this.toDos.add(p_toDo);
 	}
 
 	/**
@@ -162,6 +160,15 @@ public abstract class Body implements Serializable {
 	 */
 	public void removeToDo(ToDo p_toDo) {
 		this.toDos.remove(new Long(p_toDo.getKey()));
+	}
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Body)) return false;
+		return this.key == ((Body) obj).key;
 	}
 
 }
