@@ -97,6 +97,11 @@ public class BotUtilities {
 					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_EVENT);
 					break;
 				}
+				if (message.toLowerCase().equals("managetodos")) {
+					BotUtilities.message(update, "Type in: \"new\" , \"edit\" , \"showinfo\" ");
+					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_TODO);
+					break;
+				}
 				BotUtilities.message(update, "Invalid Command");
 			break;
 			case UNKNOWN_USER:
@@ -403,6 +408,129 @@ public class BotUtilities {
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 				BotUtilities.message(update, "Name set");
 			break;
+			
+			//ToDo
+			
+			case MANAGE_TODO:
+				if (message.toLowerCase().equals("new")) {
+					BotUtilities.message(update, "Please enter a name for the new ToDo:");
+					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME);
+					break;
+				}
+				if (message.toLowerCase().equals("showinfo")) {
+					BotUtilities.message(update, "Please enter the todoname:");
+					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME2);
+					break;
+				}
+				if (message.toLowerCase().equals("edit")) {
+					BotUtilities.message(update, "Please enter the todoname:");
+					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME3);
+					break;
+				}
+			break;
+
+			case WAITING_FOR_TODO_NAME:
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if (event.getValue().getName().equals(message)) {
+						BotUtilities.message(update,
+								"This name is already in use. Please chose another one:");
+						handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME);
+						break s;
+					}
+				}
+				BotUtilities.currentEvent = Logic.createEvent(message);
+				BotUtilities.message(update, "The Event " + message + " has been added.");
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
+			break;
+			case WAITING_FOR_TODO_NAME2:
+				String info2 = "No info availible";
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if (event.getValue().getName().equals(message)) {
+						Event currentEvent = event.getValue();
+						info2 = "Name: " + currentEvent.getName() + "\nDate: " + currentEvent.getDate().toString() + "\nLocation: "
+								+ currentEvent.getLocation() + "\nDescription: " + currentEvent.getDescription();
+						BotUtilities.message(update, info2);
+						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+						break s;
+					}
+				}
+				BotUtilities.message(update, info2);
+				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+			break;
+			case WAITING_FOR_TODO_NAME3:
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if (event.getValue().getName().equals(message)) {
+						BotUtilities.currentEvent = event.getValue();
+						handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+						break s;
+					}
+				}
+			break;
+			case ADD_INFO_TO_TODO:
+				if (message.toLowerCase().equals("editdescription")) {
+					BotUtilities.message(update, "Please enter your description:");
+					handlerMap.put(new Long(chatId), PossibleSteps.TODO_ADD_DESCRIPTION);
+					break;
+				}
+				if (message.toLowerCase().equals("editlocation")) {
+					BotUtilities.message(update, "Please enter your location:");
+					handlerMap.put(new Long(chatId), PossibleSteps.TODO_ADD_PRIORITY);
+					break;
+				}
+				if (message.toLowerCase().equals("editdate")) {
+					BotUtilities.message(update, "Please enter your date(dd/MM/yyyy):");
+					handlerMap.put(new Long(chatId), PossibleSteps.TODO_ADD_DATE);
+					break;
+				}
+				if (message.toLowerCase().equals("editname")) {
+					BotUtilities.message(update, "Please enter your new Name:");
+					handlerMap.put(new Long(chatId), PossibleSteps.TODO_EDIT_NAME);
+					break;
+				}
+				if (message.toLowerCase().equals("done")) {
+					Logic.addEvent(BotUtilities.currentEvent);
+					BotUtilities.currentEvent = null;
+					BotUtilities.message(update, "Added Event");
+					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					break;
+				}
+			break;
+			case TODO_ADD_DESCRIPTION:
+				BotUtilities.currentEvent.setDescription(message);
+				BotUtilities.message(update, "Added Description");
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+			break;
+			case TODO_ADD_PRIORITY:
+				BotUtilities.currentEvent.setLocation(message);
+				BotUtilities.message(update, "Added location");
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+			break;
+			case TODO_ADD_DATE:
+				try {
+					BotUtilities.currentEvent.setDate(new SimpleDateFormat("dd/MM/yyyy").parse(message));
+				} catch (ParseException e) {
+					e.printStackTrace();
+					BotUtilities.message(update, "Failed! Try Again!");
+					handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+					break;
+				}
+				BotUtilities.message(update, "Added Date");
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+			break;
+			case TODO_EDIT_NAME:
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if (event.getValue().getName().equals(message)) {
+						BotUtilities.message(update,
+								"This name is already in use. Please chose another one:");
+						handlerMap.put(new Long(chatId), PossibleSteps.TODO_EDIT_NAME);
+						break s;
+					}
+				}
+				BotUtilities.currentEvent.setName(message);
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+				BotUtilities.message(update, "Name set");
+			break;
+			
 			default:
 			break;
 		}
