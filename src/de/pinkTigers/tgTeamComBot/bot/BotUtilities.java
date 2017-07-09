@@ -745,7 +745,9 @@ public class BotUtilities {
 		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
 				.setChatId(update.getMessage()
 						.getChatId())
-				.setText(bot_message);
+				.setText(bot_message)
+				.setReplyMarkup(Main.mainBot.handler.handlerMap.get(update.getMessage().getChatId()).getKeyBoard());
+
 		try {
 			Main.mainBot.sendMessage(message); // Call method to send the message
 		} catch (TelegramApiException e) {
