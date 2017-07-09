@@ -619,6 +619,7 @@ public class BotUtilities {
 					BotUtilities.message(update, "Failed! Try Again!");
 					break;
 				}
+
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 				BotUtilities.message(update, "Added Date");
 			break;

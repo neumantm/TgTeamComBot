@@ -57,7 +57,7 @@ public enum KeyLayouts {
 	 */
 	public ReplyKeyboardMarkup getKeyboard() {
 		ReplyKeyboardMarkup rep = new ReplyKeyboardMarkup();
-		rep.setOneTimeKeyboard(true);
+		rep.setOneTimeKeyboard(new Boolean(true));
 		if (this.keyboardRows != null) {
 			rep.setKeyboard(this.keyboardRows);
 		}

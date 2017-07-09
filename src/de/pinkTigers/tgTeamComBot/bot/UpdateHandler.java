@@ -31,7 +31,7 @@ public class UpdateHandler {
 	 */
 	protected HashMap<Long, PossibleSteps> handlerMap = new HashMap<>();
 
-	private String help() {
+	private static String help() {
 		String s = "This is a Team Communications Bot for Telegram. Further help will be added.";
 		return s;
 	}
@@ -69,7 +69,7 @@ public class UpdateHandler {
 		}
 
 		if (update.getMessage().getText().toLowerCase().equals("help") || update.getMessage().getText().toLowerCase().equals("/help")) {
-			BotUtilities.message(help(), chatId.longValue());
+			BotUtilities.message(UpdateHandler.help(), chatId.longValue());
 			return;
 		}
 
