@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
@@ -126,11 +127,28 @@ public class BotUtilities {
 					break;
 				}
 				if (message.toLowerCase().equals("gettodo")) {
+					Map<Long, ToDo> priority = new HashMap<>();
+					Map<Long, ToDo> priority2 = new HashMap<>();
+					for(Entry<Long, Body> e : Main.dm.getBodys().entrySet())
+					{
+						if(e.getKey() == chatId || e.getValue().getUsers().contains(Main.dm.getUser(chatId))) 
+						{
+							//My self ||Group that i'm in
+							for(ToDo td: e.getValue().getToDos() )
+							{
+								if(! priority.containsKey(td.getKey())) {
+									priority.put(td.getKey(), td);
+								}
+							}
+						}
+					}
+					priority2 = priority;
+					
 					int highestPriority = Integer.MIN_VALUE;
 					long id = 0;
 					String output = "ToDos: \n";
 					ArrayList<Long> priorities = new ArrayList<>();	
-					Map<Long, ToDo> priority = Main.dm.getToDos();
+
 					while(!priority.isEmpty()) {
 						highestPriority = Integer.MIN_VALUE;
 						id = 0;
@@ -142,9 +160,49 @@ public class BotUtilities {
 					priorities.add(id);
 					priority.remove(id);
 					}
-					priority = Main.dm.getToDos();
 					for(Long Id : priorities) {
-						output += "\nToDoName: " + priority.get(Id).getName() + "	Priority: " + priority.get(Id).getPriority();
+						output += "\nToDoName: " + priority2.get(Id).getName() + "	Priority: " + priority2.get(Id).getPriority();
+					}
+					BotUtilities.message(update, output);
+					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					break;
+				}
+				if (message.toLowerCase().equals("getevents")) {
+					Map<Long, Event> nextEvent = new HashMap<>();
+					Map<Long, Event> nextEvent2 = new HashMap<>();
+					for(Entry<Long, Body> e : Main.dm.getBodys().entrySet())
+					{
+						if(e.getKey() == chatId || e.getValue().getUsers().contains(Main.dm.getUser(chatId))) 
+						{
+							//My self ||Group that i'm in
+							for(Event event: e.getValue().getEvents())
+							{
+								if(! nextEvent.containsKey(event.getKey())) {
+									nextEvent.put(event.getKey(), event);
+								}
+							}
+						}
+					}
+					nextEvent2 = nextEvent;
+					
+					long closestDate = Long.MAX_VALUE;
+					long id = 0;
+					String output = "ToDos: \n";
+					ArrayList<Long> priorities = new ArrayList<>();	
+
+					while(!nextEvent.isEmpty()) {
+						closestDate = Long.MAX_VALUE;
+						id = 0;
+					for(Map.Entry<Long, Event> entry : nextEvent.entrySet())
+						if(entry.getValue().getDate().getTime() >= closestDate) {
+							closestDate = entry.getValue().getDate().getTime();
+							id = entry.getValue().getKey();
+						}
+					priorities.add(id);
+					nextEvent.remove(id);
+					}
+					for(Long Id : priorities) {
+						output += "\nToDoName: " + nextEvent2.get(Id).getName() + "	Date: " + nextEvent2.get(Id).getDate();
 					}
 					BotUtilities.message(update, output);
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
