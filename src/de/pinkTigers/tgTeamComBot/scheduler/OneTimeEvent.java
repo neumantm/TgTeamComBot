@@ -15,6 +15,8 @@ package de.pinkTigers.tgTeamComBot.scheduler;
 
 import java.util.Date;
 
+import de.pinkTigers.tgTeamComBot.bot.PossbileActions;
+
 /**
  * A event that is only triggered once.
  * 
@@ -40,10 +42,15 @@ public class OneTimeEvent extends SchedulerEvent {
 	/**
 	 * @param p_theDate
 	 *            The date that this event should be triggered.
+	 * @param p_chatId
+	 *            The chat Id (User ID) for whom this event is.
+	 * @param p_action
+	 *            The action to be triggered.
 	 * @see de.pinkTigers.tgTeamComBot.scheduler.SchedulerEvent#SchedulerEvent(Long,
 	 *      de.pinkTigers.tgTeamComBot.bot.PossbileActions)
 	 */
-	public OneTimeEvent(Date p_theDate) {
+	public OneTimeEvent(Long p_chatId, PossbileActions p_action, Date p_theDate) {
+		super(p_chatId, p_action);
 		this.theDate = (Date) p_theDate.clone();
 	}
 
@@ -63,6 +70,24 @@ public class OneTimeEvent extends SchedulerEvent {
 	@Override
 	public Date getNextOccurence() {
 		return (Date) this.theDate.clone();
+	}
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof OneTimeEvent)) return super.equals(obj);
+		OneTimeEvent e = (OneTimeEvent) obj;
+		return e.theDate.equals(this.theDate) && super.equals(obj);
+	}
+
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return this.theDate.hashCode() + super.hashCode();
 	}
 
 }

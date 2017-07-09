@@ -88,4 +88,22 @@ public abstract class SchedulerEvent implements Serializable {
 	 * @return The Date, the event should be triggerd at.
 	 */
 	public abstract Date getNextOccurence();
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof SchedulerEvent)) return super.equals(obj);
+		SchedulerEvent e = (SchedulerEvent) obj;
+		return e.chatId == this.chatId && e.action == this.action;
+	}
+
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return (int) (this.chatId.longValue() + this.action.hashCode());
+	}
 }
