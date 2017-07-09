@@ -81,8 +81,8 @@ public class Group extends Body {
 	 * @param user
 	 *            user
 	 */
-	public void addUser(User user) {
-		this.members.add(user);
+	public void addBody(Body body) {
+		this.members.add(body);
 	}
 
 	/**
@@ -91,8 +91,8 @@ public class Group extends Body {
 	 * @param user
 	 *            user
 	 */
-	public void removeUser(User user) {
-		this.members.remove(user);
+	public void removeBody(Body body) {
+		this.members.remove(body);
 	}
 
 }

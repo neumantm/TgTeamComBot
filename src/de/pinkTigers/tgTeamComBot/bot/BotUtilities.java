@@ -94,6 +94,12 @@ public class BotUtilities {
 					break;
 				}
 				if (message.toLowerCase().equals("join")) {
+					for (Map.Entry<String, User> user : Main.pendingUsers.entrySet()) {
+						if (user.getValue().getKey() == chatId) {
+							BotUtilities.message(update, "User already pending!");
+							break s;
+						}
+					}
 					BotUtilities.message(update, "What's your name?");
 					handlerMap.put(new Long(chatId), PossibleSteps.UU_JOIN_ASKED_NAME);
 					break;
@@ -248,7 +254,14 @@ public class BotUtilities {
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 			break;
 			case REMOVE_USER_FROM_GROUP:
-
+				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
+					if (body.getValue().getName().equals(message)) {
+						Logic.removeBodyFromGroup(body.getValue(), BotUtilities.currentlyEditing.longValue());
+						BotUtilities.message(update, "Remove successfull.");
+						break;
+					}
+				}
+				BotUtilities.message(update, "Remove failed.");
 			break;
 			default:
 			break;

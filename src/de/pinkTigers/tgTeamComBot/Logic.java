@@ -116,7 +116,7 @@ public class Logic {
 		Group p;
 		if (Main.dm.getBodys().get(new Long(id)) != null) {
 			p = (Group) Main.dm.getBodys().get(new Long(id));
-			p.addUser(u);
+			p.addBody(u);
 			Main.dm.setBody(p);
 			return true;
 		}
@@ -178,4 +178,21 @@ public class Logic {
 	public static boolean setBody(Body body) {
 		return Main.dm.setBody(body);
 	}
+
+	/**
+	 * removes a body from a group
+	 * 
+	 * @param body
+	 *            body to remove
+	 * @param id
+	 *            id of the group
+	 * @return success
+	 */
+	public static boolean removeBodyFromGroup(Body body, long id) {
+		Group temp = Main.dm.getGroup(id);
+		temp.removeBody(body);
+		Main.dm.setBody(temp);
+		return true;
+	}
+
 }
