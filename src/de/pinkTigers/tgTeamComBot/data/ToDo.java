@@ -170,4 +170,12 @@ public class ToDo {
 		if (!(obj instanceof ToDo)) return false;
 		return this.key == ((ToDo) obj).key;
 	}
+
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return (int) this.key;
+	}
 }

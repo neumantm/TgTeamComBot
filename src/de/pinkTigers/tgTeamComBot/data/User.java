@@ -49,4 +49,5 @@ public class User extends Body {
 		toReturn.add(this);
 		return toReturn;
 	}
+
 }

@@ -173,4 +173,12 @@ public class Event implements Serializable {
 		return this.key == ((Event) obj).key;
 	}
 
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return (int) this.key;
+	}
+
 }

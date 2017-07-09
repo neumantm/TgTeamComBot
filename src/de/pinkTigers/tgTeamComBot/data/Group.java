@@ -72,6 +72,14 @@ public class Group extends Body {
 		for (Body b : this.members) {
 			ret.addAll(b.getUsers());
 		}
+
+		for (User u1 : ret) {
+			for (User u2 : ret) {
+				boolean eq = u1.equals(u2);
+				System.out.println(u1.getKey() + "-" + u2.getKey() + ":" + eq);
+			}
+		}
+
 		return ret;
 	}
 
