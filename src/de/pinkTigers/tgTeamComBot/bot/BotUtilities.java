@@ -115,7 +115,7 @@ public class BotUtilities {
 					while(!priority.isEmpty()) {
 						highestPriority = Integer.MIN_VALUE;
 						id = 0;
-					for(Map.Entry<Long, ToDo> entry : Main.dm.getToDos().entrySet())
+					for(Map.Entry<Long, ToDo> entry : priority.entrySet())
 						if(entry.getValue().getPriority() >= highestPriority) {
 							highestPriority = entry.getValue().getPriority();
 							id = entry.getValue().getKey();
