@@ -124,7 +124,7 @@ public class BotUtilities {
 
 				Main.pendingUsers.put(tokenS, new User(chatId, message));
 				handlerMap.put(new Long(chatId), PossibleSteps.UNKNOWN_USER);
-				BotUtilities.message(update, "Here is your token:" + tokenS);
+				BotUtilities.message(update, "Here is your token: " + tokenS);
 			break;
 			case WAITING_FOR_TOKEN:
 				if (Main.pendingUsers.get(message) != null) {
@@ -224,7 +224,7 @@ public class BotUtilities {
 									BotUtilities.currentlyEditing.longValue());
 							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 							BotUtilities.message(update, "User " + message
-									+ "has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" , \"getUsers\", \"removeUser\" , \"delete\" ");
+									+ " has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" , \"getUsers\", \"removeUser\" , \"delete\" ");
 							break s;
 						}
 
@@ -258,6 +258,7 @@ public class BotUtilities {
 					if (body.getValue().getName().equals(message)) {
 						Logic.removeBodyFromGroup(body.getValue(), BotUtilities.currentlyEditing.longValue());
 						BotUtilities.message(update, "Remove successfull.");
+						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 						break;
 					}
 				}

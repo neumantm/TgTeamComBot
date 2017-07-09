@@ -189,7 +189,7 @@ public class Logic {
 	 * @return success
 	 */
 	public static boolean removeBodyFromGroup(Body body, long id) {
-		Group temp = Main.dm.getGroup(id);
+		Group temp = Main.dm.getGroup(new Long(id));
 		temp.removeBody(body);
 		Main.dm.setBody(temp);
 		return true;
