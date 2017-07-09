@@ -567,6 +567,7 @@ public class BotUtilities {
 					if (event.getValue().getName().equals(message)) {
 						handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 						BotUtilities.currentEvent = event.getValue();
+						BotUtilities.message(update, "Editing Event " + event.getValue().getName());
 						break s;
 					}
 				}
@@ -690,6 +691,7 @@ public class BotUtilities {
 					if (todo.getValue().getName().equals(message)) {
 						handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 						BotUtilities.currentTodo = todo.getValue();
+						BotUtilities.message(update, "Editing TODO " + todo.getValue().getName());
 						break s;
 					}
 				}

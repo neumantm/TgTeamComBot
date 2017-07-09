@@ -11,6 +11,7 @@ package de.pinkTigers.tgTeamComBot;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import de.pinkTigers.tgTeamComBot.data.Body;
 import de.pinkTigers.tgTeamComBot.data.Event;
@@ -187,7 +188,14 @@ public class Logic {
 	 *            The id of the body to remove
 	 * @return success
 	 */
-	public static boolean removeBody(Long bodyId) { //TODO
+	public static boolean removeBody(Long bodyId) {
+		for (Entry<Long, Body> e : Main.dm.getBodys().entrySet()) {
+			Group g = Main.dm.getGroup(e.getKey());
+			if (g != null) {
+				g.removeBody(Main.dm.getBodys().get(bodyId));
+			}
+		}
+
 		return Main.dm.removeBody(bodyId);
 	}
 
