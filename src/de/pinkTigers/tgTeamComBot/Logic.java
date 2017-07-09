@@ -81,7 +81,15 @@ public class Logic {
 		Main.dm.setEvent(event);
 		return true;
 	}
-
+	
+	/**
+	 * @param todo ToDo
+	 * @return success
+	 */
+	public static boolean addToDo(ToDo todo) {
+		Main.dm.setToDo(todo);
+		return true;
+	}
 	/**
 	 * @param date
 	 *            date of ToDo
@@ -193,6 +201,18 @@ public class Logic {
 		temp.removeBody(body);
 		Main.dm.setBody(temp);
 		return true;
+	}
+
+	/**
+	 * @param message
+	 * @return
+	 */
+	public static ToDo createToDo(String message) {
+		short random = (short) Main.randomInt(0, Short.MAX_VALUE);
+		while (Main.dm.getEvents().get(new Long(random)) != null) {
+			random = (short) Math.random();
+		}
+		return new ToDo(random, message);
 	}
 
 }

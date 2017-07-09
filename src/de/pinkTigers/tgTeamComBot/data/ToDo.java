@@ -52,6 +52,18 @@ public class ToDo {
 		this.description = p_description;
 		this.priority = p_priority;
 	}
+	
+	/**
+	 * @param p_key key
+	 * @param p_name name
+	 */
+	public ToDo(long p_key, String p_name) {
+		this.key = p_key;
+		this.deadline = null;
+		this.name = p_name;
+		this.description = null;
+		this.priority = 0;
+	}
 
 	/**
 	 * Creates a new ToDo with the same values as the orig ToDo

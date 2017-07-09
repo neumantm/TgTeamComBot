@@ -27,6 +27,7 @@ import de.pinkTigers.tgTeamComBot.Main;
 import de.pinkTigers.tgTeamComBot.data.Body;
 import de.pinkTigers.tgTeamComBot.data.Event;
 import de.pinkTigers.tgTeamComBot.data.Group;
+import de.pinkTigers.tgTeamComBot.data.ToDo;
 import de.pinkTigers.tgTeamComBot.data.User;
 import de.tim.lib.Log;
 
@@ -39,6 +40,7 @@ public class BotUtilities {
 
 	private static Long currentlyEditing = null;
 	private static Event currentEvent = null;
+	private static ToDo currentTodo = null;
 
 	/**
 	 * @param update
@@ -430,25 +432,25 @@ public class BotUtilities {
 			break;
 
 			case WAITING_FOR_TODO_NAME:
-				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
-					if (event.getValue().getName().equals(message)) {
+				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
+					if (todo.getValue().getName().equals(message)) {
 						BotUtilities.message(update,
 								"This name is already in use. Please chose another one:");
 						handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME);
 						break s;
 					}
 				}
-				BotUtilities.currentEvent = Logic.createEvent(message);
-				BotUtilities.message(update, "The Event " + message + " has been added.");
-				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
+				BotUtilities.currentTodo = Logic.createToDo(message);
+				BotUtilities.message(update, "The ToDo " + message + " has been added.");
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 			break;
 			case WAITING_FOR_TODO_NAME2:
 				String info2 = "No info availible";
-				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
-					if (event.getValue().getName().equals(message)) {
-						Event currentEvent = event.getValue();
-						info2 = "Name: " + currentEvent.getName() + "\nDate: " + currentEvent.getDate().toString() + "\nLocation: "
-								+ currentEvent.getLocation() + "\nDescription: " + currentEvent.getDescription();
+				for (Map.Entry<Long, ToDo> todos : Main.dm.getToDos().entrySet()) {
+					if (todos.getValue().getName().equals(message)) {
+						ToDo currentTodo = todos.getValue();
+						info2 = "Name: " + currentTodo.getName() + "\nDate: " + currentTodo.getDeadline() + "\nPriority: "
+								+ currentTodo.getPriority() + "\nDescription: " + currentTodo.getDescription();
 						BotUtilities.message(update, info2);
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 						break s;
@@ -458,9 +460,9 @@ public class BotUtilities {
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 			break;
 			case WAITING_FOR_TODO_NAME3:
-				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
-					if (event.getValue().getName().equals(message)) {
-						BotUtilities.currentEvent = event.getValue();
+				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
+					if (todo.getValue().getName().equals(message)) {
+						BotUtilities.currentTodo = todo.getValue();
 						handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 						break s;
 					}
@@ -472,13 +474,13 @@ public class BotUtilities {
 					handlerMap.put(new Long(chatId), PossibleSteps.TODO_ADD_DESCRIPTION);
 					break;
 				}
-				if (message.toLowerCase().equals("editlocation")) {
-					BotUtilities.message(update, "Please enter your location:");
+				if (message.toLowerCase().equals("editpriority")) {
+					BotUtilities.message(update, "Please enter your priority:");
 					handlerMap.put(new Long(chatId), PossibleSteps.TODO_ADD_PRIORITY);
 					break;
 				}
-				if (message.toLowerCase().equals("editdate")) {
-					BotUtilities.message(update, "Please enter your date(dd/MM/yyyy):");
+				if (message.toLowerCase().equals("editdeadline")) {
+					BotUtilities.message(update, "Please enter the deadline(dd/MM/yyyy):");
 					handlerMap.put(new Long(chatId), PossibleSteps.TODO_ADD_DATE);
 					break;
 				}
@@ -488,45 +490,51 @@ public class BotUtilities {
 					break;
 				}
 				if (message.toLowerCase().equals("done")) {
-					Logic.addEvent(BotUtilities.currentEvent);
-					BotUtilities.currentEvent = null;
-					BotUtilities.message(update, "Added Event");
+					Logic.addToDo(BotUtilities.currentTodo);
+					BotUtilities.currentTodo = null;
+					BotUtilities.message(update, "Added ToDo");
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 					break;
 				}
 			break;
 			case TODO_ADD_DESCRIPTION:
-				BotUtilities.currentEvent.setDescription(message);
+				BotUtilities.currentTodo.setDescription(message);
 				BotUtilities.message(update, "Added Description");
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 			break;
 			case TODO_ADD_PRIORITY:
-				BotUtilities.currentEvent.setLocation(message);
-				BotUtilities.message(update, "Added location");
+			try {
+				BotUtilities.currentTodo.setPriority(Integer.parseInt(message));
+			} catch (NumberFormatException e1) {
+				BotUtilities.message(update, "Please enter a number!");
+				e1.printStackTrace();
+				break;
+			}
+				BotUtilities.message(update, "Added priority");
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 			break;
 			case TODO_ADD_DATE:
 				try {
-					BotUtilities.currentEvent.setDate(new SimpleDateFormat("dd/MM/yyyy").parse(message));
+					BotUtilities.currentTodo.setDeadline(new SimpleDateFormat("dd/MM/yyyy").parse(message));
 				} catch (ParseException e) {
 					e.printStackTrace();
 					BotUtilities.message(update, "Failed! Try Again!");
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 					break;
 				}
-				BotUtilities.message(update, "Added Date");
+				BotUtilities.message(update, "Added Deadline");
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 			break;
 			case TODO_EDIT_NAME:
-				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
-					if (event.getValue().getName().equals(message)) {
+				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
+					if (todo.getValue().getName().equals(message)) {
 						BotUtilities.message(update,
 								"This name is already in use. Please chose another one:");
 						handlerMap.put(new Long(chatId), PossibleSteps.TODO_EDIT_NAME);
 						break s;
 					}
 				}
-				BotUtilities.currentEvent.setName(message);
+				BotUtilities.currentTodo.setName(message);
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 				BotUtilities.message(update, "Name set");
 			break;
