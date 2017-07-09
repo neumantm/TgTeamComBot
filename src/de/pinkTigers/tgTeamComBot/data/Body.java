@@ -5,7 +5,9 @@ package de.pinkTigers.tgTeamComBot.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -18,8 +20,8 @@ public abstract class Body implements Serializable {
 
 	private static final long serialVersionUID = -8966320631762198755L;
 	private long key;
-	private ArrayList<Event> events = new ArrayList<>();
-	private ArrayList<ToDo> toDos = new ArrayList<>();
+	private HashMap<Long, Event> events = new HashMap<>();
+	private HashMap<Long, ToDo> toDos = new HashMap<>();
 	private String name;
 
 	/**
@@ -52,12 +54,12 @@ public abstract class Body implements Serializable {
 		this.key = orig.key;
 		this.name = orig.name;
 
-		for (Event e : orig.events) {
-			this.events.add(new Event(e));
+		for (Entry<Long, Event> e : orig.events.entrySet()) {
+			this.events.put(e.getKey(), new Event(e.getValue()));
 		}
 
-		for (ToDo t : orig.toDos) {
-			this.toDos.add(new ToDo(t));
+		for (Entry<Long, ToDo> e : orig.toDos.entrySet()) {
+			this.toDos.put(e.getKey(), new ToDo(e.getValue()));
 		}
 	}
 
@@ -110,17 +112,17 @@ public abstract class Body implements Serializable {
 	 * @return events
 	 */
 	public List<Event> getEvents() {
-		return this.events;
+		return new ArrayList<>(this.events.values());
 	}
 
 	/**
 	 * Adds to {@link #events events}
 	 * 
-	 * @param p_events
-	 *            events
+	 * @param p_event
+	 *            event
 	 */
-	public void addEvent(Event p_events) {
-		this.events.add(p_events);
+	public void addEvent(Event p_event) {
+		this.events.put(new Long(p_event.getKey()), p_event);
 	}
 
 	/**
@@ -130,7 +132,7 @@ public abstract class Body implements Serializable {
 	 *            events
 	 */
 	public void removeEvent(Event p_events) {
-		this.events.remove(p_events);
+		this.events.remove(new Long(p_events.getKey()));
 	}
 
 	/**
@@ -139,27 +141,27 @@ public abstract class Body implements Serializable {
 	 * @return toDos
 	 */
 	public ArrayList<ToDo> getToDos() {
-		return this.toDos;
+		return new ArrayList<>(this.toDos.values());
 	}
 
 	/**
 	 * Adds one to {@link #toDos toDos}
 	 * 
-	 * @param toDo
+	 * @param p_toDo
 	 *            toDos
 	 */
-	public void addToDo(ToDo toDo) {
-		this.toDos.add(toDo);
+	public void addToDo(ToDo p_toDo) {
+		this.toDos.put(new Long(p_toDo.getKey()), p_toDo);
 	}
 
 	/**
 	 * Removes from {@link #toDos toDos}
 	 * 
-	 * @param toDo
+	 * @param p_toDo
 	 *            toDos
 	 */
-	public void removeToDo(ToDo toDo) {
-		this.toDos.remove(toDo);
+	public void removeToDo(ToDo p_toDo) {
+		this.toDos.remove(new Long(p_toDo.getKey()));
 	}
 
 }
