@@ -15,6 +15,7 @@ package de.pinkTigers.tgTeamComBot.bot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,6 +103,31 @@ public class BotUtilities {
 				if (message.toLowerCase().equals("managetodos")) {
 					BotUtilities.message(update, "Type in: \"new\" , \"edit\" , \"showinfo\" ");
 					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_TODO);
+					break;
+				}
+				if (message.toLowerCase().equals("gettodo")) {
+					int highestPriority = Integer.MIN_VALUE;
+					long id = 0;
+					String output = null;
+					ArrayList<Long> priorities = new ArrayList<>();	
+					Map<Long, ToDo> priority2 = Main.dm.getToDos();
+					Map<Long, ToDo> priority = Main.dm.getToDos();
+					while(!priority.isEmpty()) {
+						highestPriority = Integer.MIN_VALUE;
+						id = 0;
+					for(Map.Entry<Long, ToDo> entry : Main.dm.getToDos().entrySet())
+						if(entry.getValue().getPriority() >= highestPriority) {
+							highestPriority = entry.getValue().getPriority();
+							id = entry.getValue().getKey();
+						}
+					priorities.add(id);
+					priority.remove(id);
+					}
+					for(Long a : priorities) {
+						output += priority2.get(a).getPriority();
+					}
+					BotUtilities.message(update, output);
+					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 					break;
 				}
 				BotUtilities.message(update, "Invalid Command");
@@ -539,7 +565,6 @@ public class BotUtilities {
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 				BotUtilities.message(update, "Name set");
 			break;
-			
 			default:
 			break;
 		}
