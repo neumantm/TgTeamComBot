@@ -1,77 +1,52 @@
 package de.pinkTigers.tgTeamComBot.data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * TODO: Description
+ * 
  * @author Henne
  */
-public class User extends Body{
+public class User extends Body {
 	private static final long serialVersionUID = 1947250923485077010L;
-	
-	private String name;
-	private List<Group> groups;
-	
+
 	/**
-	 * Get's the name
-	 * @return  name
+	 * Default Constructor for Serializing only
 	 */
-	public String getName() {
-		return this.name;
+	public User() {
+
 	}
 
-
 	/**
-	 * Set's the name
-	 * @param name  name
+	 * Creates a new User with given values
+	 * 
+	 * @param p_key
+	 *            Key
+	 * @param p_name
+	 *            Name
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public User(long p_key, String p_name) {
+		super(p_key, p_name);
 	}
 
-
 	/**
-	 * Get's the groups
-	 * @return  groups
+	 * Creates a new User with the values from a orig user
+	 * 
+	 * @param orig
+	 *            The original user to get the values from.
 	 */
-	public List<Group> getGroups() {
-		return this.groups;
+	public User(User orig) {
+		super(orig);
 	}
 
-
 	/**
-	 * Set's the groups
-	 * @param groups  groups
+	 * @see de.pinkTigers.tgTeamComBot.data.Body#getUsers()
 	 */
-	public void setGroups(List<Group> groups) {
-		this.groups = groups;
-	}
-
-	
-	/**
-	 * @return user arraylist
-	 */
-	public List<User> getUser() {
-		ArrayList<User> toReturn = new ArrayList<>();
+	@Override
+	public Set<User> getUsers() {
+		Set<User> toReturn = new HashSet<>();
 		toReturn.add(this);
 		return toReturn;
 	}
-	
-	
-	/**
-	 * Default Constructor
-	 */
-	public User(){
-	}
-	/**
-	 * Normal Constructor
-	 * @param name name
-	 * @param key id
-	 */
-	public User(String name , long key){
-		this.name = name;
-		this.setKey(key);
-	}
-
 }

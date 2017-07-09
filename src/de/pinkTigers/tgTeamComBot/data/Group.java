@@ -10,62 +10,89 @@
 package de.pinkTigers.tgTeamComBot.data;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * TODO: Description
+ * 
  * @author Henne
  */
-public class Group extends Body{
+public class Group extends Body {
 	private static final long serialVersionUID = -4234018617918494805L;
-	
-	private String name;
-	private ArrayList<User> Users;
+
+	private ArrayList<Body> members;
+
 	/**
-	 * Get's {@link #name name}
-	 * @return  name
+	 * Default Constructor for Serializing only
 	 */
-	public String getName() {
-		return this.name;
+	public Group() {
+
 	}
+
 	/**
-	 * Set's {@link #name name}
-	 * @param name  name
+	 * Creates a new Group with given values
+	 * 
+	 * @param p_key
+	 *            Key
+	 * @param p_name
+	 *            Name
+	 * @param initalUser
+	 *            A initial user.
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public Group(long p_key, String p_name, Body initalUser) {
+		super(p_key, p_name);
+		this.members.add(initalUser);
 	}
-	
-	
+
 	/**
-	 * Set's {@link #Users users}
-	 * @param users  users
+	 * Creates a new Group with the values from a orig group
+	 * 
+	 * @param orig
+	 *            The original group to get the values from.
 	 */
-	public void setUsers(ArrayList<User> users) {
-		this.Users = users;
+	public Group(Group orig) {
+		super(orig);
+		for (Body b : orig.members) {
+			if (b instanceof User) {
+				this.members.add(new User((User) b));
+			}
+			else if (b instanceof Group) {
+				this.members.add(new Group((Group) b));
+			}
+		}
 	}
-	
-	/**
-	 * @param user user
-	 */
-	public void setUsers(User user) {
-		this.Users.add(user);
-	}
+
 	/**
 	 * @return the user
 	 */
-	public List<User> getUsers() {
-		return this.Users;
+	@Override
+	public Set<User> getUsers() {
+		Set<User> ret = new HashSet<>();
+		for (Body b : this.members) {
+			ret.addAll(b.getUsers());
+		}
+		return ret;
 	}
-	
+
 	/**
-	 * @param key key
-	 * @param users users
-	 * @param name name
+	 * Adds a user
+	 * 
+	 * @param user
+	 *            user
 	 */
-	public Group(long key , ArrayList<User> users , String name) {
-		this.setKey(key);
-		this.Users = users;
-		this.name = name;
+	public void addUser(User user) {
+		this.members.add(user);
 	}
+
+	/**
+	 * Removes a user
+	 * 
+	 * @param user
+	 *            user
+	 */
+	public void removeUser(User user) {
+		this.members.remove(user);
+	}
+
 }

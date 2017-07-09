@@ -51,6 +51,12 @@ public class UpdateHandler {
 
 		}
 
+		if (update.getMessage().getText().toLowerCase().equals("cancel") && this.handlerMap.get(chatId) != PossibleSteps.UNKNOWN_USER && this.handlerMap.get(chatId) != PossibleSteps.UU_JOIN_ASKED_NAME) {
+			this.handlerMap.put(chatId, PossibleSteps.DEFAULT);
+			BotUtilities.message(update, "Canceled.");
+			return;
+		}
+
 		BotUtilities.doNext(update, this.handlerMap.get(chatId), chatId.longValue(), update.getMessage().getText());
 	}
 }

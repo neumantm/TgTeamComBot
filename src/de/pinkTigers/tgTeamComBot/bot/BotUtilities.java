@@ -13,7 +13,6 @@
  */
 package de.pinkTigers.tgTeamComBot.bot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,7 +90,6 @@ public class BotUtilities {
 			case UNKNOWN_USER:
 				if (Main.isValidUser(new Long(chatId))) {
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
-					//BotUtilities.doNext(update, nextStep, chatId, message);
 					Main.mainBot.handler.newUpdate(update);
 					break;
 				}
@@ -105,12 +103,10 @@ public class BotUtilities {
 			case UU_JOIN_ASKED_NAME:
 
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
-					if (body.getValue() instanceof User) {
-						if (((User) body.getValue()).getName().equals(message)) {
-							BotUtilities.message(update,
-									"This name is already in use. Please chose another one:");
-							break s;
-						}
+					if (body.getValue().getName().equals(message)) {
+						BotUtilities.message(update,
+								"This name is already in use. Please chose another one:");
+						break s;
 					}
 				}
 				String tokenS;
@@ -120,9 +116,9 @@ public class BotUtilities {
 					tokenS = String.format("%04d", new Integer(tokenI));
 				} while (Main.pendingUsers.containsKey(tokenS));
 
-				Main.pendingUsers.put(tokenS, new User(message, chatId));
+				Main.pendingUsers.put(tokenS, new User(chatId, message));
 				handlerMap.put(new Long(chatId), PossibleSteps.UNKNOWN_USER);
-				BotUtilities.message(update, tokenS);
+				BotUtilities.message(update, "Here is your token:" + tokenS);
 			break;
 			case WAITING_FOR_TOKEN:
 				if (Main.pendingUsers.get(message) != null) {
@@ -131,8 +127,7 @@ public class BotUtilities {
 					handlerMap.put(new Long(Main.pendingUsers.get(message).getKey()),
 							PossibleSteps.DEFAULT);
 					BotUtilities.message(update, "successfull");
-					BotUtilities.message(update, "Welcome to tgTeamComBot!",
-							Main.pendingUsers.get(message).getKey());
+					BotUtilities.message("Welcome to tgTeamComBot!", Main.pendingUsers.get(message).getKey());
 					Main.pendingUsers.remove(message);
 				}
 				else {
@@ -143,7 +138,7 @@ public class BotUtilities {
 			break;
 			case CONFIRM_REMOVE_USER:
 				if (message.toLowerCase().equals("yes")) {
-					Main.dm.removeBody(new Long(chatId));
+					Logic.removeBody(new Long(chatId));
 					handlerMap.remove(new Long(chatId));
 					BotUtilities.message(update, "You've been successfully removed.");
 				}
@@ -161,30 +156,25 @@ public class BotUtilities {
 			break;
 			case WAITING_FOR_GROUPNAME:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
-					if (body.getValue() instanceof Group) {
-						if (((Group) body.getValue()).getName().equals(message)) {
-							BotUtilities.message(update,
-									"This name is already in use. Please chose another one:");
-							break s;
-						}
+					if (body.getValue().getName().equals(message)) {
+						BotUtilities.message(update,
+								"This name is already in use. Please chose another one:");
+						break s;
 					}
 				}
-				ArrayList<User> temp = new ArrayList<>();
-				temp.add((User) Main.dm.getBodys().get(new Long(chatId)));
-				Logic.addGroup(message, temp);
+				Logic.addGroup(message, Main.dm.getBodys().get(new Long(chatId)));
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 				BotUtilities.message(update, "Your Group " + message + " has been added.");
 			break;
 			case GET_GROUP_NAME:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
-					if (body.getValue() instanceof Group) {
-						if (((Group) body.getValue()).getName().equals(message)) {
-							BotUtilities.currentlyEditing = body.getKey();
-							BotUtilities.message(update, "Now editing the Group " + message
-									+ "! Type in: \"rename\" , \"addUser\", \"getUsers\", \"removeUser\" , \"delete\" ");
-							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
-							break s;
-						}
+					if (body.getValue().getName().equals(message)) {
+						BotUtilities.currentlyEditing = body.getKey();
+						BotUtilities.message(update, "Now editing the Group " + message
+								+ "! Type in: \"rename\" , \"addUser\", \"getUsers\", \"removeUser\" , \"delete\" ");
+						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+						break s;
+
 					}
 				}
 				BotUtilities.message(update, "Didn't find the Group " + message + ". Please enter another Groupname:");
@@ -213,7 +203,7 @@ public class BotUtilities {
 				}
 				if (message.toLowerCase().equals("getusers")) {
 					String usersToReturn = "";
-					for (User user : ((Group) (Main.dm.getBodys().get(BotUtilities.currentlyEditing))).getUsers()) {
+					for (User user : Main.dm.getBodys().get(BotUtilities.currentlyEditing).getUsers()) {
 						usersToReturn += "\n" + user.getName();
 					}
 					BotUtilities.message(update, usersToReturn);
@@ -222,24 +212,23 @@ public class BotUtilities {
 			break;
 			case ADD_USER_TO_GROUP:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
-					if (body.getValue() instanceof User) {
-						if (((User) body.getValue()).getName().equals(message)) {
-							if (!((Group) Main.dm.getBodys().get(BotUtilities.currentlyEditing)).getUsers().contains(body.getValue())) {
-								Logic.addUserToGroup((User) body.getValue(),
-										BotUtilities.currentlyEditing.longValue());
-								handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
-								BotUtilities.message(update, "User " + message
-										+ "has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" , \"getUsers\", \"removeUser\" , \"delete\" ");
-								break s;
-							}
+					if (body.getValue().getName().equals(message)) {
+						if (!Main.dm.getBodys().get(BotUtilities.currentlyEditing).getUsers().contains(body.getValue())) {
+							Logic.addUserToGroup((User) body.getValue(),
+									BotUtilities.currentlyEditing.longValue());
+							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+							BotUtilities.message(update, "User " + message
+									+ "has been added to the group! \n \"Please Type in: \"rename\" , \"addUser\" , \"getUsers\", \"removeUser\" , \"delete\" ");
+							break s;
 						}
+
 					}
 				}
 				BotUtilities.message(update, "Couldn't add user!");
 			break;
 			case CONFIRM_REMOVE_GROUP:
 				if (message.toLowerCase().equals("yes")) {
-					Main.dm.removeBody(BotUtilities.currentlyEditing);
+					Logic.removeBody(BotUtilities.currentlyEditing);
 					Main.mainLog.log((BotUtilities.currentlyEditing.toString()), Log.DEBUG);
 					BotUtilities.message(update, "The Group has been successfully removed.");
 					BotUtilities.currentlyEditing = null;
@@ -251,66 +240,20 @@ public class BotUtilities {
 				}
 			break;
 			case NEW_GROUP_NAME:
-				Group groupToEdit = (Group) Main.dm.getBodys().get(BotUtilities.currentlyEditing);
+				Body groupToEdit = Main.dm.getBodys().get(BotUtilities.currentlyEditing);
 				groupToEdit.setName(message);
-				Main.dm.setBody(groupToEdit);
+				Logic.setBody(groupToEdit);
 				BotUtilities.currentlyEditing = null;
 				BotUtilities.message(update, "rename successfull");
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 			break;
 			case REMOVE_USER_FROM_GROUP:
-				//TODO
-				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
-					if (body.getValue() instanceof User) {
-						if (((User) body.getValue()).getName().equals(message)) {
-							Logic.addUserToGroup((User) body.getValue(),
-									BotUtilities.currentlyEditing.longValue());
-							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
-							BotUtilities.message(update, "User " + message
-									+ "has been added to the group! \n \"Please Type in: \"rename\" , \"getUsers\", \"addUser\" ,  \"removeUser\" , \"delete\" ");
-							break s;
-						}
-					}
-				}
+
 			break;
 			default:
 			break;
 		}
 
-	}
-
-	/**
-	 * @param update
-	 *            update
-	 */
-	public static void addUser(Update update) {
-
-		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
-				.setChatId(update.getMessage()
-						.getChatId())
-				.setText(
-						"Please enter the Token");
-		try {
-			Main.mainBot.sendMessage(message); // Call method to send the message
-		} catch (TelegramApiException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * @param update
-	 *            update
-	 */
-	public static void noMessage(Update update) {
-		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
-				.setChatId(update.getMessage()
-						.getChatId())
-				.setText("No Command");
-		try {
-			Main.mainBot.sendMessage(message); // Call method to send the message
-		} catch (TelegramApiException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -334,15 +277,13 @@ public class BotUtilities {
 	}
 
 	/**
-	 * @param update
-	 *            update
 	 * @param bot_message
 	 *            message from bot
 	 * @param userId
 	 *            recipient id
 	 */
-	public static void message(Update update,
-			String bot_message, long userId) {
+	public static void message(String bot_message,
+			long userId) {
 		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
 				.setChatId(new Long(userId))
 				.setText(bot_message);

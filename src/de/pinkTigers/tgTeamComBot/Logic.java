@@ -9,7 +9,6 @@
  */
 package de.pinkTigers.tgTeamComBot;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -35,18 +34,18 @@ public class Logic {
 	 */
 	public static boolean addUser(String name, long key) {
 		if (Main.dm.getBodys().get(new Long(key)) != null) return false;
-		Main.dm.setBody(new User(name, key));
+		Main.dm.setBody(new User(key, name));
 		return true;
 	}
 
 	/**
 	 * @param name
 	 *            name of the Group
-	 * @param users
-	 *            users to add
+	 * @param initialMember
+	 *            initial membets
 	 * @return success
 	 */
-	public static boolean addGroup(String name, ArrayList<User> users) {
+	public static boolean addGroup(String name, Body initialMember) {
 		short random = (short) Main.randomInt(0, Short.MAX_VALUE);
 		while (Main.dm.getBodys().get(new Long(random)) != null) {
 			random = (short) Math.random();
@@ -56,7 +55,7 @@ public class Logic {
 				if (((Group) body.getValue()).getName() == name) return false;
 			}
 		}
-		Main.dm.setBody(new Group(random, users, name));
+		Main.dm.setBody(new Group(random, name, initialMember));
 		return true;
 	}
 
@@ -117,7 +116,7 @@ public class Logic {
 		Group p;
 		if (Main.dm.getBodys().get(new Long(id)) != null) {
 			p = (Group) Main.dm.getBodys().get(new Long(id));
-			p.setUsers(u);
+			p.addUser(u);
 			Main.dm.setBody(p);
 			return true;
 		}
@@ -135,7 +134,7 @@ public class Logic {
 		Event e;
 		if (Main.dm.getEvents().get(new Long(id)) != null) {
 			e = Main.dm.getEvents().get(new Long(id));
-			b.setEvent(e);
+			b.addEvent(e);
 			return true;
 		}
 		return false;
@@ -152,10 +151,31 @@ public class Logic {
 		ToDo t;
 		if (Main.dm.getToDos().get(new Long(id)) != null) {
 			t = Main.dm.getToDos().get(new Long(id));
-			b.setToDos(t);
+			b.addToDo(t);
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * Removes a user
+	 * 
+	 * @param bodyId
+	 *            The id of the body to remove
+	 * @return success
+	 */
+	public static boolean removeBody(Long bodyId) {
+		return Main.dm.removeBody(bodyId);
+	}
+
+	/**
+	 * Sets a body
+	 * 
+	 * @param body
+	 *            The body to set
+	 * @return success
+	 */
+	public static boolean setBody(Body body) {
+		return Main.dm.setBody(body);
+	}
 }
