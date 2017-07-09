@@ -228,7 +228,7 @@ public class BotUtilities {
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 					if (body.getValue().getName().equals(message)) {
 						if (!Main.dm.getBodys().get(BotUtilities.currentlyEditing).getUsers().contains(body.getValue())) {
-							Logic.addUserToGroup((User) body.getValue(),
+							Logic.addUserToGroup(body.getValue(),
 									BotUtilities.currentlyEditing.longValue());
 							handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 							BotUtilities.message(update, "User " + message
