@@ -9,8 +9,9 @@
  */
 package de.pinkTigers.tgTeamComBot.data;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Set;
 public class Group extends Body {
 	private static final long serialVersionUID = -4234018617918494805L;
 
-	private ArrayList<Body> members = new ArrayList<>();
+	private HashMap<Long, Body> members = new HashMap<>();
 
 	/**
 	 * Default Constructor for Serializing only
@@ -42,7 +43,7 @@ public class Group extends Body {
 	 */
 	public Group(long p_key, String p_name, Body initalUser) {
 		super(p_key, p_name);
-		this.members.add(initalUser);
+		this.members.put(new Long(initalUser.getKey()), initalUser);
 	}
 
 	/**
@@ -53,12 +54,12 @@ public class Group extends Body {
 	 */
 	public Group(Group orig) {
 		super(orig);
-		for (Body b : orig.members) {
-			if (b instanceof User) {
-				this.members.add(new User((User) b));
+		for (Entry<Long, Body> e : orig.members.entrySet()) {
+			if (e.getValue() instanceof User) {
+				this.members.put(e.getKey(), new User((User) e.getValue()));
 			}
-			else if (b instanceof Group) {
-				this.members.add(new Group((Group) b));
+			else if (e.getValue() instanceof Group) {
+				this.members.put(e.getKey(), new Group((Group) e.getValue()));
 			}
 		}
 	}
@@ -69,8 +70,8 @@ public class Group extends Body {
 	@Override
 	public Set<User> getUsers() {
 		Set<User> ret = new HashSet<>();
-		for (Body b : this.members) {
-			ret.addAll(b.getUsers());
+		for (Entry<Long, Body> e : this.members.entrySet()) {
+			ret.addAll(e.getValue().getUsers());
 		}
 		return ret;
 	}
@@ -82,7 +83,7 @@ public class Group extends Body {
 	 *            user
 	 */
 	public void addBody(Body body) {
-		this.members.add(body);
+		this.members.put(new Long(body.getKey()), body);
 	}
 
 	/**
@@ -92,7 +93,7 @@ public class Group extends Body {
 	 *            user
 	 */
 	public void removeBody(Body body) {
-		this.members.remove(body);
+		this.members.remove(new Long(body.getKey()));
 	}
 
 }
