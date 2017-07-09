@@ -23,6 +23,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import de.pinkTigers.tgTeamComBot.data.Body;
 import de.pinkTigers.tgTeamComBot.data.Event;
@@ -267,7 +268,18 @@ public class DataManager {
 	 * @return bodys
 	 */
 	public HashMap<Long, Body> getBodys() {
-		return new HashMap<>(this.bodys);
+		HashMap<Long, Body> ret = new HashMap<>();
+
+		for (Entry<Long, Body> e : this.bodys.entrySet()) {
+			if (e.getValue() instanceof User) {
+				ret.put(e.getKey(), new User((User) e.getValue()));
+			}
+			else if (e.getValue() instanceof Group) {
+				ret.put(e.getKey(), new Group((Group) e.getValue()));
+			}
+		}
+
+		return ret;
 	}
 
 	/**
@@ -278,7 +290,15 @@ public class DataManager {
 	 * @return Whether it worked
 	 */
 	public boolean setBody(Body body) {
-		this.bodys.put(new Long(body.getKey()), body);
+		Body tmp = null;
+		if (body instanceof User) {
+			tmp = new User((User) body);
+		}
+		else if (body instanceof Group) {
+			tmp = new Group((Group) body);
+		}
+		if (tmp == null) return false;
+		this.bodys.put(new Long(body.getKey()), tmp);
 		return saveBodys();
 	}
 
