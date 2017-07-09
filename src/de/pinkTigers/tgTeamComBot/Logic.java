@@ -66,7 +66,7 @@ public class Logic {
 	 */
 	public static Event createEvent(String name) {
 		short random = (short) Main.randomInt(0, Short.MAX_VALUE);
-		while (Main.dm.getEvents().get(new Long(random)) == null) {
+		while (Main.dm.getEvents().get(new Long(random)) != null) {
 			random = (short) Math.random();
 		}
 		return new Event(random, name);
@@ -95,7 +95,7 @@ public class Logic {
 	 */
 	public static boolean addToDo(Date date, String name, String description, int priority) {
 		short random = (short) Main.randomInt(0, Short.MAX_VALUE);
-		while (Main.dm.getToDos().get(new Long(random)) == null) {
+		while (Main.dm.getToDos().get(new Long(random)) != null) {
 			random = (short) Math.random();
 		}
 		for (Map.Entry<Long, ToDo> toDo : Main.dm.getToDos().entrySet()) {
