@@ -105,6 +105,26 @@ public class BotUtilities {
 					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_TODO);
 					break;
 				}
+					if (message.toLowerCase().equals("addevent")) {
+					BotUtilities.message(update, "Name of the Event:");
+					handlerMap.put(new Long(chatId), PossibleSteps.ADD_EVENT_TO_USER);
+					break;
+				}
+				if (message.toLowerCase().equals("removeevent")) {
+					BotUtilities.message(update, "Name of the Event:");
+					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_EVENT_FROM_USER);
+					break;
+				}
+				if (message.toLowerCase().equals("addtodo")) {
+					BotUtilities.message(update, "Name of the ToDo:");
+					handlerMap.put(new Long(chatId), PossibleSteps.ADD_TODO_TO_USER);
+					break;
+				}
+				if (message.toLowerCase().equals("removetodo")) {
+					BotUtilities.message(update, "Name of the ToDo:");
+					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_TODO_FROM_USER);
+					break;
+				}
 				if (message.toLowerCase().equals("gettodo")) {
 					int highestPriority = Integer.MIN_VALUE;
 					long id = 0;
@@ -124,7 +144,7 @@ public class BotUtilities {
 					}
 					priority = Main.dm.getToDos();
 					for(Long Id : priorities) {
-						output += "\nToDoName:" + priority.get(Id).getName() + " Priority: " + priority.get(Id).getPriority();
+						output += "\nToDoName: " + priority.get(Id).getName() + "	Priority: " + priority.get(Id).getPriority();
 					}
 					BotUtilities.message(update, output);
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
@@ -264,8 +284,64 @@ public class BotUtilities {
 					BotUtilities.message(update, usersToReturn);
 					break;
 				}
+				if (message.toLowerCase().equals("addevent")) {
+					BotUtilities.message(update, "Name of the Event:");
+					handlerMap.put(new Long(chatId), PossibleSteps.ADD_EVENT_TO_GROUP);
+					break;
+				}
+				if (message.toLowerCase().equals("removeevent")) {
+					BotUtilities.message(update, "Name of the Event:");
+					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_EVENT_FROM_GROUP);
+					break;
+				}
+				if (message.toLowerCase().equals("addtodo")) {
+					BotUtilities.message(update, "Name of the ToDo:");
+					handlerMap.put(new Long(chatId), PossibleSteps.ADD_TODO_TO_GROUP);
+					break;
+				}
+				if (message.toLowerCase().equals("removetodo")) {
+					BotUtilities.message(update, "Name of the ToDo:");
+					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_TODO_FROM_GROUP);
+					break;
+				}
 				BotUtilities.message(update, "Please Type in: \"rename\" , \"addUser\", \"getUsers\", \"removeUser\" , \"delete\"");
 			break;
+			case ADD_EVENT_TO_GROUP:
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if(event.getValue().getName().equals(message)) {
+						Logic.addEventToBody(Main.dm.getGroup(currentlyEditing), event.getKey());
+						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+						BotUtilities.message(update , "Event added successfully");
+					}
+				}
+				break;
+			case REMOVE_EVENT_FROM_GROUP:
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if(event.getValue().getName().equals(message)) {
+						Logic.removeEventfromBody(Main.dm.getGroup(currentlyEditing), event.getKey());
+						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+						BotUtilities.message(update , "Event removed successfully");
+					}
+				}
+				break;
+			case ADD_EVENT_TO_USER:
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if(event.getValue().getName().equals(message)) {
+						Logic.addEventToBody(Main.dm.getUser(chatId), event.getKey());
+						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+						BotUtilities.message(update , "Event added successfully");
+					}
+				}
+				break;
+			case REMOVE_EVENT_FROM_USER:
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if(event.getValue().getName().equals(message)) {
+						Logic.removeEventfromBody(Main.dm.getUser(chatId), event.getKey());
+						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+						BotUtilities.message(update , "Event removed successfully");
+					}
+				}
+				break;
 			case ADD_USER_TO_GROUP:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 					if (body.getValue().getName().equals(message)) {
@@ -282,6 +358,42 @@ public class BotUtilities {
 				}
 				BotUtilities.message(update, "Couldn't add user!");
 			break;
+			case ADD_TODO_TO_GROUP:
+				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
+					if(todo.getValue().getName().equals(message)) {
+						Logic.addToDoToBody(Main.dm.getGroup(currentlyEditing), todo.getKey());
+						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+						BotUtilities.message(update , "ToDo added successfully");
+					}
+				}
+				break;
+			case REMOVE_TODO_FROM_GROUP:
+				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
+					if(todo.getValue().getName().equals(message)) {
+						Logic.removeToDofromBody(Main.dm.getGroup(currentlyEditing), todo.getKey());
+						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+						BotUtilities.message(update , "ToDo removed successfully");
+					}
+				}
+				break;
+			case ADD_TODO_TO_USER:
+				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
+					if(todo.getValue().getName().equals(message)) {
+						Logic.addToDoToBody(Main.dm.getUser(chatId), todo.getKey());
+						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+						BotUtilities.message(update , "ToDo added successfully");
+					}
+				}
+				break;
+			case REMOVE_TODO_FROM_USER:
+				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
+					if(todo.getValue().getName().equals(message)) {
+						Logic.removeToDofromBody(Main.dm.getUser(chatId), todo.getKey());
+						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+						BotUtilities.message(update , "ToDo removed successfully");
+					}
+				}
+				break;
 			case CONFIRM_REMOVE_GROUP:
 				if (message.toLowerCase().equals("yes")) {
 					Logic.removeBody(BotUtilities.currentlyEditing);

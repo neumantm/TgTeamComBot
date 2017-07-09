@@ -143,9 +143,20 @@ public class Logic {
 		if (Main.dm.getEvents().get(new Long(id)) != null) {
 			e = Main.dm.getEvents().get(new Long(id));
 			b.addEvent(e);
+			Main.dm.setBody(b);
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param body body
+	 * @param id event id
+	 */
+	public static void removeEventfromBody(Body body , long id) {
+		body.removeEvent(Main.dm.getEvents().get(id));
+		Main.dm.setBody(body);
 	}
 
 	/**
@@ -172,7 +183,7 @@ public class Logic {
 	 *            The id of the body to remove
 	 * @return success
 	 */
-	public static boolean removeBody(Long bodyId) {
+	public static boolean removeBody(Long bodyId) { //TODO
 		return Main.dm.removeBody(bodyId);
 	}
 
@@ -214,5 +225,15 @@ public class Logic {
 		}
 		return new ToDo(random, message);
 	}
+
+	/**
+	 * @param group
+	 * @param key
+	 */
+	public static void removeToDofromBody(Body group, Long key) {
+		group.removeToDo(Main.dm.getToDos().get(key));
+		Main.dm.setBody(group);
+	}
+
 
 }
