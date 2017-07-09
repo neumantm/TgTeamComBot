@@ -96,7 +96,7 @@ public class BotUtilities {
 				if (message.toLowerCase().equals("join")) {
 					for (Map.Entry<String, User> user : Main.pendingUsers.entrySet()) {
 						if (user.getValue().getKey() == chatId) {
-							BotUtilities.message(update, "User already pending!");
+							BotUtilities.message(update, "User already pending! Your Token: " + user.getKey());
 							break s;
 						}
 					}
