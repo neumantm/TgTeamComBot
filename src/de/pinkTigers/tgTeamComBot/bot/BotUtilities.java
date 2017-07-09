@@ -312,8 +312,8 @@ public class BotUtilities {
 					}
 				}
 				BotUtilities.currentEvent = Logic.createEvent(message);
-				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 				BotUtilities.message(update, "The Event " + message + " has been added.");
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 			break;
 			case WAITING_FOR_EVENT_NAME2:
 				String info = "No info availible";
