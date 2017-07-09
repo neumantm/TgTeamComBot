@@ -63,7 +63,7 @@ public class Event implements Serializable {
 	 */
 	public Event(long p_key, String p_name) {
 		this.key = p_key;
-		this.date = null;
+		this.date = new Date(0);
 		this.location = null;
 		this.name = p_name;
 		this.description = null;
