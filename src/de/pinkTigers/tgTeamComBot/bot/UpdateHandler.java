@@ -70,10 +70,12 @@ public class UpdateHandler {
 
 		if (update.getMessage().getText().toLowerCase().equals("help") || update.getMessage().getText().toLowerCase().equals("/help")) {
 			BotUtilities.message(help(), chatId.longValue());
+			return;
 		}
 
 		if (update.getMessage().getText().toLowerCase().equals("/start")) {
 			BotUtilities.message("Welcome!", chatId.longValue());
+			return;
 		}
 
 		BotUtilities.doNext(update, this.handlerMap.get(chatId), chatId.longValue(), update.getMessage().getText());
