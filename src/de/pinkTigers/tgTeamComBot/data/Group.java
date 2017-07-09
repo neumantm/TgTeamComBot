@@ -21,7 +21,7 @@ import java.util.Set;
 public class Group extends Body {
 	private static final long serialVersionUID = -4234018617918494805L;
 
-	private ArrayList<Body> members;
+	private ArrayList<Body> members = new ArrayList<>();
 
 	/**
 	 * Default Constructor for Serializing only

@@ -18,8 +18,8 @@ public abstract class Body implements Serializable {
 
 	private static final long serialVersionUID = -8966320631762198755L;
 	private long key;
-	private ArrayList<Event> events;
-	private ArrayList<ToDo> toDos;
+	private ArrayList<Event> events = new ArrayList<>();
+	private ArrayList<ToDo> toDos = new ArrayList<>();
 	private String name;
 
 	/**
