@@ -264,7 +264,7 @@ public class BotUtilities {
 					Logic.removeBody(new Long(chatId));
 					handlerMap.put(new Long(chatId), PossibleSteps.UNKNOWN_USER);
 					BotUtilities.message(update, "You've been successfully removed.");
-					handlerMap.remove(new Long(chatId));
+					break;
 				}
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 				BotUtilities.message(update, "Cancelled remove.");
@@ -272,14 +272,16 @@ public class BotUtilities {
 			case MANAGE_GROUP:
 				if (message.toLowerCase().equals("new")) {
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_GROUPNAME);
-					BotUtilities.message(update, "Please enter the name for the new Group:");	
+					BotUtilities.message(update, "Please enter the name for the new Group:");
+					break;
 				}
 				if (message.toLowerCase().equals("edit")) {
 					handlerMap.put(new Long(chatId), PossibleSteps.GET_GROUP_NAME);
 					BotUtilities.message(update, "Please enter the groupname you want to edit:");
+					break;
 				}
-					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_GROUP);
-					BotUtilities.message(update, "Unknown Command");	
+				handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_GROUP);
+				BotUtilities.message(update, "Unknown Command");
 			break;
 			case WAITING_FOR_GROUPNAME:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
@@ -372,7 +374,7 @@ public class BotUtilities {
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 						BotUtilities.message(update, "Event added successfully");
 						break s;
-					} 
+					}
 				}
 				handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 				BotUtilities.message(update, "Event couldn't be added");
@@ -532,7 +534,7 @@ public class BotUtilities {
 				BotUtilities.currentEvent = Logic.createEvent(message);
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 				BotUtilities.message(update, "The Event " + message + " has been added.");
-				break;
+			break;
 			case WAITING_FOR_EVENT_NAME2:
 				String info = "No info availible";
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
@@ -542,7 +544,7 @@ public class BotUtilities {
 								+ tmp_currentEvent.getLocation() + "\nDescription: " + tmp_currentEvent.getDescription();
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 						BotUtilities.message(update, info);
-					break s;
+						break s;
 					}
 				}
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
@@ -553,7 +555,7 @@ public class BotUtilities {
 					if (event.getValue().getName().equals(message)) {
 						handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 						BotUtilities.currentEvent = event.getValue();
-					break s;
+						break s;
 					}
 				}
 			break;
@@ -605,7 +607,7 @@ public class BotUtilities {
 					BotUtilities.message(update, "Failed! Try Again!");
 					break;
 				}
-				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);	
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 				BotUtilities.message(update, "Added Date");
 			break;
 			case EVENT_EDIT_NAME:
@@ -648,7 +650,7 @@ public class BotUtilities {
 						handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME);
 						BotUtilities.message(update,
 								"This name is already in use. Please chose another one:");
-							break s;
+						break s;
 					}
 				}
 				BotUtilities.currentTodo = Logic.createToDo(message);
@@ -664,7 +666,7 @@ public class BotUtilities {
 								+ tmp_currentTodo.getPriority() + "\nDescription: " + tmp_currentTodo.getDescription();
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 						BotUtilities.message(update, info2);
-					break s;
+						break s;
 					}
 				}
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
@@ -788,7 +790,9 @@ public class BotUtilities {
 			long userId) {
 		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
 				.setChatId(new Long(userId))
-				.setText(bot_message);
+				.setText(bot_message)
+				.setReplyMarkup(Main.mainBot.handler.handlerMap.get(userId).getKeyBoard());
+
 		try {
 			Main.mainBot.sendMessage(message); // Call method to send the message
 		} catch (TelegramApiException e) {
