@@ -206,6 +206,7 @@ public class BotUtilities {
 				if (message.toLowerCase().equals("removeuser")) {
 					BotUtilities.message(update, "Please enter the name of the user you want to remove:");
 					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_USER_FROM_GROUP);
+					break;
 				}
 				if (message.toLowerCase().equals("getusers")) {
 					String usersToReturn = "";
@@ -213,6 +214,7 @@ public class BotUtilities {
 						usersToReturn += "\n" + user.getName();
 					}
 					BotUtilities.message(update, usersToReturn);
+					break;
 				}
 				BotUtilities.message(update, "Please Type in: \"rename\" , \"addUser\", \"getUsers\", \"removeUser\" , \"delete\"");
 			break;
@@ -259,7 +261,7 @@ public class BotUtilities {
 						Logic.removeBodyFromGroup(body.getValue(), BotUtilities.currentlyEditing.longValue());
 						BotUtilities.message(update, "Remove successfull.");
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
-						break;
+						break s;
 					}
 				}
 				BotUtilities.message(update, "Remove failed.");
