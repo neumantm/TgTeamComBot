@@ -262,9 +262,9 @@ public class BotUtilities {
 			case CONFIRM_REMOVE_USER:
 				if (message.toLowerCase().equals("yes")) {
 					Logic.removeBody(new Long(chatId));
-					handlerMap.remove(new Long(chatId));
 					handlerMap.put(new Long(chatId), PossibleSteps.UNKNOWN_USER);
 					BotUtilities.message(update, "You've been successfully removed.");
+					handlerMap.remove(new Long(chatId));
 				}
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 				BotUtilities.message(update, "Cancelled remove.");
