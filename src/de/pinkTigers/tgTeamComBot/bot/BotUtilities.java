@@ -188,7 +188,7 @@ public class BotUtilities {
 						closestDate = Long.MAX_VALUE;
 						id = 0;
 						for (Map.Entry<Long, Event> entry : nextEvent.entrySet())
-							if (entry.getValue().getDate().getTime() >= closestDate) {
+							if (entry.getValue().getDate().getTime() <= closestDate) {
 								closestDate = entry.getValue().getDate().getTime();
 								id = entry.getValue().getKey();
 							}
