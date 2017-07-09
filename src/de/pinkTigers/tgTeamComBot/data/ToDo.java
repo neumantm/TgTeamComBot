@@ -59,7 +59,7 @@ public class ToDo {
 	 */
 	public ToDo(long p_key, String p_name) {
 		this.key = p_key;
-		this.deadline = null;
+		this.deadline = new Date(0);
 		this.name = p_name;
 		this.description = null;
 		this.priority = 0;
