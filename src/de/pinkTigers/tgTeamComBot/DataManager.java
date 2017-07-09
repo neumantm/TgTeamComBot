@@ -26,7 +26,9 @@ import java.util.HashMap;
 
 import de.pinkTigers.tgTeamComBot.data.Body;
 import de.pinkTigers.tgTeamComBot.data.Event;
+import de.pinkTigers.tgTeamComBot.data.Group;
 import de.pinkTigers.tgTeamComBot.data.ToDo;
+import de.pinkTigers.tgTeamComBot.data.User;
 import de.pinkTigers.tgTeamComBot.scheduler.SchedulerEvent;
 import de.tim.lib.Log;
 
@@ -290,6 +292,30 @@ public class DataManager {
 	public boolean removeBody(Long id) {
 		this.bodys.remove(id);
 		return saveBodys();
+	}
+
+	/**
+	 * Returns a User from the body list
+	 * 
+	 * @param id
+	 *            The id of the entry to get
+	 * @return The User with that ID or null.
+	 */
+	public User getUser(Long id) {
+		if (!(this.bodys.get(id) instanceof User)) return null;
+		return new User((User) this.bodys.get(id));
+	}
+
+	/**
+	 * Returns a Group from the body list
+	 * 
+	 * @param id
+	 *            The id of the entry to get
+	 * @return The Group with that ID or null.
+	 */
+	public Group getGroup(Long id) {
+		if (!(this.bodys.get(id) instanceof Group)) return null;
+		return new Group((Group) this.bodys.get(id));
 	}
 
 	/**
