@@ -112,10 +112,10 @@ public class Logic {
 	 *            group ID
 	 * @return success
 	 */
-	public static boolean addUserToGroup(User u, long id) {
+	public static boolean addUserToGroup(Body u, long id) {
 		Group p;
 		if (Main.dm.getBodys().get(new Long(id)) != null) {
-			p = (Group) Main.dm.getBodys().get(new Long(id));
+			p = Main.dm.getGroup(new Long(id));
 			p.addBody(u);
 			Main.dm.setBody(p);
 			return true;
