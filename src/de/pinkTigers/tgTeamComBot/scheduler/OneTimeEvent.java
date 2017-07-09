@@ -31,13 +31,10 @@ public class OneTimeEvent extends SchedulerEvent {
 	private Date theDate;
 
 	/**
-	 * @param orig
-	 *            The original Event
-	 * @see de.pinkTigers.tgTeamComBot.scheduler.SchedulerEvent#SchedulerEvent(SchedulerEvent)
+	 * Empty default constructor for deserializing only.
 	 */
-	public OneTimeEvent(OneTimeEvent orig) {
-		super(orig);
-		this.theDate = (Date) orig.theDate.clone();
+	public OneTimeEvent() {
+
 	}
 
 	/**
@@ -48,6 +45,16 @@ public class OneTimeEvent extends SchedulerEvent {
 	 */
 	public OneTimeEvent(Date p_theDate) {
 		this.theDate = (Date) p_theDate.clone();
+	}
+
+	/**
+	 * @param orig
+	 *            The original Event
+	 * @see de.pinkTigers.tgTeamComBot.scheduler.SchedulerEvent#SchedulerEvent(SchedulerEvent)
+	 */
+	public OneTimeEvent(OneTimeEvent orig) {
+		super(orig);
+		this.theDate = (Date) orig.theDate.clone();
 	}
 
 	/**

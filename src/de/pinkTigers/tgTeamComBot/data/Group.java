@@ -78,7 +78,7 @@ public class Group extends Body {
 	/**
 	 * Adds a user
 	 * 
-	 * @param user
+	 * @param body
 	 *            user
 	 */
 	public void addBody(Body body) {
@@ -88,7 +88,7 @@ public class Group extends Body {
 	/**
 	 * Removes a user
 	 * 
-	 * @param user
+	 * @param body
 	 *            user
 	 */
 	public void removeBody(Body body) {
