@@ -438,8 +438,11 @@ public class BotUtilities {
 						Logic.addToDoToBody(Main.dm.getGroup(BotUtilities.currentlyEditing), todo.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 						BotUtilities.message(update, "ToDo added successfully");
+						break s;
 					}
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+				BotUtilities.message(update, "ToDo wasen't added!");
 			break;
 			case REMOVE_TODO_FROM_GROUP:
 				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
@@ -447,8 +450,11 @@ public class BotUtilities {
 						Logic.removeToDofromBody(Main.dm.getGroup(BotUtilities.currentlyEditing), todo.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 						BotUtilities.message(update, "ToDo removed successfully");
+						break s;
 					}
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+				BotUtilities.message(update, "remove Failed");
 			break;
 			case ADD_TODO_TO_USER:
 				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
@@ -456,8 +462,11 @@ public class BotUtilities {
 						Logic.addToDoToBody(Main.dm.getUser(chatId), todo.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 						BotUtilities.message(update, "ToDo added successfully");
+						break s;
 					}
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+				BotUtilities.message(update, "ToDo wasen't added!");
 			break;
 			case REMOVE_TODO_FROM_USER:
 				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
@@ -465,8 +474,11 @@ public class BotUtilities {
 						Logic.removeToDofromBody(Main.dm.getUser(chatId), todo.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 						BotUtilities.message(update, "ToDo removed successfully");
+						break s;
 					}
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+				BotUtilities.message(update, "Remove failed!");
 			break;
 			case CONFIRM_REMOVE_GROUP:
 				if (message.toLowerCase().equals("yes")) {
