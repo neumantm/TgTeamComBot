@@ -9,6 +9,7 @@
  */
 package de.pinkTigers.tgTeamComBot.data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -16,8 +17,12 @@ import java.util.Date;
  * 
  * @author Tim Neumann, Fabian Hutzenlaub, Patrick Muerdter
  */
-public class ToDo {
+public class ToDo implements Serializable {
 
+	/**
+	 * generated serial version id
+	 */
+	private static final long serialVersionUID = -7093932273167417240L;
 	private int priority;
 	private String name;
 	private String description;
@@ -52,10 +57,12 @@ public class ToDo {
 		this.description = p_description;
 		this.priority = p_priority;
 	}
-	
+
 	/**
-	 * @param p_key key
-	 * @param p_name name
+	 * @param p_key
+	 *            key
+	 * @param p_name
+	 *            name
 	 */
 	public ToDo(long p_key, String p_name) {
 		this.key = p_key;
