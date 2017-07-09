@@ -75,11 +75,14 @@ public class BotUtilities {
 					break;
 				}
 				if (message.toLowerCase().equals("showgroups")) {
-					String allGroups = " ";
+					String allGroups = "";
 					for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 						if (body.getValue() instanceof Group) {
 							allGroups += "\n" + ((Group) body.getValue()).getName();
 						}
+					}
+					if (allGroups.equals("")) {
+						allGroups = "No Groups";
 					}
 					BotUtilities.message(update, allGroups);
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
@@ -209,9 +212,12 @@ public class BotUtilities {
 					break;
 				}
 				if (message.toLowerCase().equals("getusers")) {
-					String usersToReturn = " ";
+					String usersToReturn = "";
 					for (User user : Main.dm.getBodys().get(BotUtilities.currentlyEditing).getUsers()) {
 						usersToReturn += "\n" + user.getName();
+					}
+					if (usersToReturn.equals("")) {
+						usersToReturn = "No Users in Group";
 					}
 					BotUtilities.message(update, usersToReturn);
 					break;
