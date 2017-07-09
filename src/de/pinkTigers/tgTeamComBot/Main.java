@@ -23,6 +23,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import de.pinkTigers.tgTeamComBot.bot.Bot;
 import de.pinkTigers.tgTeamComBot.data.User;
+import de.pinkTigers.tgTeamComBot.scheduler.Scheduler;
 import de.tim.lib.Config;
 import de.tim.lib.Log;
 
@@ -88,6 +89,9 @@ public class Main {
 
 		//DM
 		Main.dm = new DataManager(new File(Main.config.getConfigValue("DataFolder")));
+
+		//Scheduler
+		Scheduler.startTimers();
 
 		//Telegram Bot
 		ApiContextInitializer.init();

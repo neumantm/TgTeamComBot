@@ -32,7 +32,6 @@ import de.pinkTigers.tgTeamComBot.data.ToDo;
 import de.pinkTigers.tgTeamComBot.data.User;
 import de.pinkTigers.tgTeamComBot.scheduler.OneTimeEvent;
 import de.pinkTigers.tgTeamComBot.scheduler.RegularEvent;
-import de.pinkTigers.tgTeamComBot.scheduler.Scheduler;
 import de.pinkTigers.tgTeamComBot.scheduler.SchedulerEvent;
 import de.tim.lib.Log;
 
@@ -79,7 +78,6 @@ public class DataManager {
 		loadEvents();
 		loadToDos();
 		loadSchedulerEvents();
-		Scheduler.startTimers();
 	}
 
 	@SuppressWarnings("resource") //Eclipse warning bug. There should not be a warning.
