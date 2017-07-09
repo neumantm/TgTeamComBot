@@ -66,18 +66,18 @@ public class BotUtilities {
 					Main.mainBot.handler.newUpdate(update);
 					break;
 				}
-				if (message.toLowerCase().equals("adduser")) {
+				if (message.toLowerCase().equals("aproveuser")) {
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TOKEN);
 					BotUtilities.message(update, "Enter Token:");
 					break;
 				}
-				if (message.toLowerCase().equals("removeuser")) {
+				if (message.toLowerCase().equals("removeself")) {
 					handlerMap.put(new Long(chatId), PossibleSteps.CONFIRM_REMOVE_USER);
 					BotUtilities.message(update,
 							"Do You really want to remove yourself? Type \"Yes\" to proceed");
 					break;
 				}
-				if (message.toLowerCase().equals("editgroup")) {
+				if (message.toLowerCase().equals("managegroup")) {
 					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_GROUP);
 					BotUtilities.message(update, "Type in: \"new\" , \"edit\"");
 					break;
@@ -111,7 +111,7 @@ public class BotUtilities {
 					BotUtilities.message(update, "Name of the Event:");
 					break;
 				}
-				if (message.toLowerCase().equals("removeevent")) {
+				if (message.toLowerCase().equals("leaveevent")) {
 					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_EVENT_FROM_USER);
 					BotUtilities.message(update, "Name of the Event:");
 					break;
@@ -121,7 +121,7 @@ public class BotUtilities {
 					BotUtilities.message(update, "Name of the ToDo:");
 					break;
 				}
-				if (message.toLowerCase().equals("removetodo")) {
+				if (message.toLowerCase().equals("leavetodo")) {
 					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_TODO_FROM_USER);
 					BotUtilities.message(update, "Name of the ToDo:");
 					break;
