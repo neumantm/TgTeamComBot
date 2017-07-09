@@ -67,19 +67,19 @@ public class BotUtilities {
 					break;
 				}
 				if (message.toLowerCase().equals("adduser")) {
-					BotUtilities.message(update, "Enter Token:");
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TOKEN);
+					BotUtilities.message(update, "Enter Token:");
 					break;
 				}
 				if (message.toLowerCase().equals("removeuser")) {
+					handlerMap.put(new Long(chatId), PossibleSteps.CONFIRM_REMOVE_USER);
 					BotUtilities.message(update,
 							"Do You really want to remove yourself? Type \"Yes\" to proceed");
-					handlerMap.put(new Long(chatId), PossibleSteps.CONFIRM_REMOVE_USER);
 					break;
 				}
 				if (message.toLowerCase().equals("editgroup")) {
-					BotUtilities.message(update, "Type in: \"new\" , \"edit\"");
 					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_GROUP);
+					BotUtilities.message(update, "Type in: \"new\" , \"edit\"");
 					break;
 				}
 				if (message.toLowerCase().equals("showgroups")) {
@@ -92,41 +92,41 @@ public class BotUtilities {
 					if (allGroups.equals("")) {
 						allGroups = "No Groups";
 					}
-					BotUtilities.message(update, allGroups);
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					BotUtilities.message(update, allGroups);
 					break;
 				}
 				if (message.toLowerCase().equals("manageevents")) {
-					BotUtilities.message(update, "Type in: \"new\" , \"edit\" , \"showinfo\" ");
 					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_EVENT);
+					BotUtilities.message(update, "Type in: \"new\" , \"edit\" , \"showinfo\" ");
 					break;
 				}
 				if (message.toLowerCase().equals("managetodos")) {
-					BotUtilities.message(update, "Type in: \"new\" , \"edit\" , \"showinfo\" ");
 					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_TODO);
+					BotUtilities.message(update, "Type in: \"new\" , \"edit\" , \"showinfo\" ");
 					break;
 				}
 				if (message.toLowerCase().equals("addevent")) {
-					BotUtilities.message(update, "Name of the Event:");
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_EVENT_TO_USER);
+					BotUtilities.message(update, "Name of the Event:");
 					break;
 				}
 				if (message.toLowerCase().equals("removeevent")) {
-					BotUtilities.message(update, "Name of the Event:");
 					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_EVENT_FROM_USER);
+					BotUtilities.message(update, "Name of the Event:");
 					break;
 				}
 				if (message.toLowerCase().equals("addtodo")) {
-					BotUtilities.message(update, "Name of the ToDo:");
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_TODO_TO_USER);
+					BotUtilities.message(update, "Name of the ToDo:");
 					break;
 				}
 				if (message.toLowerCase().equals("removetodo")) {
-					BotUtilities.message(update, "Name of the ToDo:");
 					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_TODO_FROM_USER);
+					BotUtilities.message(update, "Name of the ToDo:");
 					break;
 				}
-				if (message.toLowerCase().equals("gettodo")) {
+				if (message.toLowerCase().equals("gettodos")) {
 					Map<Long, ToDo> priority = new HashMap<>();
 					Map<Long, ToDo> priority2 = new HashMap<>();
 					for (Entry<Long, Body> e : Main.dm.getBodys().entrySet()) {
@@ -160,8 +160,8 @@ public class BotUtilities {
 					for (Long Id : priorities) {
 						output += "\nToDoName: " + priority2.get(Id).getName() + "	Priority: " + priority2.get(Id).getPriority();
 					}
-					BotUtilities.message(update, output);
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					BotUtilities.message(update, output);
 					break;
 				}
 				if (message.toLowerCase().equals("getevents")) {
@@ -198,8 +198,8 @@ public class BotUtilities {
 					for (Long Id : priorities) {
 						output += "\nEventName: " + nextEvent2.get(Id).getName() + "	Date: " + nextEvent2.get(Id).getDate();
 					}
-					BotUtilities.message(update, output);
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					BotUtilities.message(update, output);
 					break;
 				}
 				BotUtilities.message(update, "Invalid Command");
@@ -217,8 +217,8 @@ public class BotUtilities {
 							break s;
 						}
 					}
-					BotUtilities.message(update, "What's your name?");
 					handlerMap.put(new Long(chatId), PossibleSteps.UU_JOIN_ASKED_NAME);
+					BotUtilities.message(update, "What's your name?");
 					break;
 				}
 				BotUtilities.message(update, "No Permission");
@@ -266,16 +266,19 @@ public class BotUtilities {
 					BotUtilities.message(update, "You've been successfully removed.");
 				}
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+				BotUtilities.message(update, "Cancelled remove.");
 			break;
 			case MANAGE_GROUP:
 				if (message.toLowerCase().equals("new")) {
-					BotUtilities.message(update, "Please enter the name for the new Group:");
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_GROUPNAME);
+					BotUtilities.message(update, "Please enter the name for the new Group:");	
 				}
 				if (message.toLowerCase().equals("edit")) {
-					BotUtilities.message(update, "Please enter the groupname you want to edit:");
 					handlerMap.put(new Long(chatId), PossibleSteps.GET_GROUP_NAME);
+					BotUtilities.message(update, "Please enter the groupname you want to edit:");
 				}
+					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_GROUP);
+					BotUtilities.message(update, "Unknown Command");	
 			break;
 			case WAITING_FOR_GROUPNAME:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
@@ -292,37 +295,38 @@ public class BotUtilities {
 			case GET_GROUP_NAME:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 					if (body.getValue().getName().equals(message)) {
+						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 						BotUtilities.currentlyEditing = body.getKey();
 						BotUtilities.message(update, "Now editing the Group " + message
 								+ "! Type in: \"rename\" , \"addUser\", \"getUsers\", \"removeUser\" , \"delete\" ");
-						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 						break s;
 
 					}
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.GET_GROUP_NAME);
 				BotUtilities.message(update, "Didn't find the Group " + message + ". Please enter another Groupname:");
 			break;
 			case EDIT_GROUP:
 				if (message.toLowerCase().equals("rename")) {
-					BotUtilities.message(update, "Please enter the new groupname:");
 					handlerMap.put(new Long(chatId), PossibleSteps.NEW_GROUP_NAME);
+					BotUtilities.message(update, "Please enter the new groupname:");
 					break;
 				}
 				if (message.toLowerCase().equals("adduser")) {
-					BotUtilities.message(update, "Please enter the user to add:");
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_USER_TO_GROUP);
+					BotUtilities.message(update, "Please enter the user to add:");
 					break;
 				}
 				if (message.toLowerCase().equals("delete")) {
+					handlerMap.put(new Long(chatId), PossibleSteps.CONFIRM_REMOVE_GROUP);
 					BotUtilities.message(update,
 							"Do You really want to remove the Group " + ((Group) Main.dm.getBodys().get(BotUtilities.currentlyEditing)).getName()
 									+ " ? Type \"Yes\" to proceed");
-					handlerMap.put(new Long(chatId), PossibleSteps.CONFIRM_REMOVE_GROUP);
 					break;
 				}
 				if (message.toLowerCase().equals("removeuser")) {
-					BotUtilities.message(update, "Please enter the name of the user you want to remove:");
 					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_USER_FROM_GROUP);
+					BotUtilities.message(update, "Please enter the name of the user you want to remove:");
 					break;
 				}
 				if (message.toLowerCase().equals("getusers")) {
@@ -333,29 +337,31 @@ public class BotUtilities {
 					if (usersToReturn.equals("")) {
 						usersToReturn = "No Users in Group";
 					}
+					handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 					BotUtilities.message(update, usersToReturn);
 					break;
 				}
 				if (message.toLowerCase().equals("addevent")) {
-					BotUtilities.message(update, "Name of the Event:");
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_EVENT_TO_GROUP);
+					BotUtilities.message(update, "Name of the Event:");
 					break;
 				}
 				if (message.toLowerCase().equals("removeevent")) {
-					BotUtilities.message(update, "Name of the Event:");
 					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_EVENT_FROM_GROUP);
+					BotUtilities.message(update, "Name of the Event:");
 					break;
 				}
 				if (message.toLowerCase().equals("addtodo")) {
-					BotUtilities.message(update, "Name of the ToDo:");
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_TODO_TO_GROUP);
+					BotUtilities.message(update, "Name of the ToDo:");
 					break;
 				}
 				if (message.toLowerCase().equals("removetodo")) {
-					BotUtilities.message(update, "Name of the ToDo:");
 					handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_TODO_FROM_GROUP);
+					BotUtilities.message(update, "Name of the ToDo:");
 					break;
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 				BotUtilities.message(update, "Please Type in: \"rename\" , \"addUser\", \"getUsers\", \"removeUser\" , \"delete\"");
 			break;
 			case ADD_EVENT_TO_GROUP:
@@ -364,8 +370,11 @@ public class BotUtilities {
 						Logic.addEventToBody(Main.dm.getGroup(BotUtilities.currentlyEditing), event.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 						BotUtilities.message(update, "Event added successfully");
-					}
+						break s;
+					} 
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+				BotUtilities.message(update, "Event couldn't be added");
 			break;
 			case REMOVE_EVENT_FROM_GROUP:
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
@@ -373,8 +382,11 @@ public class BotUtilities {
 						Logic.removeEventfromBody(Main.dm.getGroup(BotUtilities.currentlyEditing), event.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
 						BotUtilities.message(update, "Event removed successfully");
+						break s;
 					}
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+				BotUtilities.message(update, "Event couln't be removed");
 			break;
 			case ADD_EVENT_TO_USER:
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
@@ -382,8 +394,11 @@ public class BotUtilities {
 						Logic.addEventToBody(Main.dm.getUser(chatId), event.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 						BotUtilities.message(update, "Event added successfully");
+						break s;
 					}
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+				BotUtilities.message(update, "Event wasen't added successfully");
 			break;
 			case REMOVE_EVENT_FROM_USER:
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
@@ -391,8 +406,11 @@ public class BotUtilities {
 						Logic.removeEventfromBody(Main.dm.getUser(chatId), event.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 						BotUtilities.message(update, "Event removed successfully");
+						break s;
 					}
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+				BotUtilities.message(update, "Event couln't be removed");
 			break;
 			case ADD_USER_TO_GROUP:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
@@ -408,6 +426,7 @@ public class BotUtilities {
 
 					}
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_USER_TO_GROUP);
 				BotUtilities.message(update, "Couldn't add user!");
 			break;
 			case ADD_TODO_TO_GROUP:
@@ -450,13 +469,13 @@ public class BotUtilities {
 				if (message.toLowerCase().equals("yes")) {
 					Logic.removeBody(BotUtilities.currentlyEditing);
 					Main.mainLog.log((BotUtilities.currentlyEditing.toString()), Log.DEBUG);
+					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 					BotUtilities.message(update, "The Group has been successfully removed.");
 					BotUtilities.currentlyEditing = null;
-					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 				}
 				else {
-					BotUtilities.message(update, "Remove cancelled.");
 					handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+					BotUtilities.message(update, "Remove cancelled.");
 				}
 			break;
 			case NEW_GROUP_NAME:
@@ -464,18 +483,19 @@ public class BotUtilities {
 				groupToEdit.setName(message);
 				Logic.setBody(groupToEdit);
 				BotUtilities.currentlyEditing = null;
-				BotUtilities.message(update, "rename successfull");
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+				BotUtilities.message(update, "rename successfull");
 			break;
 			case REMOVE_USER_FROM_GROUP:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 					if (body.getValue().getName().equals(message)) {
 						Logic.removeBodyFromGroup(body.getValue(), BotUtilities.currentlyEditing.longValue());
-						BotUtilities.message(update, "Remove successfull.");
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
+						BotUtilities.message(update, "Remove successfull.");
 						break s;
 					}
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.REMOVE_USER_FROM_GROUP);
 				BotUtilities.message(update, "Remove failed.");
 			break;
 
@@ -483,18 +503,18 @@ public class BotUtilities {
 
 			case MANAGE_EVENT:
 				if (message.toLowerCase().equals("new")) {
-					BotUtilities.message(update, "Please enter a name for the new Event:");
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_EVENT_NAME);
+					BotUtilities.message(update, "Please enter a name for the new Event:");
 					break;
 				}
 				if (message.toLowerCase().equals("showinfo")) {
-					BotUtilities.message(update, "Please enter the eventname:");
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_EVENT_NAME2);
+					BotUtilities.message(update, "Please enter the eventname:");
 					break;
 				}
 				if (message.toLowerCase().equals("edit")) {
-					BotUtilities.message(update, "Please enter the eventname:");
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_EVENT_NAME3);
+					BotUtilities.message(update, "Please enter the eventname:");
 					break;
 				}
 			break;
@@ -502,16 +522,16 @@ public class BotUtilities {
 			case WAITING_FOR_EVENT_NAME:
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
 					if (event.getValue().getName().equals(message)) {
+						handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_EVENT_NAME);
 						BotUtilities.message(update,
 								"This name is already in use. Please chose another one:");
-						handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_EVENT_NAME);
 						break s;
 					}
 				}
 				BotUtilities.currentEvent = Logic.createEvent(message);
-				BotUtilities.message(update, "The Event " + message + " has been added.");
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
-			break;
+				BotUtilities.message(update, "The Event " + message + " has been added.");
+				break;
 			case WAITING_FOR_EVENT_NAME2:
 				String info = "No info availible";
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
@@ -519,80 +539,80 @@ public class BotUtilities {
 						Event tmp_currentEvent = event.getValue();
 						info = "Name: " + tmp_currentEvent.getName() + "\nDate: " + tmp_currentEvent.getDate().toString() + "\nLocation: "
 								+ tmp_currentEvent.getLocation() + "\nDescription: " + tmp_currentEvent.getDescription();
-						BotUtilities.message(update, info);
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
-						break s;
+						BotUtilities.message(update, info);
+					break s;
 					}
 				}
-				BotUtilities.message(update, info);
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+				BotUtilities.message(update, info);
 			break;
 			case WAITING_FOR_EVENT_NAME3:
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
 					if (event.getValue().getName().equals(message)) {
-						BotUtilities.currentEvent = event.getValue();
 						handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
-						break s;
+						BotUtilities.currentEvent = event.getValue();
+					break s;
 					}
 				}
 			break;
 			case ADD_INFO_TO_EVENT:
 				if (message.toLowerCase().equals("editdescription")) {
-					BotUtilities.message(update, "Please enter your description:");
 					handlerMap.put(new Long(chatId), PossibleSteps.EVENT_ADD_DESCRIPTION);
+					BotUtilities.message(update, "Please enter your description:");
 					break;
 				}
 				if (message.toLowerCase().equals("editlocation")) {
-					BotUtilities.message(update, "Please enter your location:");
 					handlerMap.put(new Long(chatId), PossibleSteps.EVENT_ADD_LOCATION);
+					BotUtilities.message(update, "Please enter your location:");
 					break;
 				}
 				if (message.toLowerCase().equals("editdate")) {
-					BotUtilities.message(update, "Please enter your date(dd/MM/yyyy):");
 					handlerMap.put(new Long(chatId), PossibleSteps.EVENT_ADD_DATE);
+					BotUtilities.message(update, "Please enter your date(dd/MM/yyyy):");
 					break;
 				}
 				if (message.toLowerCase().equals("editname")) {
-					BotUtilities.message(update, "Please enter your new Name:");
 					handlerMap.put(new Long(chatId), PossibleSteps.EVENT_EDIT_NAME);
+					BotUtilities.message(update, "Please enter your new Name:");
 					break;
 				}
 				if (message.toLowerCase().equals("done")) {
 					Logic.addEvent(BotUtilities.currentEvent);
+					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 					BotUtilities.currentEvent = null;
 					BotUtilities.message(update, "Added Event");
-					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 					break;
 				}
 			break;
 			case EVENT_ADD_DESCRIPTION:
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 				BotUtilities.currentEvent.setDescription(message);
 				BotUtilities.message(update, "Added Description");
-				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 			break;
 			case EVENT_ADD_LOCATION:
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 				BotUtilities.currentEvent.setLocation(message);
 				BotUtilities.message(update, "Added location");
-				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 			break;
 			case EVENT_ADD_DATE:
 				try {
 					BotUtilities.currentEvent.setDate(new SimpleDateFormat("dd/MM/yyyy").parse(message));
 				} catch (ParseException e) {
 					e.printStackTrace();
-					BotUtilities.message(update, "Failed! Try Again!");
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
+					BotUtilities.message(update, "Failed! Try Again!");
 					break;
 				}
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);	
 				BotUtilities.message(update, "Added Date");
-				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 			break;
 			case EVENT_EDIT_NAME:
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
 					if (event.getValue().getName().equals(message)) {
+						handlerMap.put(new Long(chatId), PossibleSteps.EVENT_EDIT_NAME);
 						BotUtilities.message(update,
 								"This name is already in use. Please chose another one:");
-						handlerMap.put(new Long(chatId), PossibleSteps.EVENT_EDIT_NAME);
 						break s;
 					}
 				}
@@ -605,18 +625,18 @@ public class BotUtilities {
 
 			case MANAGE_TODO:
 				if (message.toLowerCase().equals("new")) {
-					BotUtilities.message(update, "Please enter a name for the new ToDo:");
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME);
+					BotUtilities.message(update, "Please enter a name for the new ToDo:");
 					break;
 				}
 				if (message.toLowerCase().equals("showinfo")) {
-					BotUtilities.message(update, "Please enter the todoname:");
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME2);
+					BotUtilities.message(update, "Please enter the todoname:");
 					break;
 				}
 				if (message.toLowerCase().equals("edit")) {
-					BotUtilities.message(update, "Please enter the todoname:");
 					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME3);
+					BotUtilities.message(update, "Please enter the todoname:");
 					break;
 				}
 			break;
@@ -624,15 +644,15 @@ public class BotUtilities {
 			case WAITING_FOR_TODO_NAME:
 				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
 					if (todo.getValue().getName().equals(message)) {
+						handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME);
 						BotUtilities.message(update,
 								"This name is already in use. Please chose another one:");
-						handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_TODO_NAME);
-						break s;
+							break s;
 					}
 				}
 				BotUtilities.currentTodo = Logic.createToDo(message);
-				BotUtilities.message(update, "The ToDo " + message + " has been added.");
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+				BotUtilities.message(update, "The ToDo " + message + " has been added.");
 			break;
 			case WAITING_FOR_TODO_NAME2:
 				String info2 = "No info availible";
@@ -641,86 +661,87 @@ public class BotUtilities {
 						ToDo tmp_currentTodo = todos.getValue();
 						info2 = "Name: " + tmp_currentTodo.getName() + "\nDate: " + tmp_currentTodo.getDeadline() + "\nPriority: "
 								+ tmp_currentTodo.getPriority() + "\nDescription: " + tmp_currentTodo.getDescription();
-						BotUtilities.message(update, info2);
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
-						break s;
+						BotUtilities.message(update, info2);
+					break s;
 					}
 				}
-				BotUtilities.message(update, info2);
 				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+				BotUtilities.message(update, info2);
 			break;
 			case WAITING_FOR_TODO_NAME3:
 				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
 					if (todo.getValue().getName().equals(message)) {
-						BotUtilities.currentTodo = todo.getValue();
 						handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+						BotUtilities.currentTodo = todo.getValue();
 						break s;
 					}
 				}
 			break;
 			case ADD_INFO_TO_TODO:
 				if (message.toLowerCase().equals("editdescription")) {
-					BotUtilities.message(update, "Please enter your description:");
 					handlerMap.put(new Long(chatId), PossibleSteps.TODO_ADD_DESCRIPTION);
+					BotUtilities.message(update, "Please enter your description:");
 					break;
 				}
 				if (message.toLowerCase().equals("editpriority")) {
-					BotUtilities.message(update, "Please enter your priority:");
 					handlerMap.put(new Long(chatId), PossibleSteps.TODO_ADD_PRIORITY);
+					BotUtilities.message(update, "Please enter your priority:");
 					break;
 				}
 				if (message.toLowerCase().equals("editdeadline")) {
-					BotUtilities.message(update, "Please enter the deadline(dd/MM/yyyy):");
 					handlerMap.put(new Long(chatId), PossibleSteps.TODO_ADD_DATE);
+					BotUtilities.message(update, "Please enter the deadline(dd/MM/yyyy):");
 					break;
 				}
 				if (message.toLowerCase().equals("editname")) {
-					BotUtilities.message(update, "Please enter your new Name:");
 					handlerMap.put(new Long(chatId), PossibleSteps.TODO_EDIT_NAME);
+					BotUtilities.message(update, "Please enter your new Name:");
 					break;
 				}
 				if (message.toLowerCase().equals("done")) {
 					Logic.addToDo(BotUtilities.currentTodo);
 					BotUtilities.currentTodo = null;
-					BotUtilities.message(update, "Added ToDo");
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					BotUtilities.message(update, "Added ToDo");
 					break;
 				}
 			break;
 			case TODO_ADD_DESCRIPTION:
 				BotUtilities.currentTodo.setDescription(message);
-				BotUtilities.message(update, "Added Description");
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+				BotUtilities.message(update, "Added Description");
 			break;
 			case TODO_ADD_PRIORITY:
 				try {
 					BotUtilities.currentTodo.setPriority(Integer.parseInt(message));
 				} catch (NumberFormatException e1) {
+					handlerMap.put(new Long(chatId), PossibleSteps.TODO_ADD_PRIORITY);
 					BotUtilities.message(update, "Please enter a number!");
 					e1.printStackTrace();
 					break;
 				}
-				BotUtilities.message(update, "Added priority");
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+				BotUtilities.message(update, "Added priority");
 			break;
 			case TODO_ADD_DATE:
 				try {
 					BotUtilities.currentTodo.setDeadline(new SimpleDateFormat("dd/MM/yyyy").parse(message));
 				} catch (ParseException e) {
 					e.printStackTrace();
-					BotUtilities.message(update, "Failed! Try Again!");
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+					BotUtilities.message(update, "Failed! Try Again!");
 					break;
 				}
-				BotUtilities.message(update, "Added Deadline");
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
+				BotUtilities.message(update, "Added Deadline");
 			break;
 			case TODO_EDIT_NAME:
 				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
 					if (todo.getValue().getName().equals(message)) {
+						handlerMap.put(new Long(chatId), PossibleSteps.TODO_EDIT_NAME);
 						BotUtilities.message(update,
 								"This name is already in use. Please chose another one:");
-						handlerMap.put(new Long(chatId), PossibleSteps.TODO_EDIT_NAME);
 						break s;
 					}
 				}
