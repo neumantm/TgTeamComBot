@@ -75,7 +75,7 @@ public class BotUtilities {
 					break;
 				}
 				if (message.toLowerCase().equals("showgroups")) {
-					String allGroups = "";
+					String allGroups = " ";
 					for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 						if (body.getValue() instanceof Group) {
 							allGroups += "\n" + ((Group) body.getValue()).getName();
@@ -209,7 +209,7 @@ public class BotUtilities {
 					break;
 				}
 				if (message.toLowerCase().equals("getusers")) {
-					String usersToReturn = "";
+					String usersToReturn = " ";
 					for (User user : Main.dm.getBodys().get(BotUtilities.currentlyEditing).getUsers()) {
 						usersToReturn += "\n" + user.getName();
 					}
