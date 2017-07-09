@@ -108,9 +108,8 @@ public class BotUtilities {
 				if (message.toLowerCase().equals("gettodo")) {
 					int highestPriority = Integer.MIN_VALUE;
 					long id = 0;
-					String output = null;
+					String output = "ToDos: \n";
 					ArrayList<Long> priorities = new ArrayList<>();	
-					Map<Long, ToDo> priority2 = Main.dm.getToDos();
 					Map<Long, ToDo> priority = Main.dm.getToDos();
 					while(!priority.isEmpty()) {
 						highestPriority = Integer.MIN_VALUE;
@@ -123,8 +122,9 @@ public class BotUtilities {
 					priorities.add(id);
 					priority.remove(id);
 					}
-					for(Long a : priorities) {
-						output += priority2.get(a).getPriority();
+					priority = Main.dm.getToDos();
+					for(Long Id : priorities) {
+						output += "\nToDoName:" + priority.get(Id).getName() + " Priority: " + priority.get(Id).getPriority();
 					}
 					BotUtilities.message(update, output);
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
