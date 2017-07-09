@@ -30,6 +30,8 @@ import de.pinkTigers.tgTeamComBot.data.Event;
 import de.pinkTigers.tgTeamComBot.data.Group;
 import de.pinkTigers.tgTeamComBot.data.ToDo;
 import de.pinkTigers.tgTeamComBot.data.User;
+import de.pinkTigers.tgTeamComBot.scheduler.OneTimeEvent;
+import de.pinkTigers.tgTeamComBot.scheduler.RegularEvent;
 import de.pinkTigers.tgTeamComBot.scheduler.SchedulerEvent;
 import de.tim.lib.Log;
 
@@ -422,7 +424,19 @@ public class DataManager {
 	 * @return schedulerEvents
 	 */
 	public ArrayList<SchedulerEvent> getSchedulerEvents() {
-		return new ArrayList<>(this.schedulerEvents);
+
+		ArrayList<SchedulerEvent> ret = new ArrayList<>();
+
+		for (SchedulerEvent e : this.schedulerEvents) {
+			if (e instanceof OneTimeEvent) {
+				ret.add(new OneTimeEvent((OneTimeEvent) e));
+			}
+			else if (e instanceof RegularEvent) {
+				ret.add(new RegularEvent((RegularEvent) e));
+			}
+		}
+
+		return ret;
 	}
 
 	/**
@@ -433,7 +447,15 @@ public class DataManager {
 	 * @return Whether it worked
 	 */
 	public boolean addSchedulerEvent(SchedulerEvent schedulerEvent) {
-		this.schedulerEvents.add(schedulerEvent);
+		SchedulerEvent tmp = null;
+		if (schedulerEvent instanceof OneTimeEvent) {
+			tmp = new OneTimeEvent((OneTimeEvent) schedulerEvent);
+		}
+		else if (schedulerEvent instanceof RegularEvent) {
+			tmp = new RegularEvent((RegularEvent) schedulerEvent);
+		}
+		if (tmp == null) return false;
+		this.schedulerEvents.add(tmp);
 		return saveSchedulerEvents();
 	}
 
@@ -446,7 +468,7 @@ public class DataManager {
 	 */
 	public boolean removeSchedulerEvent(SchedulerEvent event) {
 		this.schedulerEvents.remove(event);
-		return saveToDos();
+		return saveSchedulerEvents();
 	}
 
 	/**
@@ -466,9 +488,9 @@ public class DataManager {
 		}
 
 		for (SchedulerEvent ev : toRemove) {
-			this.schedulerEvents.remove(ev);
+			this.removeSchedulerEvent(ev);
 		}
 
-		return saveToDos();
+		return saveSchedulerEvents();
 	}
 }
