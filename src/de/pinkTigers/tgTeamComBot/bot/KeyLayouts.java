@@ -26,7 +26,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
  */
 public enum KeyLayouts {
 	TEXT_INPUT(""),
-	DEFAULT("addUser,removeUser,editGroup", "showGroups, manageEvents, manageToDos", "addEvent, removeEvent, addToDo", "removeToDo, getEvents, getToDos", "cancel, help"),
+	DEFAULT("addUser,removeUser,editGroup", "showGroups, manageEvents, manageToDos", "joinEvent, removeEvent, joinToDo", "removeToDo, getEvents, getToDos", "cancel, help"),
 	UNKNOWN_USER("join, help", "cancel, help"),
 	YES_NO("yes, no", "cancel, help"),
 	NEW_EDIT("new, edit", "cancel, help"),

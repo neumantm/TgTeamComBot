@@ -106,7 +106,7 @@ public class BotUtilities {
 					BotUtilities.message(update, "Type in: \"new\" , \"edit\" , \"showinfo\" ");
 					break;
 				}
-				if (message.toLowerCase().equals("addevent")) {
+				if (message.toLowerCase().equals("joinevent")) {
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_EVENT_TO_USER);
 					BotUtilities.message(update, "Name of the Event:");
 					break;
@@ -116,7 +116,7 @@ public class BotUtilities {
 					BotUtilities.message(update, "Name of the Event:");
 					break;
 				}
-				if (message.toLowerCase().equals("addtodo")) {
+				if (message.toLowerCase().equals("jointodo")) {
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_TODO_TO_USER);
 					BotUtilities.message(update, "Name of the ToDo:");
 					break;
