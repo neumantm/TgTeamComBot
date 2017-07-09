@@ -344,7 +344,13 @@ public class DataManager {
 	 * @return events
 	 */
 	public HashMap<Long, Event> getEvents() {
-		return new HashMap<>(this.events);
+		HashMap<Long, Event> ret = new HashMap<>();
+
+		for (Entry<Long, Event> e : this.events.entrySet()) {
+			ret.put(e.getKey(), new Event(e.getValue()));
+		}
+
+		return ret;
 	}
 
 	/**
@@ -355,7 +361,7 @@ public class DataManager {
 	 * @return Whether it worked
 	 */
 	public boolean setEvent(Event event) {
-		this.events.put(new Long(event.getKey()), event);
+		this.events.put(new Long(event.getKey()), new Event(event));
 		return saveEvents();
 	}
 
@@ -377,7 +383,13 @@ public class DataManager {
 	 * @return toDos
 	 */
 	public HashMap<Long, ToDo> getToDos() {
-		return new HashMap<>(this.toDos);
+		HashMap<Long, ToDo> ret = new HashMap<>();
+
+		for (Entry<Long, ToDo> e : this.toDos.entrySet()) {
+			ret.put(e.getKey(), new ToDo(e.getValue()));
+		}
+
+		return ret;
 	}
 
 	/**
@@ -388,7 +400,7 @@ public class DataManager {
 	 * @return Whether it worked
 	 */
 	public boolean setToDo(ToDo toDo) {
-		this.toDos.put(new Long(toDo.getKey()), toDo);
+		this.toDos.put(new Long(toDo.getKey()), new ToDo(toDo));
 		return saveToDos();
 	}
 

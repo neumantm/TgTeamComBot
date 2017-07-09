@@ -33,21 +33,10 @@ public abstract class SchedulerEvent implements Serializable {
 	private PossbileActions action;
 
 	/**
-	 * Empty constructor for deserializing only.
+	 * Empty default constructor for deserializing only.
 	 */
 	public SchedulerEvent() {
 
-	}
-
-	/**
-	 * Constructor that copy's a original SchedulerEvent
-	 * 
-	 * @param orig
-	 *            The SchedularEvent that all values should be copied from.
-	 */
-	public SchedulerEvent(SchedulerEvent orig) {
-		this.chatId = orig.chatId;
-		this.action = orig.action;
 	}
 
 	/**
@@ -62,6 +51,17 @@ public abstract class SchedulerEvent implements Serializable {
 		this.chatId = p_chatId;
 		this.action = p_action;
 
+	}
+
+	/**
+	 * Constructor that copy's a original SchedulerEvent
+	 * 
+	 * @param orig
+	 *            The SchedularEvent that all values should be copied from.
+	 */
+	protected SchedulerEvent(SchedulerEvent orig) {
+		this.chatId = orig.chatId;
+		this.action = orig.action;
 	}
 
 	/**

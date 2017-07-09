@@ -32,6 +32,28 @@ public class RegularEvent extends SchedulerEvent {
 	private long interval;
 
 	/**
+	 * Empty default constructor for deserializing only.
+	 */
+	public RegularEvent() {
+
+	}
+
+	/**
+	 * Creates a new Regular Event
+	 * 
+	 * @param p_nextDate
+	 *            The next date
+	 * @param p_interval
+	 *            The interval
+	 */
+	public RegularEvent(Date p_nextDate, long p_interval) {
+		this.nextDate = (Date) p_nextDate.clone();
+		this.interval = p_interval;
+	}
+
+	/**
+	 * Creates a new Regular Event from orig event
+	 * 
 	 * @param orig
 	 *            The original Event
 	 * @see de.pinkTigers.tgTeamComBot.scheduler.SchedulerEvent#SchedulerEvent(SchedulerEvent)
@@ -40,11 +62,6 @@ public class RegularEvent extends SchedulerEvent {
 		super(orig);
 		this.nextDate = (Date) orig.nextDate.clone();
 		this.interval = orig.interval;
-	}
-
-	public RegularEvent(Date p_nextDate, long p_interval) {
-		this.nextDate = (Date) p_nextDate.clone();
-		this.interval = p_interval;
 	}
 
 	/**
