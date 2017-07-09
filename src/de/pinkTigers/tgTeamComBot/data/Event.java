@@ -56,6 +56,20 @@ public class Event implements Serializable {
 	}
 
 	/**
+	 * @param p_key
+	 *            key
+	 * @param p_name
+	 *            name
+	 */
+	public Event(long p_key, String p_name) {
+		this.key = p_key;
+		this.date = null;
+		this.location = null;
+		this.name = p_name;
+		this.description = null;
+	}
+
+	/**
 	 * Creates a new Event with the same values as the orig Event
 	 * 
 	 * @param orig

@@ -13,6 +13,8 @@
  */
 package de.pinkTigers.tgTeamComBot.bot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +25,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import de.pinkTigers.tgTeamComBot.Logic;
 import de.pinkTigers.tgTeamComBot.Main;
 import de.pinkTigers.tgTeamComBot.data.Body;
+import de.pinkTigers.tgTeamComBot.data.Event;
 import de.pinkTigers.tgTeamComBot.data.Group;
 import de.pinkTigers.tgTeamComBot.data.User;
 import de.tim.lib.Log;
@@ -35,6 +38,7 @@ import de.tim.lib.Log;
 public class BotUtilities {
 
 	private static Long currentlyEditing = null;
+	private static Event currentEvent = null;
 
 	/**
 	 * @param update
@@ -86,6 +90,11 @@ public class BotUtilities {
 					}
 					BotUtilities.message(update, allGroups);
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					break;
+				}
+				if (message.toLowerCase().equals("manageevents")) {
+					BotUtilities.message(update, "Type in: \"new\" , \"edit\" , \"showinfo\" ");
+					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_EVENT);
 					break;
 				}
 				BotUtilities.message(update, "Invalid Command");
@@ -271,6 +280,128 @@ public class BotUtilities {
 					}
 				}
 				BotUtilities.message(update, "Remove failed.");
+			break;
+
+			//EVENTS
+
+			case MANAGE_EVENT:
+				if (message.toLowerCase().equals("new")) {
+					BotUtilities.message(update, "Please enter a name for the new Event:");
+					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_EVENT_NAME);
+					break;
+				}
+				if (message.toLowerCase().equals("showinfo")) {
+					BotUtilities.message(update, "Please enter the eventname:");
+					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_EVENT_NAME2);
+					break;
+				}
+				if (message.toLowerCase().equals("edit")) {
+					BotUtilities.message(update, "Please enter the eventname:");
+					handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_EVENT_NAME3);
+					break;
+				}
+			break;
+
+			case WAITING_FOR_EVENT_NAME:
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if (event.getValue().getName().equals(message)) {
+						BotUtilities.message(update,
+								"This name is already in use. Please chose another one:");
+						handlerMap.put(new Long(chatId), PossibleSteps.WAITING_FOR_EVENT_NAME);
+						break s;
+					}
+				}
+				BotUtilities.currentEvent = Logic.createEvent(message);
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
+				BotUtilities.message(update, "The Event " + message + " has been added.");
+			break;
+			case WAITING_FOR_EVENT_NAME2:
+				String info = "No info availible";
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if (event.getValue().getName().equals(message)) {
+						Event currentEvent = event.getValue();
+						info = "Name: " + currentEvent.getName() + "\nDate: " + currentEvent.getDate().toString() + "\nLocation: "
+								+ currentEvent.getLocation() + "\nDescription: " + currentEvent.getDescription();
+						BotUtilities.message(update, info);
+						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+						break s;
+					}
+				}
+				BotUtilities.message(update, info);
+				handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+			break;
+			case WAITING_FOR_EVENT_NAME3:
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if (event.getValue().getName().equals(message)) {
+						BotUtilities.currentEvent = event.getValue();
+						handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
+						break s;
+					}
+				}
+			break;
+			case ADD_INFO_TO_EVENT:
+				if (message.toLowerCase().equals("editdescription")) {
+					BotUtilities.message(update, "Please enter your description:");
+					handlerMap.put(new Long(chatId), PossibleSteps.EVENT_ADD_DESCRIPTION);
+					break;
+				}
+				if (message.toLowerCase().equals("editlocation")) {
+					BotUtilities.message(update, "Please enter your location:");
+					handlerMap.put(new Long(chatId), PossibleSteps.EVENT_ADD_LOCATION);
+					break;
+				}
+				if (message.toLowerCase().equals("editdate")) {
+					BotUtilities.message(update, "Please enter your date(dd/MM/yyyy):");
+					handlerMap.put(new Long(chatId), PossibleSteps.EVENT_ADD_DATE);
+					break;
+				}
+				if (message.toLowerCase().equals("editname")) {
+					BotUtilities.message(update, "Please enter your new Name:");
+					handlerMap.put(new Long(chatId), PossibleSteps.EVENT_EDIT_NAME);
+					break;
+				}
+				if (message.toLowerCase().equals("done")) {
+					Logic.addEvent(BotUtilities.currentEvent);
+					BotUtilities.currentEvent = null;
+					BotUtilities.message(update, "Added Event");
+					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
+					break;
+				}
+			break;
+			case EVENT_ADD_DESCRIPTION:
+				BotUtilities.currentEvent.setDescription(message);
+				BotUtilities.message(update, "Added Description");
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
+			break;
+			case EVENT_ADD_LOCATION:
+				BotUtilities.currentEvent.setLocation(message);
+				BotUtilities.message(update, "Added location");
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
+			break;
+			case EVENT_ADD_DATE:
+				try {
+					BotUtilities.currentEvent.setDate(new SimpleDateFormat("dd/MM/yyyy").parse(message));
+				} catch (ParseException e) {
+					e.printStackTrace();
+					BotUtilities.message(update, "Failed! Try Again!");
+					handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
+					break;
+				}
+				BotUtilities.message(update, "Added Date");
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
+			break;
+			case EVENT_EDIT_NAME:
+				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
+					if (event.getValue().getName().equals(message)) {
+						BotUtilities.message(update,
+								"This name is already in use. Please chose another one:");
+						handlerMap.put(new Long(chatId), PossibleSteps.EVENT_EDIT_NAME);
+						break s;
+					}
+				}
+				BotUtilities.currentEvent.setName(message);
+				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
+				BotUtilities.message(update, "Name set");
 			break;
 			default:
 			break;

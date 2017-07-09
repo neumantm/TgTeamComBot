@@ -60,25 +60,25 @@ public class Logic {
 	}
 
 	/**
-	 * @param date
-	 *            date of the Event
-	 * @param location
-	 *            location of the Event
 	 * @param name
 	 *            name of the Event
-	 * @param description
-	 *            description of the Event
 	 * @return success
 	 */
-	public static boolean addEvent(Date date, String location, String name, String description) {
+	public static Event createEvent(String name) {
 		short random = (short) Main.randomInt(0, Short.MAX_VALUE);
 		while (Main.dm.getEvents().get(new Long(random)) == null) {
 			random = (short) Math.random();
 		}
-		for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
-			if (event.getValue().getName() == name) return false;
-		}
-		Main.dm.setEvent(new Event(random, date, location, name, description));
+		return new Event(random, name);
+	}
+
+	/**
+	 * @param event
+	 *            event
+	 * @return success
+	 */
+	public static boolean addEvent(Event event) {
+		Main.dm.setEvent(event);
 		return true;
 	}
 
