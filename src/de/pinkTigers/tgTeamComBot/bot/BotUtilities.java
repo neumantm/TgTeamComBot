@@ -106,7 +106,7 @@ public class BotUtilities {
 					handlerMap.put(new Long(chatId), PossibleSteps.MANAGE_TODO);
 					break;
 				}
-					if (message.toLowerCase().equals("addevent")) {
+				if (message.toLowerCase().equals("addevent")) {
 					BotUtilities.message(update, "Name of the Event:");
 					handlerMap.put(new Long(chatId), PossibleSteps.ADD_EVENT_TO_USER);
 					break;
@@ -129,38 +129,35 @@ public class BotUtilities {
 				if (message.toLowerCase().equals("gettodo")) {
 					Map<Long, ToDo> priority = new HashMap<>();
 					Map<Long, ToDo> priority2 = new HashMap<>();
-					for(Entry<Long, Body> e : Main.dm.getBodys().entrySet())
-					{
-						if(e.getKey() == chatId || e.getValue().getUsers().contains(Main.dm.getUser(chatId))) 
-						{
+					for (Entry<Long, Body> e : Main.dm.getBodys().entrySet()) {
+						if (e.getKey() == chatId || e.getValue().getUsers().contains(Main.dm.getUser(chatId))) {
 							//My self ||Group that i'm in
-							for(ToDo td: e.getValue().getToDos() )
-							{
-								if(! priority.containsKey(td.getKey())) {
+							for (ToDo td : e.getValue().getToDos()) {
+								if (!priority.containsKey(td.getKey())) {
 									priority.put(td.getKey(), td);
 								}
 							}
 						}
 					}
-					priority2 = priority;
-					
+					priority2 = new HashMap<>(priority);
+
 					int highestPriority = Integer.MIN_VALUE;
 					long id = 0;
-					String output = "ToDos: \n";
-					ArrayList<Long> priorities = new ArrayList<>();	
+					String output = "ToDos: ";
+					ArrayList<Long> priorities = new ArrayList<>();
 
-					while(!priority.isEmpty()) {
+					while (!priority.isEmpty()) {
 						highestPriority = Integer.MIN_VALUE;
 						id = 0;
-					for(Map.Entry<Long, ToDo> entry : priority.entrySet())
-						if(entry.getValue().getPriority() >= highestPriority) {
-							highestPriority = entry.getValue().getPriority();
-							id = entry.getValue().getKey();
-						}
-					priorities.add(id);
-					priority.remove(id);
+						for (Map.Entry<Long, ToDo> entry : priority.entrySet())
+							if (entry.getValue().getPriority() >= highestPriority) {
+								highestPriority = entry.getValue().getPriority();
+								id = entry.getValue().getKey();
+							}
+						priorities.add(id);
+						priority.remove(id);
 					}
-					for(Long Id : priorities) {
+					for (Long Id : priorities) {
 						output += "\nToDoName: " + priority2.get(Id).getName() + "	Priority: " + priority2.get(Id).getPriority();
 					}
 					BotUtilities.message(update, output);
@@ -170,39 +167,36 @@ public class BotUtilities {
 				if (message.toLowerCase().equals("getevents")) {
 					Map<Long, Event> nextEvent = new HashMap<>();
 					Map<Long, Event> nextEvent2 = new HashMap<>();
-					for(Entry<Long, Body> e : Main.dm.getBodys().entrySet())
-					{
-						if(e.getKey() == chatId || e.getValue().getUsers().contains(Main.dm.getUser(chatId))) 
-						{
+					for (Entry<Long, Body> e : Main.dm.getBodys().entrySet()) {
+						if (e.getKey() == chatId || e.getValue().getUsers().contains(Main.dm.getUser(chatId))) {
 							//My self ||Group that i'm in
-							for(Event event: e.getValue().getEvents())
-							{
-								if(! nextEvent.containsKey(event.getKey())) {
+							for (Event event : e.getValue().getEvents()) {
+								if (!nextEvent.containsKey(event.getKey())) {
 									nextEvent.put(event.getKey(), event);
 								}
 							}
 						}
 					}
-					nextEvent2 = nextEvent;
-					
+					nextEvent2 = new HashMap<>(nextEvent);
+
 					long closestDate = Long.MAX_VALUE;
 					long id = 0;
-					String output = "ToDos: \n";
-					ArrayList<Long> priorities = new ArrayList<>();	
+					String output = "Events: ";
+					ArrayList<Long> priorities = new ArrayList<>();
 
-					while(!nextEvent.isEmpty()) {
+					while (!nextEvent.isEmpty()) {
 						closestDate = Long.MAX_VALUE;
 						id = 0;
-					for(Map.Entry<Long, Event> entry : nextEvent.entrySet())
-						if(entry.getValue().getDate().getTime() >= closestDate) {
-							closestDate = entry.getValue().getDate().getTime();
-							id = entry.getValue().getKey();
-						}
-					priorities.add(id);
-					nextEvent.remove(id);
+						for (Map.Entry<Long, Event> entry : nextEvent.entrySet())
+							if (entry.getValue().getDate().getTime() >= closestDate) {
+								closestDate = entry.getValue().getDate().getTime();
+								id = entry.getValue().getKey();
+							}
+						priorities.add(id);
+						nextEvent.remove(id);
 					}
-					for(Long Id : priorities) {
-						output += "\nToDoName: " + nextEvent2.get(Id).getName() + "	Date: " + nextEvent2.get(Id).getDate();
+					for (Long Id : priorities) {
+						output += "\nEventName: " + nextEvent2.get(Id).getName() + "	Date: " + nextEvent2.get(Id).getDate();
 					}
 					BotUtilities.message(update, output);
 					handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
@@ -366,40 +360,40 @@ public class BotUtilities {
 			break;
 			case ADD_EVENT_TO_GROUP:
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
-					if(event.getValue().getName().equals(message)) {
-						Logic.addEventToBody(Main.dm.getGroup(currentlyEditing), event.getKey());
+					if (event.getValue().getName().equals(message)) {
+						Logic.addEventToBody(Main.dm.getGroup(BotUtilities.currentlyEditing), event.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
-						BotUtilities.message(update , "Event added successfully");
+						BotUtilities.message(update, "Event added successfully");
 					}
 				}
-				break;
+			break;
 			case REMOVE_EVENT_FROM_GROUP:
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
-					if(event.getValue().getName().equals(message)) {
-						Logic.removeEventfromBody(Main.dm.getGroup(currentlyEditing), event.getKey());
+					if (event.getValue().getName().equals(message)) {
+						Logic.removeEventfromBody(Main.dm.getGroup(BotUtilities.currentlyEditing), event.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
-						BotUtilities.message(update , "Event removed successfully");
+						BotUtilities.message(update, "Event removed successfully");
 					}
 				}
-				break;
+			break;
 			case ADD_EVENT_TO_USER:
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
-					if(event.getValue().getName().equals(message)) {
+					if (event.getValue().getName().equals(message)) {
 						Logic.addEventToBody(Main.dm.getUser(chatId), event.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
-						BotUtilities.message(update , "Event added successfully");
+						BotUtilities.message(update, "Event added successfully");
 					}
 				}
-				break;
+			break;
 			case REMOVE_EVENT_FROM_USER:
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
-					if(event.getValue().getName().equals(message)) {
+					if (event.getValue().getName().equals(message)) {
 						Logic.removeEventfromBody(Main.dm.getUser(chatId), event.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
-						BotUtilities.message(update , "Event removed successfully");
+						BotUtilities.message(update, "Event removed successfully");
 					}
 				}
-				break;
+			break;
 			case ADD_USER_TO_GROUP:
 				for (Map.Entry<Long, Body> body : Main.dm.getBodys().entrySet()) {
 					if (body.getValue().getName().equals(message)) {
@@ -418,40 +412,40 @@ public class BotUtilities {
 			break;
 			case ADD_TODO_TO_GROUP:
 				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
-					if(todo.getValue().getName().equals(message)) {
-						Logic.addToDoToBody(Main.dm.getGroup(currentlyEditing), todo.getKey());
+					if (todo.getValue().getName().equals(message)) {
+						Logic.addToDoToBody(Main.dm.getGroup(BotUtilities.currentlyEditing), todo.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
-						BotUtilities.message(update , "ToDo added successfully");
+						BotUtilities.message(update, "ToDo added successfully");
 					}
 				}
-				break;
+			break;
 			case REMOVE_TODO_FROM_GROUP:
 				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
-					if(todo.getValue().getName().equals(message)) {
-						Logic.removeToDofromBody(Main.dm.getGroup(currentlyEditing), todo.getKey());
+					if (todo.getValue().getName().equals(message)) {
+						Logic.removeToDofromBody(Main.dm.getGroup(BotUtilities.currentlyEditing), todo.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.EDIT_GROUP);
-						BotUtilities.message(update , "ToDo removed successfully");
+						BotUtilities.message(update, "ToDo removed successfully");
 					}
 				}
-				break;
+			break;
 			case ADD_TODO_TO_USER:
 				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
-					if(todo.getValue().getName().equals(message)) {
+					if (todo.getValue().getName().equals(message)) {
 						Logic.addToDoToBody(Main.dm.getUser(chatId), todo.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
-						BotUtilities.message(update , "ToDo added successfully");
+						BotUtilities.message(update, "ToDo added successfully");
 					}
 				}
-				break;
+			break;
 			case REMOVE_TODO_FROM_USER:
 				for (Map.Entry<Long, ToDo> todo : Main.dm.getToDos().entrySet()) {
-					if(todo.getValue().getName().equals(message)) {
+					if (todo.getValue().getName().equals(message)) {
 						Logic.removeToDofromBody(Main.dm.getUser(chatId), todo.getKey());
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
-						BotUtilities.message(update , "ToDo removed successfully");
+						BotUtilities.message(update, "ToDo removed successfully");
 					}
 				}
-				break;
+			break;
 			case CONFIRM_REMOVE_GROUP:
 				if (message.toLowerCase().equals("yes")) {
 					Logic.removeBody(BotUtilities.currentlyEditing);
@@ -522,9 +516,9 @@ public class BotUtilities {
 				String info = "No info availible";
 				for (Map.Entry<Long, Event> event : Main.dm.getEvents().entrySet()) {
 					if (event.getValue().getName().equals(message)) {
-						Event currentEvent = event.getValue();
-						info = "Name: " + currentEvent.getName() + "\nDate: " + currentEvent.getDate().toString() + "\nLocation: "
-								+ currentEvent.getLocation() + "\nDescription: " + currentEvent.getDescription();
+						Event tmp_currentEvent = event.getValue();
+						info = "Name: " + tmp_currentEvent.getName() + "\nDate: " + tmp_currentEvent.getDate().toString() + "\nLocation: "
+								+ tmp_currentEvent.getLocation() + "\nDescription: " + tmp_currentEvent.getDescription();
 						BotUtilities.message(update, info);
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 						break s;
@@ -606,10 +600,9 @@ public class BotUtilities {
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_EVENT);
 				BotUtilities.message(update, "Name set");
 			break;
-			
-			
+
 			//ToDo
-			
+
 			case MANAGE_TODO:
 				if (message.toLowerCase().equals("new")) {
 					BotUtilities.message(update, "Please enter a name for the new ToDo:");
@@ -645,9 +638,9 @@ public class BotUtilities {
 				String info2 = "No info availible";
 				for (Map.Entry<Long, ToDo> todos : Main.dm.getToDos().entrySet()) {
 					if (todos.getValue().getName().equals(message)) {
-						ToDo currentTodo = todos.getValue();
-						info2 = "Name: " + currentTodo.getName() + "\nDate: " + currentTodo.getDeadline() + "\nPriority: "
-								+ currentTodo.getPriority() + "\nDescription: " + currentTodo.getDescription();
+						ToDo tmp_currentTodo = todos.getValue();
+						info2 = "Name: " + tmp_currentTodo.getName() + "\nDate: " + tmp_currentTodo.getDeadline() + "\nPriority: "
+								+ tmp_currentTodo.getPriority() + "\nDescription: " + tmp_currentTodo.getDescription();
 						BotUtilities.message(update, info2);
 						handlerMap.put(new Long(chatId), PossibleSteps.DEFAULT);
 						break s;
@@ -700,13 +693,13 @@ public class BotUtilities {
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 			break;
 			case TODO_ADD_PRIORITY:
-			try {
-				BotUtilities.currentTodo.setPriority(Integer.parseInt(message));
-			} catch (NumberFormatException e1) {
-				BotUtilities.message(update, "Please enter a number!");
-				e1.printStackTrace();
-				break;
-			}
+				try {
+					BotUtilities.currentTodo.setPriority(Integer.parseInt(message));
+				} catch (NumberFormatException e1) {
+					BotUtilities.message(update, "Please enter a number!");
+					e1.printStackTrace();
+					break;
+				}
 				BotUtilities.message(update, "Added priority");
 				handlerMap.put(new Long(chatId), PossibleSteps.ADD_INFO_TO_TODO);
 			break;

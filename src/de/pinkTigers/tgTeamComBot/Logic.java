@@ -81,15 +81,17 @@ public class Logic {
 		Main.dm.setEvent(event);
 		return true;
 	}
-	
+
 	/**
-	 * @param todo ToDo
+	 * @param todo
+	 *            ToDo
 	 * @return success
 	 */
 	public static boolean addToDo(ToDo todo) {
 		Main.dm.setToDo(todo);
 		return true;
 	}
+
 	/**
 	 * @param date
 	 *            date of ToDo
@@ -148,13 +150,15 @@ public class Logic {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
-	 * @param body body
-	 * @param id event id
+	 * @param body
+	 *            body
+	 * @param id
+	 *            event id
 	 */
-	public static void removeEventfromBody(Body body , long id) {
+	public static void removeEventfromBody(Body body, long id) {
 		body.removeEvent(Main.dm.getEvents().get(id));
 		Main.dm.setBody(body);
 	}
@@ -171,7 +175,7 @@ public class Logic {
 		if (Main.dm.getToDos().get(new Long(id)) != null) {
 			t = Main.dm.getToDos().get(new Long(id));
 			b.addToDo(t);
-			return true;
+			return Main.dm.setBody(b);
 		}
 		return false;
 	}
@@ -210,8 +214,7 @@ public class Logic {
 	public static boolean removeBodyFromGroup(Body body, long id) {
 		Group temp = Main.dm.getGroup(new Long(id));
 		temp.removeBody(body);
-		Main.dm.setBody(temp);
-		return true;
+		return Main.dm.setBody(temp);
 	}
 
 	/**
@@ -234,6 +237,5 @@ public class Logic {
 		group.removeToDo(Main.dm.getToDos().get(key));
 		Main.dm.setBody(group);
 	}
-
 
 }
