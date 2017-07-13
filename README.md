@@ -1,8 +1,6 @@
 # TgTeamComBot
 Telegram team communication Bot
 
-README
-
 -German Version below - Deutsche Version unten -<br>
 This porject originated from a hackathon of Faschaft Informatik, Universität Stuttgart in cooperation with the company iteratec from 08.07 to 09.07.2017.<br>
 The version for presentation at the hackathon is maintained on the branch "hackathonFinal".<br>
